@@ -10,8 +10,8 @@ public class Player{
     public Player(String n, float startingCash){
         name = n;
         this.pb = 800;
-        this.oj = 0;
-        this.sb = 0;
+        this.oj = 800;
+        this.sb = 800;
         this.cash=startingCash;
     }
     

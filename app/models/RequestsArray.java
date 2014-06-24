@@ -1,5 +1,6 @@
 package models;
 
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -9,46 +10,48 @@ public class RequestsArray {
     private final int numberOfElements;
     private int buyVolume = 0;
     private int sellVolume = 0;
+    DecimalFormat tdp = new DecimalFormat("###.##");
+    DecimalFormat zdp = new DecimalFormat("###");
     private final Random rng = new Random();
-    private final float sDev;
+    private final double sDev;
     private float meanSellPrice;
     private float meanBuyPrice;
     private float highBuy;
     private float lowSell;
     
-    public RequestsArray(int numberOfElements, float meanSellPrice, float meanBuyPrice, float sDev) {
+    public RequestsArray(int numberOfElements, float sDev) {
+        this.meanBuyPrice = 1.0f;
+        this.meanSellPrice = 1.0f;
         this.sDev = sDev;
-        this.meanSellPrice = meanSellPrice;
-        this.meanBuyPrice = meanBuyPrice;
         this.numberOfElements = numberOfElements;
         for(int i = 0; i<numberOfElements; i++){
-            int targetPrice;
+            float targetPrice;
             int sORb = rng.nextInt(2);
             
             if(sORb == 0){
-                targetPrice = (int)(((rng.nextGaussian())*sDev)+meanSellPrice);
-                int ass = (100*(rng.nextInt(4)+1));
+                targetPrice = (float)(((rng.nextGaussian())*sDev) + meanSellPrice);
+                int ass = ((rng.nextInt(4)+1));
                 
                 int aType = rng.nextInt(3);                
                 switch(aType){
-                    case 0: Requests.add(new SellRequest("Pork Bellies", targetPrice, ass));
+                    case 0: Requests.add(new SellRequest("Pork Bellies", (targetPrice*1.28f), (ass*40000)));
                         break;
-                    case 1: Requests.add(new SellRequest("Frozen Orange Juice Concentrate", targetPrice, ass));
+                    case 1: Requests.add(new SellRequest("Frozen Orange Juice Concentrate", (targetPrice*1.57f), (ass*15000)));
                         break;
-                    case 2: Requests.add(new SellRequest("Soybeans", targetPrice, ass));
+                    case 2: Requests.add(new SellRequest("Soybeans", (targetPrice*14.05f), (ass*5000)));
                 }
             }
             if(sORb == 1){
-                targetPrice = (int)(((rng.nextGaussian())*sDev)+meanBuyPrice);
-                int ass = (100*(rng.nextInt(4)+1));
+                targetPrice = (float)(((rng.nextGaussian())*sDev)+ meanBuyPrice);
+                int ass = ((rng.nextInt(4)+1));
                 
                 int aType = rng.nextInt(3);                
                 switch(aType){
-                    case 0: Requests.add(new BuyRequest("Pork Bellies", targetPrice, ass));
+                    case 0: Requests.add(new BuyRequest("Pork Bellies", (targetPrice*1.28f), (40000*ass)));
                         break;
-                    case 1: Requests.add(new BuyRequest("Frozen Orange Juice Concentrate", targetPrice, ass));
+                    case 1: Requests.add(new BuyRequest("Frozen Orange Juice Concentrate", (targetPrice*1.57f), (ass*15000)));
                         break;
-                    case 2: Requests.add(new BuyRequest("Soybeans", targetPrice, ass));
+                    case 2: Requests.add(new BuyRequest("Soybeans", (targetPrice*14.05f), (ass*5000)));
                 }
             }        
         }
@@ -62,32 +65,39 @@ public class RequestsArray {
     
     public void removeRequest(int loc){
         Requests.remove(loc);
-        int targetPrice;
+        float targetPrice;
 
         int sORb = rng.nextInt(2);
         if(sORb==0){
-            targetPrice = (int)(((rng.nextGaussian())*sDev) + meanSellPrice + (sellVolume*sDev*0.3));
-            int ass = (100*(rng.nextInt(4)+1));
             
+            targetPrice = (float)(((rng.nextGaussian())*sDev) + meanSellPrice + (sellVolume*sDev*0.03));
+            if(targetPrice<0){
+                targetPrice = 0;
+            }
+            int ass = ((rng.nextInt(4)+1));            
             int aType = rng.nextInt(3);                
                 switch(aType){
-                    case 0: Requests.add(new SellRequest("Pork Bellies", targetPrice, ass));
+                    case 0: Requests.add(new SellRequest("Pork Bellies", (targetPrice*1.28f), (ass*40000)));
                         break;
-                    case 1: Requests.add(new SellRequest("Frozen Orange Juice Concentrate", targetPrice, ass));
+                    case 1: Requests.add(new SellRequest("Frozen Orange Juice Concentrate", (targetPrice*1.57f), (ass*15000)));
                         break;
-                    case 2: Requests.add(new SellRequest("Soybeans", targetPrice, ass));
+                    case 2: Requests.add(new SellRequest("Soybeans", (targetPrice*14.05f), (ass*5000)));
                 }
         }
         if(sORb==1){
-            targetPrice = (int)(((rng.nextGaussian())*sDev) + meanBuyPrice - (buyVolume*sDev*0.3));
-            int ass = (100*(rng.nextInt(4)+1));
+            
+            targetPrice = (float)(((rng.nextGaussian())*sDev) + meanBuyPrice - (buyVolume*sDev*0.03));
+            if(targetPrice<0){
+                targetPrice = 0;
+            }
+            int ass = ((rng.nextInt(4)+1));
             int aType = rng.nextInt(3);                
                 switch(aType){
-                    case 0: Requests.add(new BuyRequest("Pork Bellies", targetPrice, ass));
+                    case 0: Requests.add(new BuyRequest("Pork Bellies", (targetPrice*1.28f), (40000*ass)));
                         break;
-                    case 1: Requests.add(new BuyRequest("Frozen Orange Juice Concentrate", targetPrice, ass));
+                    case 1: Requests.add(new BuyRequest("Frozen Orange Juice Concentrate", (targetPrice*1.57f), (ass*15000)));
                         break;
-                    case 2: Requests.add(new BuyRequest("Soybeans", targetPrice, ass));
+                    case 2: Requests.add(new BuyRequest("Soybeans", (targetPrice*14.05f), (ass*5000)));
                 }
         }
         printRequest(Requests.size()-1);
@@ -97,32 +107,37 @@ public class RequestsArray {
     
     public void addAndShift(){ //removes the oldest request and adds a new one
         Requests.remove(0);
-        int targetPrice;
+        float targetPrice;
 
         int sORb = rng.nextInt(2);
         if(sORb==0){
-            targetPrice = (int)(((rng.nextGaussian())*sDev) + meanSellPrice + (sellVolume*sDev*0.3));
-            int ass = (100*(rng.nextInt(4)+1));
-            
+            targetPrice = (float)(((rng.nextGaussian())*sDev) + meanSellPrice + (sellVolume*sDev*0.03));
+            if(targetPrice<0){
+                targetPrice = 0;
+            }
+            int ass = ((rng.nextInt(4)+1));            
             int aType = rng.nextInt(3);                
                 switch(aType){
-                    case 0: Requests.add(new SellRequest("Pork Bellies", targetPrice, ass));
+                    case 0: Requests.add(new SellRequest("Pork Bellies", (targetPrice*1.28f), (ass*40000)));
                         break;
-                    case 1: Requests.add(new SellRequest("Frozen Orange Juice Concentrate", targetPrice, ass));
+                    case 1: Requests.add(new SellRequest("Frozen Orange Juice Concentrate", (targetPrice*1.57f), (ass*15000)));
                         break;
-                    case 2: Requests.add(new SellRequest("Soybeans", targetPrice, ass));
+                    case 2: Requests.add(new SellRequest("Soybeans", (targetPrice*14.05f), (ass*5000)));
                 }
         }
         if(sORb==1){
-            targetPrice = (int)(((rng.nextGaussian())*sDev) + meanBuyPrice - (buyVolume*sDev*0.3));
-            int ass = (100*(rng.nextInt(4)+1));
+            targetPrice = (float)(((rng.nextGaussian())*sDev) + meanBuyPrice - (buyVolume*sDev*0.03));
+            if(targetPrice<0){
+                targetPrice = 0;
+            }
+            int ass = ((rng.nextInt(4)+1));
             int aType = rng.nextInt(3);                
                 switch(aType){
-                    case 0: Requests.add(new BuyRequest("Pork Bellies", targetPrice, ass));
+                    case 0: Requests.add(new BuyRequest("Pork Bellies", (targetPrice*1.28f), (40000*ass)));
                         break;
-                    case 1: Requests.add(new BuyRequest("Frozen Orange Juice Concentrate", targetPrice, ass));
+                    case 1: Requests.add(new BuyRequest("Frozen Orange Juice Concentrate", (targetPrice*1.57f), (ass*15000)));
                         break;
-                    case 2: Requests.add(new BuyRequest("Soybeans", targetPrice, ass));
+                    case 2: Requests.add(new BuyRequest("Soybeans", (targetPrice*14.05f), (ass*5000)));
                 }
         }
         if(sellVolume > 0){
@@ -163,7 +178,7 @@ public class RequestsArray {
     }
     
     public void incSellVolume() {
-        this.buyVolume = buyVolume + 1;
+        this.sellVolume = sellVolume + 1;
     }
     
     public void decSellVolume() {
@@ -212,10 +227,10 @@ public class RequestsArray {
         int i = 1;
         for (Request RequestX : Requests) {            
             if(RequestX instanceof BuyRequest){
-                System.out.println(i + ": Buying " + RequestX.getAsset() + " " + RequestX.getAssetType() + " at £" + RequestX.getUnitPrice() + " totalling £" + (RequestX.getAsset() * RequestX.getUnitPrice()));
+                System.out.println(i + ": Buying " + RequestX.getAsset() + " " + RequestX.getAssetType() + " at £" + tdp.format(RequestX.getUnitPrice()) + " totalling £" + zdp.format(RequestX.getAsset() * RequestX.getUnitPrice()));
             }
             else if(RequestX instanceof SellRequest){
-                System.out.println(i + ": Selling " + RequestX.getAsset() + " " + RequestX.getAssetType() + " at £" + RequestX.getUnitPrice() + " totalling £" + (RequestX.getAsset() * RequestX.getUnitPrice()));
+                System.out.println(i + ": Selling " + RequestX.getAsset() + " " + RequestX.getAssetType() + " at £" + tdp.format(RequestX.getUnitPrice()) + " totalling £" + zdp.format(RequestX.getAsset() * RequestX.getUnitPrice()));
             }
             i++;
         }
@@ -223,10 +238,10 @@ public class RequestsArray {
     
     public void printRequest(int loc){
         if(Requests.get(loc) instanceof BuyRequest){
-            System.out.println("Buying " + Requests.get(loc).getAsset() + " " + Requests.get(loc).getAssetType() + " at £" + Requests.get(loc).getUnitPrice() + " totalling £" + (Requests.get(loc).getAsset() * Requests.get(loc).getUnitPrice()));
+            System.out.println("Buying " + Requests.get(loc).getAsset() + " " + Requests.get(loc).getAssetType() + " at £" + tdp.format(Requests.get(loc).getUnitPrice()) + " totalling £" + zdp.format(Requests.get(loc).getAsset() * Requests.get(loc).getUnitPrice()));
         }
         else if(Requests.get(loc) instanceof SellRequest){
-            System.out.println("Selling " + Requests.get(loc).getAsset() + " " + Requests.get(loc).getAssetType() + " at £" + Requests.get(loc).getUnitPrice() + " totalling £" + (Requests.get(loc).getAsset() * Requests.get(loc).getUnitPrice()));
+            System.out.println("Selling " + Requests.get(loc).getAsset() + " " + Requests.get(loc).getAssetType() + " at £" + tdp.format(Requests.get(loc).getUnitPrice()) + " totalling £" + zdp.format(Requests.get(loc).getAsset() * Requests.get(loc).getUnitPrice()));
         }
     }
 }

@@ -1,41 +1,13 @@
 package models;
 
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Scanner;
-import org.h2.tools.DeleteDbFiles;
 
 
 public class MainModel {
 
-    public void initialise() throws ClassNotFoundException, SQLException {
-        DeleteDbFiles.execute("~", "bigbangdb", true);
-
-        Class.forName("org.h2.Driver");
-        java.sql.Connection conn = DriverManager.getConnection("jdbc:h2:~/bigbangdb");
-        java.sql.Statement stat = conn.createStatement();
-
-        //stat.execute("create table test(id int primary key, name varchar(255))");
-
-        
-        
-        ResultSet rs;
-        rs = stat.executeQuery("select * from test");
-        while (rs.next()) {
-            System.out.println(rs.getString("name"));
-        }
-
-        stat.close();
-        conn.close();
-    }
-    
-    public void play() {
-        
-    }
     
     public static void main(String[] args) {
-        RequestsArray batch = new RequestsArray(10, 400, 300, 100);       
+        RequestsArray batch = new RequestsArray(10, 0.1f);       
         long clkCheck = System.currentTimeMillis();
         Player user = new Player("boris",1000000);
         while(true){            
@@ -92,7 +64,7 @@ public class MainModel {
             if(array.getRequest(loc)instanceof BuyRequest){
                 array.incBuyVolume();
             }
-            if(array.getRequest(loc)instanceof SellRequest){
+            else if(array.getRequest(loc)instanceof SellRequest){
                 array.incSellVolume();
             }
             array.removeRequest(loc);

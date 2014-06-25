@@ -22,7 +22,7 @@ public class SellRequest implements Request{
     }
     
     @Override
-    public int getAsset() {
+    public int getAssetAmount() {
         return asset;
     }
     

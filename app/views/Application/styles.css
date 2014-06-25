@@ -1,0 +1,78 @@
+/*UNIVERSAL*/
+
+html, body { background-color: #73D1E4; font-family: 'Quicksand', sans-serif; color: #2E2E2E; }
+
+.content { width: 1240px; margin: 40px auto; }
+
+h1, h2, h3 { -webkit-margin-before: 0px; -webkit-margin-after: 0px; -webkit-margin-start: 0px; -webkit-margin-end: 0px; }
+h1 { font-size: 140px; color: #FFF; font-weight: bold; text-transform: uppercase; }
+h2 { font-size: 42px; text-transform: uppercase; text-align: center; }
+h3 { font-size: 18px; }
+
+/*INDEX*/
+
+#title { display: inline-block; width: 810px; }
+
+#index h1 { display: inline-block; margin-top: 200px; }
+
+#highscores { background: #E9FCFF; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; width: 300px; float: right; display: inline; margin-top: 100px; padding: 40px;}
+#highscores img { width: 150px; height: inherit; margin: 0px auto 20px auto; display: block;}
+#index table { margin-top: 10px; font-size: 20px; line-height: 28px; }
+#index td { width: 240px; }
+.score { width: 120px; text-align: right; }
+
+#playbackground { width: 210px; height: 210px; -moz-border-radius: 50%; -webkit-border-radius: 50%;  border-radius: 50%; background: #F9A347; margin: 60px auto; padding: 30px;}
+#playborder { width: 200px; height: 200px; -moz-border-radius: 50%; -webkit-border-radius: 50%;  border-radius: 50%; background: #DA7D1B; padding: 5px; }
+#play { width: 210px; height: 210px; -moz-border-radius: 50%; -webkit-border-radius: 50%;  border-radius: 50%; background: #FFD281; float: right; margin: -15px -15px 0px 0px; transition: margin 1s ease;}
+#play:hover {margin: -5px -5px 0px 0px; }
+#play h2 { float:left; width:100%; padding-top:50%; line-height:1em; margin-top:-0.5em; text-align:center; color:white; }
+
+
+/*PLAYER*/
+
+#instructions { display: inline-block; padding: 20px; background: #E9FCFF; width: 500px; height: 700px; margin-top: 80px; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; }
+
+#details { display: inline-block; margin-top: 120px; width: 600px; float: right;}
+input { width: 400px; padding: 25px; background: #E9FCFF; margin: 50px auto 50px auto; border: none; display: block; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; font-family: 'Quicksand', sans-serif; color: #2E2E2E; font-size: 24px; text-align: center; }
+input:focus { outline: none; }
+
+#icons {margin: 40px auto; width: 870px; }
+.icon { width: 100px; height: inherit; margin: 0px 8px; }
+
+#backforward { width: 400px; margin: 80px auto 0px auto; }
+#backbackground, #forwardsbackground{ width: 120px; height: 120px; -moz-border-radius: 50%; -webkit-border-radius: 50%;  border-radius: 50%; background: #3BC4EA; padding: 20px; display: inline-block;}
+#backborder, #forwardsborder { width: 120px; height: 120px; -moz-border-radius: 50%; -webkit-border-radius: 50%;  border-radius: 50%; background: #1E98BA; }
+#back, #forwards { width: 110px; height: 110px; -moz-border-radius: 50%; -webkit-border-radius: 50%;  border-radius: 50%; background: #A4E6F8; float: right; }
+#back h2, #forwards h2 { float:left; width:100%; padding-top:50%; font-size: 70px; margin-top:-.6em; text-align:center; color:white; }
+#forwardsbackground { float: right; }
+
+
+/*GAMES*/
+
+#game h1 { font-size: 72px; color: #FFF; text-transform: uppercase; text-align: center; -webkit-margin-before: 50px; -webkit-margin-after: 0px; -webkit-margin-start: 0px; -webkit-margin-end: 0px; }
+
+#portfolio { background: #DFF7FF; height: 195px; width: 1200px; padding: 20px; margin: 20px auto 0px auto; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px;  }
+#portfolio img { width: 80px; height: inherit; display: inline;  } 
+#portfolio #assets h3 , #portfolio #info h3 { margin: -55px 0px 10px 100px; }
+#user, #money , #time , #pork , #frozen , #soy  { width: 370px; float: left; display: inline-block; margin: 10px 0px 30px 30px;}
+
+
+#exchanges { width: 1240px; margin: 0px auto; background: #DFF7FF;}
+#exchanges h3 { text-align: center; margin-bottom: 15px;}
+#nyse , #lse , #nasdaq  { background: #DFF7FF; width: 360px; float: left; display: inline-block; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; padding: 20px;}
+#nyse, #lse { margin: 20px 20px 0px 0px; }
+#nasdaq { margin: 20px 0px 0px 0px; }
+
+#game table { border-spacing: 0px; font-family: Ariel, sans-serif; font-size: 16px; line-height: 26px; text-align: center; }
+#game td { padding: 3px; width: 100px; }
+.tlcorner {  -webkit-border-radius: 10px 0px 0px 0px; -moz-border-radius: 10px 0px 0px 0px; border-radius: 10px 0px 0px 0px; }
+.trcorner {  -webkit-border-radius: 0px 10px 0px 0px; -moz-border-radius: 0px 10px 0px 0px; border-radius: 0px 10px 0px 0px; }
+.blcorner {  -webkit-border-radius: 0px 0px 0px 10px; -moz-border-radius: 0px 0px 0px 10px; border-radius: 0px 0px 0px 10px; }
+.brcorner {  -webkit-border-radius: 0px 0px 10px 0px; -moz-border-radius: 0px 0px 10px 0px; border-radius: 0px 0px 10px 0px; }
+.even { background: #FFFFFF; }
+.odd { background: #C2DBE1; }
+
+#links { width: 780px; margin: 0px auto 0px auto; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px;  }
+.link { background: #DFF7FF; width: 140px; float: left; display: inline-block; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; padding: 20px; margin: 20px 20px 20px 0px;}
+.link h3 { text-align: center; }
+#exit { margin-right: 0px!important; }

@@ -1,15 +1,18 @@
 package models;
 
 import java.util.Scanner;
+import models.exception.PlayerException;
+import models.manager.PlayerManager;
 
 
 public class MainModel {
 
     
     public static void main(String[] args) {
+        PlayerManager user = new PlayerManager("Bobmus", 1000);
         RequestsArray batch = new RequestsArray(10, 0.1f);       
         long clkCheck = System.currentTimeMillis();
-        Player user = new Player("boris",1000000);
+        //PlayerDao user = new PlayerDaoImpl("boris",1000000);
         while(true){            
             /*if(System.currentTimeMillis() - clkCheck >= 20000){                
                 batch.addAndShift();
@@ -43,13 +46,17 @@ public class MainModel {
                     case 3:
                         System.out.println("Which offer do you wish to accept");
                         int x = (scan.nextInt()-1);
-                        acceptAndUpdate(batch, x, user);
+                        try { 
+                            acceptAndUpdate(batch, x, user);
+                        } catch (PlayerException pe) {
+                            System.out.println(pe.getMessage());
+                        }
                         break;
                     case 4: 
                         System.out.println("Cash - " + user.getCash());
-                        System.out.println("Pork Bellies - " + user.getAsset("Pork Bellies"));
-                        System.out.println("Frozen Orange Juice Concentrate - " + user.getAsset("Frozen Orange Juice Concentrate"));
-                        System.out.println("Soybeans - " + user.getAsset("Soybeans"));
+                        System.out.println("Pork Bellies - " + user.getAssetAmount("Pork Bellies"));
+                        System.out.println("Frozen Orange Juice Concentrate - " + user.getAssetAmount("Frozen Orange Juice Concentrate"));
+                        System.out.println("Soybeans - " + user.getAssetAmount("Soybeans"));
                         break;
                     case 5:
                         System.out.println("Buy Volume is: " + batch.getBuyVolume() + " Sell Volume is: " + batch.getSellVolume());
@@ -59,7 +66,7 @@ public class MainModel {
         }
     }
     
-    public static void acceptAndUpdate(RequestsArray array, int loc, Player user){
+    public static void acceptAndUpdate(RequestsArray array, int loc, PlayerManager user) throws PlayerException{
         if(user.acceptOffer(array.getRequest(loc))==true){
             if(array.getRequest(loc)instanceof BuyRequest){
                 array.incBuyVolume();

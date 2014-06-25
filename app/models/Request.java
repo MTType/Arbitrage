@@ -1,7 +1,7 @@
 package models;
 
 public interface Request {
-    public int getAsset();
+    public int getAssetAmount();
     public float getUnitPrice();    
     public String getAssetType();
 }

@@ -227,10 +227,10 @@ public class RequestsArray {
         int i = 1;
         for (Request RequestX : Requests) {            
             if(RequestX instanceof BuyRequest){
-                System.out.println(i + ": Buying " + RequestX.getAsset() + " " + RequestX.getAssetType() + " at £" + tdp.format(RequestX.getUnitPrice()) + " totalling £" + zdp.format(RequestX.getAsset() * RequestX.getUnitPrice()));
+                System.out.println(i + ": Buying " + RequestX.getAssetAmount() + " " + RequestX.getAssetType() + " at £" + tdp.format(RequestX.getUnitPrice()) + " totalling £" + zdp.format(RequestX.getAssetAmount() * RequestX.getUnitPrice()));
             }
             else if(RequestX instanceof SellRequest){
-                System.out.println(i + ": Selling " + RequestX.getAsset() + " " + RequestX.getAssetType() + " at £" + tdp.format(RequestX.getUnitPrice()) + " totalling £" + zdp.format(RequestX.getAsset() * RequestX.getUnitPrice()));
+                System.out.println(i + ": Selling " + RequestX.getAssetAmount() + " " + RequestX.getAssetType() + " at £" + tdp.format(RequestX.getUnitPrice()) + " totalling £" + zdp.format(RequestX.getAssetAmount() * RequestX.getUnitPrice()));
             }
             i++;
         }
@@ -238,10 +238,10 @@ public class RequestsArray {
     
     public void printRequest(int loc){
         if(Requests.get(loc) instanceof BuyRequest){
-            System.out.println("Buying " + Requests.get(loc).getAsset() + " " + Requests.get(loc).getAssetType() + " at £" + tdp.format(Requests.get(loc).getUnitPrice()) + " totalling £" + zdp.format(Requests.get(loc).getAsset() * Requests.get(loc).getUnitPrice()));
+            System.out.println("Buying " + Requests.get(loc).getAssetAmount() + " " + Requests.get(loc).getAssetType() + " at £" + tdp.format(Requests.get(loc).getUnitPrice()) + " totalling £" + zdp.format(Requests.get(loc).getAssetAmount() * Requests.get(loc).getUnitPrice()));
         }
         else if(Requests.get(loc) instanceof SellRequest){
-            System.out.println("Selling " + Requests.get(loc).getAsset() + " " + Requests.get(loc).getAssetType() + " at £" + tdp.format(Requests.get(loc).getUnitPrice()) + " totalling £" + zdp.format(Requests.get(loc).getAsset() * Requests.get(loc).getUnitPrice()));
+            System.out.println("Selling " + Requests.get(loc).getAssetAmount() + " " + Requests.get(loc).getAssetType() + " at £" + tdp.format(Requests.get(loc).getUnitPrice()) + " totalling £" + zdp.format(Requests.get(loc).getAssetAmount() * Requests.get(loc).getUnitPrice()));
         }
     }
 }

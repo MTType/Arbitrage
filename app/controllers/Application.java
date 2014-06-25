@@ -9,6 +9,14 @@ public class Application extends Controller {
         render();
     }
     
+    public static void player() {
+        render();
+    }
+    
+    public static void game() {
+        render();
+    }
+    
     public static void play() {
         render();
     }

@@ -1,5 +1,6 @@
 package controllers;
 
+import models.test.TestH2;
 import play.mvc.*;
 
 
@@ -10,6 +11,7 @@ public class Application extends Controller {
     }
     
     public static void player() {
+        TestH2.createPlayer();
         render();
     }
     

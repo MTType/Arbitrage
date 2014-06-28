@@ -9,7 +9,7 @@ import play.Logger;
 import play.jobs.Every;
 import play.jobs.Job;
 
-@Every("30s")
+@Every("5s")
 public class GameJob extends Job{
     
     private static ExchangeManager exchangeManager = new ExchangeManager();

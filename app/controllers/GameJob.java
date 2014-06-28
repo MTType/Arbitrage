@@ -4,14 +4,16 @@ package controllers;
 import java.util.List;
 import models.entity.Exchange;
 import models.manager.ExchangeManager;
+import models.manager.PlayerManager;
 import play.Logger;
 import play.jobs.Every;
 import play.jobs.Job;
 
-@Every("30sec")
+@Every("30s")
 public class GameJob extends Job{
     
     private static ExchangeManager exchangeManager = new ExchangeManager();
+    private static PlayerManager playerManager = new PlayerManager();
 
     public void doJob() {
         if (Exchange.findAll().size() > 0) {
@@ -22,6 +24,8 @@ public class GameJob extends Job{
                 Logger.info("Looping through exchange: " + exchange.exchangeCode);
                 exchangeManager.printRequests(exchange);
             }
+            
+            playerManager.printPlayer();
         } else {
             Logger.info("Game hasn't started yet");
         }

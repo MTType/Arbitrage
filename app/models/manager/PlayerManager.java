@@ -1,18 +1,19 @@
 
 package models.manager;
 
+import java.util.Map;
 import models.entity.Player;
 import models.entity.Request;
-import models.exception.PlayerException;
 import models.enums.AssetType;
+import models.exception.PlayerException;
 import play.Logger;
 import play.db.jpa.Transactional;
 
 public class PlayerManager {
     
-    private final Player player;
+    private Player player;
     
-    public PlayerManager(String name, int startingCash) {
+    public void createPlayer(String name, int startingCash) {
         this.player = new Player(name, startingCash).save();     
     }
     
@@ -60,6 +61,15 @@ public class PlayerManager {
             player.cash -= request.pricePerUnit*request.quantity;
             player.save();
             return true;
+        }
+    }
+    
+    public void printPlayer() {
+        Logger.info("Player info:");
+        Logger.info("   name: " + player.name);
+        Logger.info("   cash: " + player.cash);
+        for (Map.Entry<AssetType, Integer> entry : player.getAssets().entrySet()) {
+            Logger.info("   " + entry.getKey().name() + ": " + entry.getValue()); 
         }
     }
 

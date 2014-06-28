@@ -23,7 +23,7 @@ public class Application extends Controller {
     }
     
     public static void game() {
-        new PlayerManager("Bobmus", 1000);
+        new PlayerManager().createPlayer("Bobmus", 1000);
         for (ExchangeCode exchangeCode: ExchangeCode.values()) {
             exchangeManager.createExchange(exchangeCode, DEFAULT_REQUEST_SIZE, DEFAULT_SD);
         } 

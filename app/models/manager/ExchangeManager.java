@@ -75,8 +75,11 @@ public class ExchangeManager {
     
     @Transactional
     public void removeRequest(Exchange exchange, int loc){
-        Request removedRequest = exchange.requests.get(loc);
-        removedRequest.delete();
+        Request requestInList = exchange.requests.get(loc);
+        exchange.requests.remove(loc);
+        exchange.save();
+        Request removedRequest = Request.findById(requestInList.id);
+        requestInList.delete();
         exchange.save();
         
         float targetPrice;
@@ -123,11 +126,7 @@ public class ExchangeManager {
             }
         }
         
-        
-        addRequest(exchange);
-        exchange.save();
-        
-        printRequest(exchange, exchange.requests.size()-1);
+        exchange.save();  
     }
     
     @Transactional
@@ -153,7 +152,7 @@ public class ExchangeManager {
     @Transactional
     public void printRequest(Exchange exchange, int loc){
         List<Request> exchangeRequests = Request.find("byExchange", exchange).fetch();
-        System.out.println("Exchange: " + exchange.exchangeCode + ": found " + exchangeRequests.size() + " requests");
+        //System.out.println("Exchange: " + exchange.exchangeCode + ": found " + exchangeRequests.size() + " requests");
         if (loc < exchangeRequests.size() && loc > 0) {
             Request request = exchangeRequests.get(loc);
             Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at £" + tdp.format(request.pricePerUnit) + " totalling £" + zdp.format(request.quantity * request.pricePerUnit));

@@ -22,6 +22,11 @@ public class GameJob extends Job{
 
             for (Exchange exchange: exchanges) {
                 Logger.info("Looping through exchange: " + exchange.exchangeCode);
+                int loc = (int)(Math.random() * exchange.requests.size());
+                Logger.info("Removing request at exchange: " + exchange.exchangeCode + ". Request is at position " + loc);
+                exchangeManager.printRequest(exchange, loc);
+                Logger.info("Removed request at exchange: " + exchange.exchangeCode + ". Request is at position " + loc);
+                exchangeManager.removeRequest(exchange, loc);
                 exchangeManager.printRequests(exchange);
             }
             

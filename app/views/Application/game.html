@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
     <head>
         <title>Arbitrage!</title>
@@ -11,6 +10,7 @@
     </head>
 
 <body id="game">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 
 <h1>Arbitrage!</h1>
 
@@ -18,60 +18,52 @@
     <div id="info"><div id="user"><img src="@{'/public/images/user.png'}" alt="user icon"><h3>Trader : MooseBoost</h3></div><div id="money" ><img src="@{'/public/images/money.png'}" alt="money"><h3>Money : £4,000</h3></div><div id="time"><img src="@{'/public/images/time.png'}" alt="clock"><h3>Time Left : 3 Days</h3></div></div>
     <div id="assets"><div id="pork"><img src="@{'/public/images/pork.png'}" alt="pork bellies"><h3>Pork Bellies : 300</h3></div><div id="frozen"><img src="@{'/public/images/frozen.png'}" alt="frozen orange juice"><h3>Frozen Orange Juice : 200</h3></div><div id="soy"><img src="@{'/public/images/soy.png'}" alt="soy beans"><h3>Soy Beans : 400</h3></div></div>
 </div>
-
+<button onclick="refreshButtons()">Click me</button>    
 <div id="exchanges">
     <div id="nyse">
     <h3>NYSE</h3>
     <table>
-        <!--<tr><td>Buy/Sell?</td><td>Item</td><td>Amount</td><td>Cost per item</td><td>Total</td></tr>-->
-        <tr class="odd"><td class="tlcorner">Sell</td><td>PB</td><td>2000</td><td>£0.10</td><td class="trcorner">£30</td></tr>
-        <tr class="even"><td>Sell</td><td>PB</td><td>1200</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="odd"><td>Buy</td><td>SB</td><td>60</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="even"><td>Buy</td><td>FOJ</td><td>450</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="odd"><td>Sell</td><td>FOJ</td><td>200</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="even"><td>Sell</td><td>PB</td><td>300</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="odd"><td>Buy</td><td>SB</td><td>100</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="even"><td>Sell</td><td>SB</td><td>90</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="odd"><td>Buy</td><td>FOJ</td><td>1300</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="even"><td class="blcorner">Sell</td><td>SB</td><td>600</td><td>£0.10</td><td class="brcorner">£30</td></tr>
     </table>
     </div>
 
     <div id="lse">
     <h3>LSE</h3>
     <table>
-        <!--<tr><td>Buy/Sell?</td><td>Item</td><td>Amount</td><td>Cost per item</td><td>Total</td></tr>-->
-        <tr class="odd"><td class="tlcorner">Sell</td><td>PB</td><td>2000</td><td>£0.10</td><td class="trcorner">£30</td></tr>
-        <tr class="even"><td>Sell</td><td>PB</td><td>1200</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="odd"><td>Buy</td><td>SB</td><td>60</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="even"><td>Buy</td><td>FOJ</td><td>450</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="odd"><td>Sell</td><td>FOJ</td><td>200</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="even"><td>Sell</td><td>PB</td><td>300</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="odd"><td>Buy</td><td>SB</td><td>100</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="even"><td>Sell</td><td>SB</td><td>90</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="odd"><td>Buy</td><td>FOJ</td><td>1300</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="even"><td class="blcorner">Sell</td><td>SB</td><td>600</td><td>£0.10</td><td class="brcorner">£30</td></tr>
     </table>
     </div>
 
     <div id="nasdaq">
     <h3>NASDAQ</h3>
     <table>
-        <!--<tr><td>Buy/Sell?</td><td>Item</td><td>Amount</td><td>Cost per item</td><td>Total</td></tr>-->
-        <tr class="odd"><td class="tlcorner">Sell</td><td>PB</td><td>2000</td><td>£0.10</td><td class="trcorner">£30</td></tr>
-        <tr class="even"><td>Sell</td><td>PB</td><td>1200</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="odd"><td>Buy</td><td>SB</td><td>60</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="even"><td>Buy</td><td>FOJ</td><td>450</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="odd"><td>Sell</td><td>FOJ</td><td>200</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="even"><td>Sell</td><td>PB</td><td>300</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="odd"><td>Buy</td><td>SB</td><td>100</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="even"><td>Sell</td><td>SB</td><td>90</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="odd"><td>Buy</td><td>FOJ</td><td>1300</td><td>£0.10</td><td>£30</td></tr>
-        <tr class="even"><td class="blcorner">Sell</td><td>SB</td><td>600</td><td>£0.10</td><td class="brcorner">£30</td></tr>
     </table>
     </div>
 
 </div>
+
+<script>
+    function refreshButtons() {
+        
+        $.ajax({
+            url: 'http://localhost:9000/test',
+            type: 'GET',
+            dataType: 'json',
+            success: function(dataWeGotViaJson){
+                alert(dataWeGotViaJson);
+                var button = document.createElement("BUTTON");
+                var t=document.createTextNode("CLICK ME");
+                //Assign different attributes to the element. 
+                button.appendChild(t);
+                button.onclick = function() { // Note this is a function
+                    alert("blabla");
+                };
+
+                var foo = document.getElementById("nyse");
+                foo.appendChild(button);
+                
+            }
+        });
+    }
+</script>
 
 <div id="links">
     <div class="link"><h3>Instructions</h3></div>

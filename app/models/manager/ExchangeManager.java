@@ -78,7 +78,6 @@ public class ExchangeManager {
         Request requestInList = exchange.requests.get(loc);
         exchange.requests.remove(loc);
         exchange.save();
-        Request removedRequest = Request.findById(requestInList.id);
         requestInList.delete();
         exchange.save();
         
@@ -157,6 +156,12 @@ public class ExchangeManager {
             Request request = exchangeRequests.get(loc);
             Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at £" + tdp.format(request.pricePerUnit) + " totalling £" + zdp.format(request.quantity * request.pricePerUnit));
         }
+    }
+    
+    @Transactional
+    public void printRequest(long requestId){
+        Request request = Request.findById(requestId);
+        Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at £" + tdp.format(request.pricePerUnit) + " totalling £" + zdp.format(request.quantity * request.pricePerUnit));
     }
     
     @Transactional

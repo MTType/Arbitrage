@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+import models.entity.Request;
 import models.enums.ExchangeCode;
 import models.manager.ExchangeManager;
 import models.manager.PlayerManager;
@@ -36,7 +38,12 @@ public class Application extends Controller {
         render();
     }
     
-    public static void doSomething() {
-        
+    public static void test() {
+        Logger.info("    In the controller!!!");
+        List<Request> requests = Request.findAll();
+        Logger.info("    returning info about this request: ");
+        exchangeManager.printRequest(requests.get(0).getId());
+        renderText(requests.get(0).id);
     }
+
 }

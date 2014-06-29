@@ -9,12 +9,13 @@ import play.Logger;
 import play.jobs.Every;
 import play.jobs.Job;
 
-@Every("5s")
+@Every("30s")
 public class GameJob extends Job{
     
-    private static ExchangeManager exchangeManager = new ExchangeManager();
-    private static PlayerManager playerManager = new PlayerManager();
+    private final ExchangeManager exchangeManager = new ExchangeManager();
+    private final PlayerManager playerManager = new PlayerManager();
 
+    @Override
     public void doJob() {
         if (Exchange.findAll().size() > 0) {
             Logger.info("The game has started!");

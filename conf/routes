@@ -7,6 +7,8 @@ GET     /                                       Application.index
 GET     /index                                  Application.index
 GET     /player                                 Application.player
 GET     /game                                   Application.game
+GET     /Application/test                       Application.test
+GET     /test                                   Application.test
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

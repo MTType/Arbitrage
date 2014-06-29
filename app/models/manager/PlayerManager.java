@@ -16,7 +16,7 @@ public class PlayerManager {
     
     @Transactional
     public void createPlayer(String name, int startingCash) {
-        Player player = new Player(name, startingCash); 
+        player = new Player(name, startingCash); 
         player.put(AssetType.PB, 0);
         player.put(AssetType.OJ, 0);
         player.put(AssetType.SB, 0);

@@ -18,7 +18,7 @@
     <div id="info"><div id="user"><img src="@{'/public/images/user.png'}" alt="user icon"><h3>Trader : MooseBoost</h3></div><div id="money" ><img src="@{'/public/images/money.png'}" alt="money"><h3>Money : £4,000</h3></div><div id="time"><img src="@{'/public/images/time.png'}" alt="clock"><h3>Time Left : 3 Days</h3></div></div>
     <div id="assets"><div id="pork"><img src="@{'/public/images/pork.png'}" alt="pork bellies"><h3>Pork Bellies : 300</h3></div><div id="frozen"><img src="@{'/public/images/frozen.png'}" alt="frozen orange juice"><h3>Frozen Orange Juice : 200</h3></div><div id="soy"><img src="@{'/public/images/soy.png'}" alt="soy beans"><h3>Soy Beans : 400</h3></div></div>
 </div>
-<button onclick="refreshButtons()">Click me</button>    
+   
 <div id="exchanges">
     <div id="nyse">
     <h3>NYSE</h3>
@@ -41,8 +41,7 @@
 </div>
 
 <script>
-    function refreshButtons() {
-        
+    function refreshLSE() {
         $.ajax({
             url: 'http://localhost:9000/getRequests',
             type: 'GET',
@@ -63,10 +62,10 @@
                     var foo = document.getElementById("lse");
                     foo.appendChild(button);
                 }  
-                setTimeout(refreshButtons,800);
             }
         });
     }
+    setInterval(function(){ refreshLSE(); }, 1000);
 </script>
 
 <div id="links">

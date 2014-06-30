@@ -2,6 +2,7 @@
 package models.manager;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -12,6 +13,7 @@ import models.enums.ExchangeCode;
 import models.enums.RequestType;
 import play.Logger;
 import play.db.jpa.Transactional;
+import models.response.RequestJSON;
 
 public class ExchangeManager {
     
@@ -27,6 +29,10 @@ public class ExchangeManager {
             addRequest(exchange);    
         }
         exchange.save();
+    }
+    
+    private Exchange getExchange(ExchangeCode exchangeCode) {
+        return Exchange.find("byExchangeCode", exchangeCode).first();
     }
     
     @Transactional
@@ -184,5 +190,14 @@ public class ExchangeManager {
         exchange.save();
         
         printRequest(exchange, exchange.requests.size()-1);
+    }
+    
+    public List<RequestJSON> getRequestJSONs(ExchangeCode exchangeCode) {
+        List<Request> requests = Request.find("byExchange", getExchange(exchangeCode)).fetch();
+        List<RequestJSON> requestJSONS = new ArrayList<RequestJSON>();
+        for (Request request: requests) {
+            requestJSONS.add(new RequestJSON(request.id, request.assetType.name(), request.requestType.name(), request.quantity, request.pricePerUnit));
+        }
+        return requestJSONS;
     }
 }

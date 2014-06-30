@@ -1,12 +1,16 @@
 package controllers;
 
+import com.google.gson.Gson;
+import java.util.ArrayList;
 import java.util.List;
+import javax.mail.Message;
 import models.entity.Request;
 import models.enums.ExchangeCode;
 import models.manager.ExchangeManager;
 import models.manager.PlayerManager;
 import play.Logger;
 import play.mvc.*;
+import models.response.RequestJSON;
 
 
 public class Application extends Controller {
@@ -38,12 +42,11 @@ public class Application extends Controller {
         render();
     }
     
-    public static void test() {
+    public static void getRequests() {
         Logger.info("    In the controller!!!");
-        List<Request> requests = Request.findAll();
-        Logger.info("    returning info about this request: ");
-        exchangeManager.printRequest(requests.get(0).getId());
-        renderText(requests.get(0).id);
+        List<RequestJSON> requestJSONS = exchangeManager.getRequestJSONs(ExchangeCode.LSE);
+        Logger.info(new Gson().toJson(requestJSONS));
+        renderJSON(requestJSONS);
     }
 
 }

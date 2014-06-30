@@ -44,22 +44,26 @@
     function refreshButtons() {
         
         $.ajax({
-            url: 'http://localhost:9000/test',
+            url: 'http://localhost:9000/getRequests',
             type: 'GET',
             dataType: 'json',
             success: function(dataWeGotViaJson){
-                alert(dataWeGotViaJson);
-                var button = document.createElement("BUTTON");
-                var t=document.createTextNode("CLICK ME");
-                //Assign different attributes to the element. 
-                button.appendChild(t);
-                button.onclick = function() { // Note this is a function
-                    alert("blabla");
-                };
+                var myNode = document.getElementById("lse");
+                while (myNode.firstChild) {
+                    myNode.removeChild(myNode.firstChild);
+                }
+                for (var i in dataWeGotViaJson) {
+                    var button = document.createElement("BUTTON");
+                    var t=document.createTextNode(dataWeGotViaJson[i].assetTypeString + "  " + dataWeGotViaJson[i].requestTypeString + "  " + dataWeGotViaJson[i].quantity + "  " + dataWeGotViaJson[i].pricePerUnit);
+                    button.appendChild(t);
+                    button.onclick = function() { 
+                        alert("BLAH");
+                    };
 
-                var foo = document.getElementById("nyse");
-                foo.appendChild(button);
-                
+                    var foo = document.getElementById("lse");
+                    foo.appendChild(button);
+                }  
+                setTimeout(refreshButtons,800);
             }
         });
     }

@@ -7,8 +7,10 @@ GET     /                                       Application.index
 GET     /index                                  Application.index
 GET     /player                                 Application.player
 GET     /game                                   Application.game
-GET     /getRequests                            Application.getRequests
+GET     /getInitialRequests                     Application.getRequests
 GET     /getHighScores                          Application.getHighScores
+
+WS      /requestSocket                          Application.RequestSocket.requestUpdate
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

@@ -1,7 +1,6 @@
 
 package models.manager;
 
-import java.util.List;
 import java.util.Map;
 import models.entity.Player;
 import models.entity.Request;

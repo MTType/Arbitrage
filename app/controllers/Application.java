@@ -1,28 +1,25 @@
 package controllers;
 
 import com.google.gson.Gson;
-import java.util.ArrayList;
 import java.util.List;
-import javax.mail.Message;
-import models.entity.Request;
 import models.enums.ExchangeCode;
 import models.manager.ExchangeManager;
-import models.manager.HighScoresManager;
 import models.manager.PlayerManager;
+import models.response.RequestJSON;
 import play.Logger;
 import play.mvc.*;
-import models.response.RequestJSON;
-import models.response.HighScoresJSON;
+import play.test.Fixtures;
 
 
 public class Application extends Controller {
     
-    private static ExchangeManager exchangeManager = new ExchangeManager();
-    private static int DEFAULT_REQUEST_SIZE = 10;
-    private static float DEFAULT_SD = 0.1f;
+    private static final ExchangeManager exchangeManager = new ExchangeManager();
+    private static final int DEFAULT_REQUEST_SIZE = 10;
+    private static final float DEFAULT_SD = 0.1f;
     
     public static void index() {
-        Logger.info("HEYHEYHEY");
+        Logger.info("Resetting DB");
+        Fixtures.deleteDatabase();
         render();
     }
     
@@ -44,23 +41,42 @@ public class Application extends Controller {
         render();
     }
     
-    public static void getRequests() {
-        Logger.info("    In the controller!!!");
-        List<RequestJSON> requestJSONS = exchangeManager.getRequestJSONs(ExchangeCode.LSE);
+    public static void getRequests(String exchangeCode) {
+        Logger.info("Retrieving requests for exchange: " + exchangeCode.toUpperCase());
+        List<RequestJSON> requestJSONS = exchangeManager.getRequestJSONs(ExchangeCode.valueOf(exchangeCode.toUpperCase()));
         Logger.info(new Gson().toJson(requestJSONS));
         renderJSON(requestJSONS);
     }
+
+    public static class RequestSocket extends WebSocketController {
     
-    public static void getHighScores() {
-        Logger.info("    Here cometh the highscores!!!");
-        List<HighScoresJSON> HighScoresJSONS = /*HighScoresManager.ReadScores(ExchangeCode.LSE);*/
-        Logger.info(new Gson().toJson(HighScoresJSONS));
-        renderJSON(HighScoresJSONS);
-    }
+        public static void requestUpdate() {
+            Logger.info("In the websocket");
+            while(inbound.isOpen()) {
+                Logger.info("websocket is open");
+                Object e = await(EventHandler.instance.event.nextEvent());
+                Logger.info("websocket has a new event");  
+                
+                //for(String quit: TextFrame.and(Equals("quit")).match(e)) {
+                //    outbound.send("Bye!");
+                //    disconnect();
+                //}
 
-    public static void addScore(String name, int score){
-        Logger.info(" Score added");
-        HighScoresManager.writeScores(name, score);    
-    }
+                Logger.info("In the websocket");
+                if (e instanceof String) {
+                    outbound.send("Echo: %s", (String)e);
+                }
+                
+                //for(String message: TextFrame.match(e)) {
+                //    Logger.info("sending message: " + message);
+                //    outbound.send("Echo: %s", message);
+                //}
 
+                //for(Http.WebSocketClose closed: SocketClosed.match(e)) {
+                //    Logger.info("Socket closed!");
+                //}
+            }
+        }
+    }
+    
 }

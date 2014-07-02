@@ -7,10 +7,12 @@ import javax.mail.Message;
 import models.entity.Request;
 import models.enums.ExchangeCode;
 import models.manager.ExchangeManager;
+import models.manager.HighScoresManager;
 import models.manager.PlayerManager;
 import play.Logger;
 import play.mvc.*;
 import models.response.RequestJSON;
+import models.response.HighScoresJSON;
 
 
 public class Application extends Controller {
@@ -29,7 +31,7 @@ public class Application extends Controller {
     }
     
     public static void game() {
-        new PlayerManager().createPlayer("Bobmus", 1000);
+        new PlayerManager().createPlayer("Owen", 1000000);
         for (ExchangeCode exchangeCode: ExchangeCode.values()) {
             exchangeManager.createExchange(exchangeCode, DEFAULT_REQUEST_SIZE, DEFAULT_SD);
         } 
@@ -47,6 +49,18 @@ public class Application extends Controller {
         List<RequestJSON> requestJSONS = exchangeManager.getRequestJSONs(ExchangeCode.LSE);
         Logger.info(new Gson().toJson(requestJSONS));
         renderJSON(requestJSONS);
+    }
+    
+    public static void getHighScores() {
+        Logger.info("    Here cometh the highscores!!!");
+        List<HighScoresJSON> HighScoresJSONS = /*HighScoresManager.ReadScores(ExchangeCode.LSE);*/
+        Logger.info(new Gson().toJson(HighScoresJSONS));
+        renderJSON(HighScoresJSONS);
+    }
+
+    public static void addScore(String name, int score){
+        Logger.info(" Score added");
+        HighScoresManager.writeScores(name, score);    
     }
 
 }

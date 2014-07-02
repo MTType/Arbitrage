@@ -42,7 +42,8 @@ public class Application extends Controller {
     }
     
     public static void getRequests(String exchangeCode) {
-        Logger.info("Retrieving requests for exchange: " + exchangeCode.toUpperCase());
+        Logger.info("Retrieving requests for exchange: " + exchangeCode);
+        Logger.info(ExchangeCode.LSE.getName());
         List<RequestJSON> requestJSONS = exchangeManager.getRequestJSONs(ExchangeCode.valueOf(exchangeCode.toUpperCase()));
         Logger.info(new Gson().toJson(requestJSONS));
         renderJSON(requestJSONS);
@@ -54,7 +55,7 @@ public class Application extends Controller {
             Logger.info("In the websocket");
             while(inbound.isOpen()) {
                 Logger.info("websocket is open");
-                Object e = await(EventHandler.instance.event.nextEvent());
+                List<RequestJSON> e = (List<RequestJSON>)await(EventHandler.instance.event.nextEvent());
                 Logger.info("websocket has a new event");  
                 
                 //for(String quit: TextFrame.and(Equals("quit")).match(e)) {
@@ -62,10 +63,12 @@ public class Application extends Controller {
                 //    disconnect();
                 //}
 
-                Logger.info("In the websocket");
-                if (e instanceof String) {
-                    outbound.send("Echo: %s", (String)e);
-                }
+                outbound.sendJson(new Gson().toJson(e));
+                
+                //if (e instanceof String) {
+                //   Logger.info("sending string " + e);
+                //    outbound.send("Echo: %s", (String)e);
+                //}
                 
                 //for(String message: TextFrame.match(e)) {
                 //    Logger.info("sending message: " + message);

@@ -16,6 +16,7 @@ import models.enums.RequestType;
 import models.response.RequestJSON;
 import play.Logger;
 import play.db.jpa.Transactional;
+import com.google.gson.Gson;
 
 public class ExchangeManager {
     
@@ -33,7 +34,7 @@ public class ExchangeManager {
         }
         exchange.save();
         
-        EventHandler.instance.event.publish("CREATED EXCHANGES");
+        EventHandler.instance.event.publish(getRequestJSONs(exchangeCode));
     }
     
     private Exchange getExchange(ExchangeCode exchangeCode) {
@@ -96,8 +97,7 @@ public class ExchangeManager {
             }
         }
 
-        EventHandler.instance.event.publish("REMOVED REQUEST ");
-
+        EventHandler.instance.event.publish(getRequestJSONs(exchange.exchangeCode));
     }
     
     @Transactional
@@ -226,7 +226,7 @@ public class ExchangeManager {
         List<Request> requests = Request.find("byExchange", getExchange(exchangeCode)).fetch();
         List<RequestJSON> requestJSONS = new ArrayList<RequestJSON>();
         for (Request request: requests) {
-            requestJSONS.add(new RequestJSON(request.id, request.assetType.name(), request.requestType.name(), request.quantity, request.pricePerUnit));
+            requestJSONS.add(new RequestJSON(request.id, request.exchange.exchangeCode.name(), request.assetType.name(), request.requestType.name(), request.quantity, request.pricePerUnit));
         }
         return requestJSONS;
     }

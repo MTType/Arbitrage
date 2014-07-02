@@ -8,9 +8,13 @@ public enum ExchangeCode {
     NASDAQ ("NASDAQ"),
     LSE ("LSE");
     
-    private String name;
+    private final String name;
 
     private ExchangeCode(String name) {
         this.name = name;
+    }
+    
+    public String getName() {
+        return name;
     }
 }

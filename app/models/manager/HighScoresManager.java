@@ -43,7 +43,7 @@ public class HighScoresManager {
                 
                     
         for (HighScoresJSON scores: highScoresList) {
-            highScoresList.add(new HighScoresJSON(scores.name, scores.score));
+            highScoresList.add(new HighScoresJSON(name, score));
         }
 	        
         return highScoresList;

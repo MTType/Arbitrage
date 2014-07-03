@@ -41,6 +41,13 @@
 </div>
 
 <script>
+    window.onload = function() {
+        //getRequests("lse");
+        //getRequests("nyse");
+        //getRequests("nasdaq");
+        requestUpdater();
+    }
+    
     function getRequests(exchangeCode) {
         $.ajax({
             url: 'http://localhost:9000/getInitialRequests?exchangeCode=' + exchangeCode,
@@ -52,54 +59,38 @@
                     exchangeNode.removeChild(exchangeNode.firstChild);
                 }
                 for (var i in dataWeGotViaJson) {
-                    var button = document.createElement("BUTTON");
-                    var t=document.createTextNode(dataWeGotViaJson[i].assetTypeString + "  " + dataWeGotViaJson[i].requestTypeString + "  " + dataWeGotViaJson[i].quantity + "  " + dataWeGotViaJson[i].pricePerUnit);
-                    button.appendChild(t);
-                    button.onclick = function() { 
-                        alert("BLAH");
-                    };
-
-                    exchangeNode.appendChild(button);
+                    appendButton(exchangeNode, dataWeGotViaJson[i]);
                 }  
             }
         });
     }
     
-    window.onload = function() {
-        getRequests("lse");
-        getRequests("nyse");
-        getRequests("nasdaq");
-        refreshExchanges();
+    function appendButton(exchangeNode, json) {
+        var button = document.createElement("BUTTON");
+        var t=document.createTextNode(json.assetTypeString + "  " + json.requestTypeString + "  " + json.quantity + "  " + json.pricePerUnit);
+        button.appendChild(t);
+        button.onclick = function() { 
+            alert("BLAH");
+        };
+        exchangeNode.appendChild(button);
     }
     
-    function refreshExchanges() {
+    function requestUpdater() {
         ws = new WebSocket("ws://localhost:9000/requestSocket");
 
-        ws.onopen = function(evt) { 
+        ws.onopen = function(message) { 
         }
 
-        ws.onclose = function(evt) {
+        ws.onclose = function(message) {
         }
 
-        ws.onmessage = function(dataWeGotViaJson) {
-            var response = JSON.parse(dataWeGotViaJson.data);
-            alert(response);
+        ws.onmessage = function(message) {
+            getRequests("lse");
+            getRequests("nyse");
+            getRequests("nasdaq");
+        }  
 
-            //var exchangeNode = document.getElementById(response[0].exchangeCode);
-            //alert("blah");
-            for (var i in response) {
-                var button = document.createElement("BUTTON");
-                var t=document.createTextNode(response[i].assetTypeString + "  " + response[i].requestTypeString + "  " + response[i].quantity + "  " + response[i].pricePerUnit);
-                button.appendChild(t);
-                button.onclick = function() { 
-                    alert("BLAH");
-                };
-
-                //exchangeNode.appendChild(button);
-            }  
-        }
-
-        ws.onerror = function(evt) {
+        ws.onerror = function(message) {
             alert("ERROR");
         }
     }

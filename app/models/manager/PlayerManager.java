@@ -5,7 +5,7 @@ import java.util.Map;
 import models.entity.Player;
 import models.entity.Request;
 import models.enums.AssetType;
-import models.exception.PlayerException;
+import models.exception.ArbitrageException;
 import play.Logger;
 import play.db.jpa.Transactional;
 
@@ -58,15 +58,15 @@ public class PlayerManager {
     }
 
     @Transactional
-    public boolean acceptOffer(Request request) throws PlayerException{
+    public boolean acceptOffer(Request request) throws ArbitrageException{
         player = (Player) Player.findAll().get(0);
         Logger.info("Trying to accept a request of " + request.quantity + " of this type of asset: " + request.assetType);
         if (player.getAssets().get(request.assetType) + request.quantity < 0 ) {
             //popup box tells user they do not have enough of that asset to perform that transaction
-            throw new PlayerException("You do not have enough of that asset to perform that transaction");
+            throw new ArbitrageException("You do not have enough of that asset to perform that transaction");
         } else if (player.cash - request.pricePerUnit*request.quantity < 0) {
             //popup box tells user they do not have enough cash to perform that transaction
-            throw new PlayerException("You do not have enough cash to perform that transaction");
+            throw new ArbitrageException("You do not have enough cash to perform that transaction");
         } else {
             incAssetAmount(request.assetType, request.quantity);
             player.cash -= request.pricePerUnit*request.quantity;

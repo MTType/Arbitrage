@@ -16,7 +16,6 @@ import models.enums.RequestType;
 import models.response.RequestJSON;
 import play.Logger;
 import play.db.jpa.Transactional;
-import com.google.gson.Gson;
 
 public class ExchangeManager {
     
@@ -34,7 +33,7 @@ public class ExchangeManager {
         }
         exchange.save();
         
-        EventHandler.instance.event.publish(getRequestJSONs(exchangeCode));
+        EventHandler.instance.event.publish("refresh");
     }
     
     private Exchange getExchange(ExchangeCode exchangeCode) {
@@ -97,7 +96,7 @@ public class ExchangeManager {
             }
         }
 
-        EventHandler.instance.event.publish(getRequestJSONs(exchange.exchangeCode));
+        EventHandler.instance.event.publish("refresh");
     }
     
     @Transactional

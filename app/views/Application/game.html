@@ -7,6 +7,7 @@
         
         <link rel="stylesheet" href="@{'/public/stylesheets/styles.css'}">
 	<link href='http://fonts.googleapis.com/css?family=Quicksand:400,700' rel='stylesheet' type='text/css'>
+        
     </head>
 
 <body id="game">
@@ -96,12 +97,124 @@
     }
 </script>
 
-<div id="links">
-    <div class="link"><h3>Instructions</h3></div>
-    <div class="link"><h3>High Score</h3></div>
-    <div class="link"><h3>Pause</h3></div>
-    <a href="index"><div class="link" id="exit"><h3>Exit</h3></div></a>
+        <script type="text/javascript">
+ 
+jQuery.fn.myLightbox = function() {
+
+    return this.each( function() {
+
+        var lightboxContentLink = jQuery( this ).attr( 'href' );
+        if( jQuery( lightboxContentLink ).length ) {
+            /* get contents from another element with ID lightboxContentLink */
+            var lightboxContent = jQuery( lightboxContentLink );
+        }
+        else {
+            /**
+             * @todo implement loading from URL
+             */
+            var lightboxContent = 'some URL content';
+        }
+
+        var windowWrapper = jQuery( '<div class="contentwindowwrapper" />' );
+        var window = jQuery( '<div class="contentwindow" />' );
+        var windowHandle = jQuery( '<div class="contentwindowclose"></div>' );
+
+        /* close popup on handle click */
+        windowHandle.click( function( event ) {
+            windowWrapper.hide();
+        } );
+
+        /* add content and window handle to popup */
+        window.append( lightboxContent, windowHandle );
+
+        /* wrap window with wrapper */
+        windowWrapper.append( window );
+        windowWrapper.hide();
+
+        /* insert new popup into DOM */
+        jQuery( 'body' ).append( windowWrapper );
+
+        jQuery( this ).click( function( event ) {
+
+            /* don't follow link */
+            event.preventDefault();
+
+            /* close any popups that are still open */
+            jQuery( '.contentwindowwrapper' ).hide();
+
+            /* fade-in popup */
+            windowWrapper.show( 300 );
+
+        } );
+
+    } );
+
+};
+ 
+	</script>
+
+<div id="portfolioitems">
+    <div class="link"><a href="#c1"><h3>Instructions</h3></a></div>
+    <div class="link"><a href="#c2"><h3>High Scores</h3></a></div>
+    <div class="link"><a href="#c3"><h3>Pause</h3></a></div>
 </div>
+    <a href="index"><div class="link" id="exit"><h3>Exit</h3></div></a>
+
+<div id="c1">
+    <div id="instructions">
+        <h2>Instructions</h2>
+    </div>
+</div>
+    
+<div id="c2">
+    <div id="highscores">
+        <img src="@{'/public/images/trophy.png'}" alt="trophy">
+        <h2>High Scores</h2>
+        <table>
+            <tr>
+                <td>mathdebator</td><td class="score">4,200</td>
+            </tr>
+            <tr>
+                <td>nicedayforasulk</td><td class="score">4,100</td>
+            </tr>
+            <tr>
+                <td>mooseboost</td><td class="score">3,900</td>
+            </tr>
+            <tr>
+                <td>SCR0TUS</td><td class="score">3,500</td>
+            </tr>
+            <tr>
+                <td>woodland animal</td><td class="score">3,400</td>
+            </tr>
+            <tr>
+                <td>Dr Ocelot</td><td class="score">3,000</td>
+            </tr>
+            <tr>
+                <td>Zomie Jesus</td><td class="score">2,900</td>
+            </tr>
+            <tr>
+                <td>NotSam</td><td class="score">2,800</td>
+            </tr>
+            <tr>
+                <td>AlsoNotSam</td><td class="score">2,200</td>
+            </tr>
+            <tr>
+                <td>Seximus Maximus</td><td class="score">20</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="c3">
+    <div id="pause"></div>
+</div>
+
+<script>
+jQuery( document ).ready( function( $ ) {
+
+    $( '#portfolioitems a[href]' ).myLightbox();
+
+} );
+</script>
 
 </body>
 </html>

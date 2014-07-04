@@ -22,6 +22,7 @@ public class Application extends Controller {
     
     public static void index() {
         Logger.info("Resetting DB");
+        Fixtures.deleteDatabase();
         HighScoreJSON newHighScore = new HighScoreJSON("bobmus", 1000);
         HighScoreJSON newHighScore2 = new HighScoreJSON("steve", 2000);
         HighScoreJSON newHighScore3 = new HighScoreJSON("shamus", 3000);

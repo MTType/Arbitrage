@@ -1,8 +1,10 @@
 
 package models.manager;
 
+import controllers.EventHandler;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -11,15 +13,16 @@ import models.entity.Request;
 import models.enums.AssetType;
 import models.enums.ExchangeCode;
 import models.enums.RequestType;
+import models.response.RequestJSON;
 import play.Logger;
 import play.db.jpa.Transactional;
-import models.response.RequestJSON;
 
 public class ExchangeManager {
     
     private final Random rng = new Random();
     private static final DecimalFormat tdp = new DecimalFormat("###.##");
     private static final DecimalFormat zdp = new DecimalFormat("###");
+    private static final int REQUEST_EXPIRE_TIME = 5;
     
     @Transactional
     public void createExchange(ExchangeCode exchangeCode, int numberOfRequests, float standardDeviation) {
@@ -29,6 +32,8 @@ public class ExchangeManager {
             addRequest(exchange);    
         }
         exchange.save();
+        
+        EventHandler.instance.event.publish("CREATED EXCHANGES");
     }
     
     private Exchange getExchange(ExchangeCode exchangeCode) {
@@ -80,11 +85,36 @@ public class ExchangeManager {
     }
     
     @Transactional
-    public void removeRequest(Exchange exchange, int loc){
-        Request requestInList = exchange.requests.get(loc);
-        exchange.requests.remove(loc);
+    public void removeOldRequests(Exchange exchange) {
+        List<Request> exchangeRequests = Request.find("byExchange", exchange).fetch();
+        Calendar expireTime = Calendar.getInstance();
+        expireTime.add(Calendar.SECOND, -REQUEST_EXPIRE_TIME);
+        for (Request request: exchangeRequests) {
+            if (request.timestamp.before(expireTime.getTime())) {
+                Logger.info("removing expired request with timestamp: " + request.timestamp);
+                removeRequest(exchange, request.id);
+            }
+        }
+
+        EventHandler.instance.event.publish("REMOVED REQUEST ");
+
+    }
+    
+    @Transactional
+    public void removeRequest(Exchange exchange, long id){
+        Request requestToRemove = null;
+        for (Request request: exchange.requests) { 
+            if (request.id == id) {
+                requestToRemove = request;
+            }
+        }
+        if (requestToRemove == null) {
+            return;
+        }
+        
+        exchange.requests.remove(requestToRemove);
         exchange.save();
-        requestInList.delete();
+        requestToRemove.delete();
         exchange.save();
         
         float targetPrice;

@@ -41,15 +41,15 @@
 </div>
 
 <script>
-    function refreshLSE() {
+    function getRequests(exchangeCode) {
         $.ajax({
-            url: 'http://localhost:9000/getRequests',
+            url: 'http://localhost:9000/getInitialRequests?exchangeCode=' + exchangeCode,
             type: 'GET',
             dataType: 'json',
             success: function(dataWeGotViaJson){
-                var myNode = document.getElementById("lse");
-                while (myNode.firstChild) {
-                    myNode.removeChild(myNode.firstChild);
+                var exchangeNode = document.getElementById(exchangeCode);
+                while (exchangeNode.firstChild) {
+                    exchangeNode.removeChild(exchangeNode.firstChild);
                 }
                 for (var i in dataWeGotViaJson) {
                     var button = document.createElement("BUTTON");
@@ -59,13 +59,36 @@
                         alert("BLAH");
                     };
 
-                    var foo = document.getElementById("lse");
-                    foo.appendChild(button);
+                    exchangeNode.appendChild(button);
                 }  
             }
         });
     }
-    setInterval(function(){ refreshLSE(); }, 1000);
+    //setInterval(function(){ refreshLSE(); }, 1000);
+    
+    window.onload = function() {
+        getRequests("lse");
+        getRequests("nyse");
+        getRequests("nasdaq");
+        refreshNYSE();
+    }
+    
+    function refreshNYSE() {
+        ws = new WebSocket("ws://localhost:9000/requestSocket");
+
+        ws.onopen = function(evt) { 
+        }
+
+        ws.onclose = function(evt) {
+        }
+
+        ws.onmessage = function(evt) {
+            alert(evt.data);
+        }
+
+        ws.onerror = function(evt) {
+        }
+    }
 </script>
 
 <div id="links">

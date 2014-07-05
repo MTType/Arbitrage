@@ -31,7 +31,10 @@ td { width: 240px; }
 /*PLAYER*/
 
 #instructions { display: inline-block; padding: 20px; background: #E9FCFF; width: 500px; height: 700px; margin-top: 80px; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; }
-
+#instructions p { font-size: 21px; text-align: center; margin-top: 30px; }
+#instructions h1 { font-size: 60px; color: #2E2E2E; text-align: center; margin-top: 30px; }
+#instructions h2 { margin-top: 40px; }
+#instructions h3 { font-size: 26px; text-align: center; margin-top: 50px;}
 #details { display: inline-block; margin-top: 120px; width: 600px; float: right;}
 input { width: 400px; padding: 25px; background: #E9FCFF; margin: 50px auto 50px auto; border: none; display: block; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; font-family: 'Quicksand', sans-serif; color: #2E2E2E; font-size: 24px; text-align: center; }
 input:focus { outline: none; }
@@ -60,9 +63,9 @@ input:focus { outline: none; }
 
 #exchanges { width: 1240px; margin: 0px auto; background: #DFF7FF;}
 #exchanges h3 { text-align: center; margin-bottom: 15px;}
-#nyse , #lse , #nasdaq  { background: #DFF7FF; width: 360px; float: left; display: inline-block; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; padding: 20px;}
-#nyse, #lse { margin: 20px 20px 0px 0px; }
-#nasdaq { margin: 20px 0px 0px 0px; }
+/*#nyse , #lse , #nasdaq ,*/ .exchange { background: #DFF7FF; width: 360px; float: left; display: inline-block; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; padding: 20px;}
+/*#nyse, #lse*/ .exchange:nth-child(1) , .exchange:nth-child(2) { margin: 20px 20px 0px 0px; }
+.exchange:nth-last-child(1)  { margin: 20px 0px 0px 0px; }
 
 button { width: 360px; background-color: #CEE1EE; padding: 10px; border: none; margin: 0px; transition: background-color .2s ease; font-family: 'Quicksand', sans-serif; font-size: 14px; font-weight: bold; }
 button:nth-child(2n+0) { background-color: #F8FBFF; }
@@ -76,6 +79,10 @@ button:focus { outline: 0; }
 .link h3 { text-align: center; }
 .link a , .link a:hover , .link:visited { text-decoration: none; color: #2E2E2E; }
 #exit { margin-right: 0px!important; }
+
+.porkbellies { color: pink; }
+.frozenorange { color: orange; }
+.soybeans { color: brown; }
 
 #portfolioitems { width: 780px; margin: 0px auto 0px auto; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px;  }
 .link { background: #DFF7FF; width: 140px; float: left; display: inline-block; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; padding: 20px; margin: 20px 20px 20px 0px;}

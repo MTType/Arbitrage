@@ -23,25 +23,29 @@
 </div>
    
 <div id="exchanges">
+    <div class="exchange">
+    <div>
+            <h3>NYSE</h3>
+    </div>
     <div id="nyse">
-    <h3>NYSE</h3>
-    <table>
-    </table>
+    </div>
+    </div>
+
+    <div class="exchange">
+    <div>
+            <h3>LSE</h3>
+    </div>
+    <div id="lse">
+    </div>
     </div>
     
-    <div id="lsetit">
-        <h3>LSE</h3>
-        <div id="lse">    
-        </div>
+    <div class="exchange">        
+    <div>
+            <h3>NASDAQ</h3>
     </div>
-
     <div id="nasdaq">
-    <h3>NASDAQ</h3>
-    <table>
-    </table>
     </div>
-
-</div>
+    </div>
 
 <script>
     window.onload = function() {
@@ -88,13 +92,13 @@
             url: 'http://localhost:9000/getInitialRequests?exchangeCode=' + exchangeCode,
             type: 'GET',
             dataType: 'json',
-            success: function(dataWeGotViaJson){
+            success: function(json){
                 var exchangeNode = document.getElementById(exchangeCode);
                 while (exchangeNode.firstChild) {
                     exchangeNode.removeChild(exchangeNode.firstChild);
                 }
-                for (var i in dataWeGotViaJson) {
-                    appendButton(exchangeNode, dataWeGotViaJson[i]);
+                for (var i in json) {
+                    appendButton(exchangeNode, json[i]);
                 }  
             }
         });
@@ -105,7 +109,7 @@
         var t=document.createTextNode(json.assetTypeString + "  " + json.requestTypeString + "  " + json.quantity + "  " + json.pricePerUnit);
         button.appendChild(t);
         button.onclick = function() { 
-            alert("BLAH");
+            acceptRequest(json.exchangeCode, json.id);
         };
         exchangeNode.appendChild(button);
     }
@@ -126,8 +130,26 @@
         }  
 
         ws.onerror = function(message) {
-            alert("ERROR");
+            //alert("ERROR");
         }
+    }
+    
+    function acceptRequest(exchangeCode, id) {
+        $.ajax({
+            url: 'http://localhost:9000/acceptRequest?exchangeCode=' + exchangeCode + '&requestId=' + id,
+            type: 'GET',
+            dataType: 'text',
+            success: function(response){
+                if (response === "OK") {
+                    updatePlayer();
+                    getRequests("lse");
+                    getRequests("nyse");
+                    getRequests("nasdaq");
+                } else {
+                    alert(response);
+                }
+            }
+        });
     }
 </script>
 

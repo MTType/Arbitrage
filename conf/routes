@@ -9,6 +9,7 @@ GET     /player                                 Application.player
 GET     /game                                   Application.game
 GET     /getInitialRequests                     Application.getRequests
 GET     /getHighScores                          Application.getHighScores
+GET     /getPlayer                              Application.getPlayer
 
 WS      /requestSocket                          Application.RequestSocket.requestUpdate
 

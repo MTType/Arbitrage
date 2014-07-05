@@ -16,8 +16,10 @@
 <h1>Arbitrage!</h1>
 
 <div id="portfolio">
-    <div id="info"><div id="user"><img src="@{'/public/images/user.png'}" alt="user icon"><h3>Trader : MooseBoost</h3></div><div id="money" ><img src="@{'/public/images/money.png'}" alt="money"><h3>Money : £4,000</h3></div><div id="time"><img src="@{'/public/images/time.png'}" alt="clock"><h3>Time Left : 3 Days</h3></div></div>
-    <div id="assets"><div id="pork"><img src="@{'/public/images/pork.png'}" alt="pork bellies"><h3>Pork Bellies : 300</h3></div><div id="frozen"><img src="@{'/public/images/frozen.png'}" alt="frozen orange juice"><h3>Frozen Orange Juice : 200</h3></div><div id="soy"><img src="@{'/public/images/soy.png'}" alt="soy beans"><h3>Soy Beans : 400</h3></div></div>
+    <div id="info">
+       <div id="user"><img src="@{'/public/images/user.png'}" alt="user icon"></div><div id="money" ><img src="@{'/public/images/money.png'}" alt="money"></div><div id="time"><img src="@{'/public/images/time.png'}" alt="clock"><h3></h3></div></div>
+       <div id="assets"><div id="pork"><img src="@{'/public/images/pork.png'}" alt="pork bellies"></div><div id="frozen"><img src="@{'/public/images/frozen.png'}" alt="frozen orange juice"></div><div id="soy"><img src="@{'/public/images/soy.png'}" alt="soy beans"></div>
+    </div>
 </div>
    
 <div id="exchanges">
@@ -47,6 +49,36 @@
         //getRequests("nyse");
         //getRequests("nasdaq");
         requestUpdater();
+    }
+    
+    function updatePlayer(){
+        $.ajax({
+            url: 'http://localhost:9000/getPlayer',
+            type: 'GET',
+            dataType: 'json',
+            success: function(json){
+                if(Object.keys(json).length !== 5){
+                    return;
+                }
+                var name = document.getElementById('user');
+                name.innerHTML = "Trader: " + json[0];
+                        
+                var money = document.getElementById('money');
+                name.innerHTML = "Money: " + json[4];
+                
+                var time = document.getElementById('time');
+                name.innerHTML = "Time Remaining: FIX THIS" ;//+ json[5];
+                
+                var pork = document.getElementById('pork');
+                name.innerHTML = "Pork Bellies: " + json[1];
+                
+                var frozen = document.getElementById('frozen');
+                name.innerHTML = "Frozen Orange Juice: " + json[2];
+                
+                var soy = document.getElementById('soy');
+                name.innerHTML = "Soy Beans: " + json[3];
+            }
+        });
     }
     
     function getRequests(exchangeCode) {

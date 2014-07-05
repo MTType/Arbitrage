@@ -6,6 +6,7 @@ import java.util.Map;
 import models.entity.Player;
 import models.entity.Request;
 import models.enums.AssetType;
+import models.enums.RequestType;
 import models.exception.ArbitrageException;
 import models.response.PlayerJSON;
 import play.Logger;
@@ -60,21 +61,27 @@ public class PlayerManager {
     }
 
     @Transactional
-    public boolean acceptOffer(Request request) throws ArbitrageException{
+    public boolean acceptOffer(Request request) throws ArbitrageException {
         player = (Player) Player.findAll().get(0);
         Logger.info("Trying to accept a request of " + request.quantity + " of this type of asset: " + request.assetType);
-        if (player.getAssets().get(request.assetType) + request.quantity < 0 ) {
-            //popup box tells user they do not have enough of that asset to perform that transaction
-            throw new ArbitrageException("You do not have enough of that asset to perform that transaction");
-        } else if (player.cash - request.pricePerUnit*request.quantity < 0) {
-            //popup box tells user they do not have enough cash to perform that transaction
-            throw new ArbitrageException("You do not have enough cash to perform that transaction");
+        if (request.requestType == RequestType.BUY) {
+            if (player.cash < request.pricePerUnit*request.quantity ) {
+                throw new ArbitrageException("You do not have enough cash to perform that transaction");
+            } else { 
+                incAssetAmount(request.assetType, request.quantity);
+                player.cash -= request.pricePerUnit*request.quantity;
+                player.save();
+            }
         } else {
-            incAssetAmount(request.assetType, request.quantity);
-            player.cash -= request.pricePerUnit*request.quantity;
-            player.save();
-            return true;
+            if (player.getAssets().get(request.assetType) < request.quantity) {
+                throw new ArbitrageException("You do not have enough of that asset to perform that transaction");
+            } else {
+                incAssetAmount(request.assetType, -request.quantity);
+                player.cash += request.pricePerUnit*request.quantity;
+                player.save();
+            }
         }
+        return true;
     }
     
     public void printPlayer() {
@@ -88,7 +95,8 @@ public class PlayerManager {
         }
     }
     
-    public PlayerJSON getPlayerJSON(){       
+    public PlayerJSON getPlayerJSON(){    
+        player = (Player) Player.findAll().get(0);
         return new PlayerJSON(player.name, player.getAssets().get(AssetType.PB), player.getAssets().get(AssetType.OJ), player.getAssets().get(AssetType.SB), player.cash, player.startTime);
     }
 

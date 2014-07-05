@@ -100,6 +100,11 @@ public class ExchangeManager {
     }
     
     @Transactional
+    public void removeRequest(ExchangeCode exchangeCode, long id){
+        removeRequest(getExchange(exchangeCode), id);
+    }
+    
+    @Transactional
     public void removeRequest(Exchange exchange, long id){
         Request requestToRemove = null;
         for (Request request: exchange.requests) { 
@@ -222,7 +227,7 @@ public class ExchangeManager {
     }
     
     public List<RequestJSON> getRequestJSONs(ExchangeCode exchangeCode) {
-        List<Request> requests = Request.find("byExchange", getExchange(exchangeCode)).fetch();
+        List<Request> requests = Request.find("select r from Request r where r.exchange = ? order by r.timestamp asc", getExchange(exchangeCode)).fetch();
         List<RequestJSON> requestJSONS = new ArrayList<RequestJSON>();
         for (Request request: requests) {
             requestJSONS.add(new RequestJSON(request.id, request.exchange.exchangeCode.name(), request.assetType.name(), request.requestType.name(), request.quantity, request.pricePerUnit));

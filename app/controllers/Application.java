@@ -2,6 +2,8 @@ package controllers;
 
 import com.google.gson.Gson;
 import java.util.List;
+import java.util.logging.Level;
+import models.entity.Request;
 import models.enums.ExchangeCode;
 import models.exception.ArbitrageException;
 import models.manager.ExchangeManager;
@@ -10,6 +12,7 @@ import models.manager.PlayerManager;
 import models.response.HighScoreJSON;
 import models.response.RequestJSON;
 import play.Logger;
+import play.db.jpa.GenericModel;
 import play.mvc.*;
 import play.test.Fixtures;
 
@@ -45,11 +48,11 @@ public class Application extends Controller {
     }
     
     public static void player() {
+        new PlayerManager().createPlayer("Owen", 1000000);
         render();
     }
     
     public static void game() {
-        new PlayerManager().createPlayer("Owen", 1000000);
         for (ExchangeCode exchangeCode: ExchangeCode.values()) {
             exchangeManager.createExchange(exchangeCode, DEFAULT_REQUEST_SIZE, DEFAULT_SD);
         } 
@@ -63,10 +66,9 @@ public class Application extends Controller {
     }
     
     public static void getRequests(String exchangeCode) {
-        Logger.info("Retrieving requests for exchange: " + exchangeCode);
-        Logger.info(ExchangeCode.LSE.getName());
+        //Logger.info("Retrieving requests for exchange: " + exchangeCode);
         List<RequestJSON> requestJSONS = exchangeManager.getRequestJSONs(ExchangeCode.valueOf(exchangeCode.toUpperCase()));
-        Logger.info(new Gson().toJson(requestJSONS));
+        //Logger.info(new Gson().toJson(requestJSONS));
         renderJSON(requestJSONS);
     }
     
@@ -74,6 +76,23 @@ public class Application extends Controller {
         Logger.info("Getting player info "); 
         Logger.info(new Gson().toJson(playerManager.getPlayerJSON())); 
         renderJSON(playerManager.getPlayerJSON());
+    }
+    
+    public static void acceptRequest(String exchangeCode, long requestId){
+        Request request = Request.findById(requestId);
+        if (request == null) {
+            Logger.info("requets not found");
+            renderText("ERROR - request with id " + requestId + " not found!");
+        }
+        try {
+            playerManager.acceptOffer(request);
+            exchangeManager.removeRequest(ExchangeCode.valueOf(exchangeCode.toUpperCase()), requestId);
+            Logger.info("successfully accepted request");
+            renderText("OK");
+        } catch (ArbitrageException ex) {
+            Logger.info("Arbitrage exception!! " + ex.getMessage());
+            renderText(ex.getMessage());
+        }
     }
 
     public static class RequestSocket extends WebSocketController {

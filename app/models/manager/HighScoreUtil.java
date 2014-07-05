@@ -1,15 +1,15 @@
-
-
 package models.manager;
 
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import models.exception.ArbitrageException;
 import models.response.HighScoreJSON;
@@ -17,10 +17,19 @@ import play.Logger;
 
 public class HighScoreUtil {
 
-    private final static String HIGHSCORE_FILE = "C:\\Users\\Martyn\\Desktop\\highscores";
+    private final static String HIGHSCORE_FILE = new File("").getAbsolutePath() + File.separator + "bigbang_highscores.txt";
     private static final int NUMBER_OF_SCORES = 20;
     
     public static void writeScore(HighScoreJSON highScore) throws ArbitrageException {
+        File file = new File(HIGHSCORE_FILE);
+        if (!file.exists()) {
+            file.mkdirs(); 
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                throw new ArbitrageException("Error creating new high score file: " + HIGHSCORE_FILE + " -> " + ex);
+            }
+        }
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(HIGHSCORE_FILE, true));
             writer.newLine(); 
@@ -33,7 +42,7 @@ public class HighScoreUtil {
     }
     
     public static List<HighScoreJSON> getHighestScores() throws ArbitrageException {
-        List<HighScoreJSON> highScores = new ArrayList<HighScoreJSON>();
+        List<HighScoreJSON> highScores = new LinkedList<HighScoreJSON>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(HIGHSCORE_FILE));
             
@@ -44,16 +53,18 @@ public class HighScoreUtil {
                     if (new Gson().fromJson(nextLine, HighScoreJSON.class) != null) { 
                         HighScoreJSON newHighScore = new Gson().fromJson(nextLine, HighScoreJSON.class);
                         
-                        if (highScores.isEmpty()) {
-                            highScores.add(newHighScore);
-                            scoreCount++;
-                        } else {
-                            for(int i=0; i<highScores.size(); i++) {
-                                if (highScores.get(i).getScore() < newHighScore.getScore()) {
-                                    highScores.add(i, newHighScore); 
-                                    scoreCount++;
-                                }
+                        int i=0; 
+                        boolean scoreInserted = false;
+                        while (i<highScores.size() && !scoreInserted) {
+                            if (highScores.get(i).getScore() < newHighScore.getScore()) {
+                                highScores.add(i, newHighScore); 
+                                scoreInserted = true;
+                                scoreCount++;
                             }
+                            i++;
+                        }
+                        if (!scoreInserted ) {
+                            highScores.add(newHighScore);
                         }
                     }
                     Logger.info("reading score: " + new Gson().fromJson(nextLine, HighScoreJSON.class));        

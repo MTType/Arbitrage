@@ -3,6 +3,7 @@ package controllers;
 import com.google.gson.Gson;
 import java.util.List;
 import java.util.logging.Level;
+import models.entity.Player;
 import models.entity.Request;
 import models.enums.ExchangeCode;
 import models.exception.ArbitrageException;
@@ -26,23 +27,6 @@ public class Application extends Controller {
     public static void index() {
         Logger.info("Resetting DB");
         Fixtures.deleteDatabase();
-        HighScoreJSON newHighScore = new HighScoreJSON("bobmus", 1000);
-        HighScoreJSON newHighScore2 = new HighScoreJSON("steve", 2000);
-        HighScoreJSON newHighScore3 = new HighScoreJSON("shamus", 3000);
-        HighScoreJSON newHighScore4 = new HighScoreJSON("catman", 4000);
-        try {
-            HighScoreUtil.writeScore(newHighScore);
-            HighScoreUtil.writeScore(newHighScore2);
-            HighScoreUtil.writeScore(newHighScore3);
-            HighScoreUtil.writeScore(newHighScore4);
-            List<HighScoreJSON> scores = HighScoreUtil.getHighestScores();
-            Logger.info(""+ scores.size());
-            for (HighScoreJSON score: scores) {
-                Logger.info(score.getName() + " has a score of  " + score.getScore());
-            }
-        } catch (ArbitrageException ex) {
-            Logger.info(ex.getMessage());
-        }
         render();
     }
     
@@ -60,8 +44,14 @@ public class Application extends Controller {
         render();
     }
     
-    public static void play() {
-        render();
+    public static void exit() {
+        Player player = playerManager.getPlayer();
+        try {
+            HighScoreUtil.writeScore(new HighScoreJSON(player.name, player.cash));
+        } catch (ArbitrageException ex) {
+            Logger.info("Arbitrage exception when saving high score " + ex.getMessage());
+        }
+        renderTemplate("Application/index.html");
     }
     
     public static void getRequests(String exchangeCode) {

@@ -12,7 +12,6 @@ import models.manager.PlayerManager;
 import models.response.HighScoreJSON;
 import models.response.RequestJSON;
 import play.Logger;
-import play.db.jpa.GenericModel;
 import play.mvc.*;
 import play.test.Fixtures;
 
@@ -36,7 +35,7 @@ public class Application extends Controller {
             HighScoreUtil.writeScore(newHighScore2);
             HighScoreUtil.writeScore(newHighScore3);
             HighScoreUtil.writeScore(newHighScore4);
-            List<HighScoreJSON> scores = HighScoreUtil.getScores();
+            List<HighScoreJSON> scores = HighScoreUtil.getHighestScores();
             Logger.info(""+ scores.size());
             for (HighScoreJSON score: scores) {
                 Logger.info(score.getName() + " has a score of  " + score.getScore());
@@ -66,9 +65,7 @@ public class Application extends Controller {
     }
     
     public static void getRequests(String exchangeCode) {
-        //Logger.info("Retrieving requests for exchange: " + exchangeCode);
         List<RequestJSON> requestJSONS = exchangeManager.getRequestJSONs(ExchangeCode.valueOf(exchangeCode.toUpperCase()));
-        //Logger.info(new Gson().toJson(requestJSONS));
         renderJSON(requestJSONS);
     }
     
@@ -92,6 +89,25 @@ public class Application extends Controller {
         } catch (ArbitrageException ex) {
             Logger.info("Arbitrage exception!! " + ex.getMessage());
             renderText(ex.getMessage());
+        }
+    }
+        
+    public static void getHighScores () {
+        List<HighScoreJSON> scores;
+        try {
+            scores = HighScoreUtil.getHighestScores();
+            renderJSON(scores);
+        } catch (ArbitrageException ex) {
+            Logger.error("Arbitrage exception, can't read scores: " + ex.getMessage());
+        }
+    }
+    
+    public static void setHighScore(String name, int cash) {
+        HighScoreJSON newHighScore = new HighScoreJSON(name, cash);
+        try {
+            HighScoreUtil.writeScore(newHighScore);
+        } catch (ArbitrageException ex) {
+            Logger.error("Arbitrage exception, can't write score to file: " + ex.getMessage());
         }
     }
 

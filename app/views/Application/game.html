@@ -17,8 +17,8 @@
 
 <div id="portfolio">
     <div id="info">
-       <div id="user"><img src="@{'/public/images/user.png'}" alt="user icon"></div><div id="money" ><img src="@{'/public/images/money.png'}" alt="money"></div><div id="time"><img src="@{'/public/images/time.png'}" alt="clock"><h3></h3></div></div>
-       <div id="assets"><div id="pork"><img src="@{'/public/images/pork.png'}" alt="pork bellies"></div><div id="frozen"><img src="@{'/public/images/frozen.png'}" alt="frozen orange juice"></div><div id="soy"><img src="@{'/public/images/soy.png'}" alt="soy beans"></div>
+       <div id="user"><img src="@{'/public/images/user.png'}" alt="user icon"><h3 id="userHeader"></h3></div><div id="money" ><img src="@{'/public/images/money.png'}" alt="money"><h3 id="moneyHeader"></h3></div><div id="time"><img src="@{'/public/images/time.png'}" alt="clock"><h3 id="timeHeader"></h3></div></div>
+       <div id="assets"><div id="pork"><img src="@{'/public/images/pork.png'}" alt="pork bellies"><h3 id="porkHeader"></h3></div><div id="frozen"><img src="@{'/public/images/frozen.png'}" alt="frozen orange juice"><h3 id="frozenHeader"></h3></div><div id="soy"><img src="@{'/public/images/soy.png'}" alt="soy beans"><h3 id="soyHeader"></h3></div>
     </div>
 </div>
    
@@ -48,6 +48,7 @@
         //getRequests("lse");
         //getRequests("nyse");
         //getRequests("nasdaq");
+        updatePlayer();
         requestUpdater();
     }
     
@@ -57,26 +58,27 @@
             type: 'GET',
             dataType: 'json',
             success: function(json){
-                if(Object.keys(json).length !== 5){
+                if(Object.keys(json).length !== 6){
                     return;
                 }
-                var name = document.getElementById('user');
-                name.innerHTML = "Trader: " + json[0];
-                        
-                var money = document.getElementById('money');
-                name.innerHTML = "Money: " + json[4];
+
+                var name = document.getElementById('userHeader');
+                name.innerHTML = "Trader: " + json["name"];
                 
-                var time = document.getElementById('time');
-                name.innerHTML = "Time Remaining: FIX THIS" ;//+ json[5];
+                var money = document.getElementById('moneyHeader');
+                money.innerHTML = "Money: " + json["cash"];
+
+                var time = document.getElementById('timeHeader');
+                time.innerHTML = "Time Remaining: FIX THIS" ;//+ json[5];
                 
-                var pork = document.getElementById('pork');
-                name.innerHTML = "Pork Bellies: " + json[1];
+                var pork = document.getElementById('porkHeader');
+                pork.innerHTML = "Pork Bellies: " + json["porkBellies"];
                 
-                var frozen = document.getElementById('frozen');
-                name.innerHTML = "Frozen Orange Juice: " + json[2];
+                var frozen = document.getElementById('frozenHeader');
+                frozen.innerHTML = "Frozen Orange Juice: " + json["frozenOrangeJuice"];
                 
-                var soy = document.getElementById('soy');
-                name.innerHTML = "Soy Beans: " + json[3];
+                var soy = document.getElementById('soyHeader');
+                soy.innerHTML = "Soy Beans: " + json["soyBeans"];
             }
         });
     }

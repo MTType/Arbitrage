@@ -1,11 +1,11 @@
 
 package models.exception;
 
-public class PlayerException extends Exception {
+public class ArbitrageException extends Exception {
     
     private String message;
     
-    public PlayerException (String message) {
+    public ArbitrageException (String message) {
         this.message = message;
     }
     

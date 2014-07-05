@@ -33,7 +33,7 @@ public class ExchangeManager {
         }
         exchange.save();
         
-        EventHandler.instance.event.publish("CREATED EXCHANGES");
+        EventHandler.instance.event.publish("refresh");
     }
     
     private Exchange getExchange(ExchangeCode exchangeCode) {
@@ -96,8 +96,7 @@ public class ExchangeManager {
             }
         }
 
-        EventHandler.instance.event.publish("REMOVED REQUEST ");
-
+        EventHandler.instance.event.publish("refresh");
     }
     
     @Transactional
@@ -226,7 +225,7 @@ public class ExchangeManager {
         List<Request> requests = Request.find("byExchange", getExchange(exchangeCode)).fetch();
         List<RequestJSON> requestJSONS = new ArrayList<RequestJSON>();
         for (Request request: requests) {
-            requestJSONS.add(new RequestJSON(request.id, request.assetType.name(), request.requestType.name(), request.quantity, request.pricePerUnit));
+            requestJSONS.add(new RequestJSON(request.id, request.exchange.exchangeCode.name(), request.assetType.name(), request.requestType.name(), request.quantity, request.pricePerUnit));
         }
         return requestJSONS;
     }

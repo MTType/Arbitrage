@@ -3,8 +3,11 @@ package controllers;
 import com.google.gson.Gson;
 import java.util.List;
 import models.enums.ExchangeCode;
+import models.exception.ArbitrageException;
 import models.manager.ExchangeManager;
+import models.manager.HighScoreUtil;
 import models.manager.PlayerManager;
+import models.response.HighScoreJSON;
 import models.response.RequestJSON;
 import play.Logger;
 import play.mvc.*;
@@ -20,6 +23,23 @@ public class Application extends Controller {
     public static void index() {
         Logger.info("Resetting DB");
         Fixtures.deleteDatabase();
+        HighScoreJSON newHighScore = new HighScoreJSON("bobmus", 1000);
+        HighScoreJSON newHighScore2 = new HighScoreJSON("steve", 2000);
+        HighScoreJSON newHighScore3 = new HighScoreJSON("shamus", 3000);
+        HighScoreJSON newHighScore4 = new HighScoreJSON("catman", 4000);
+        try {
+            HighScoreUtil.writeScore(newHighScore);
+            HighScoreUtil.writeScore(newHighScore2);
+            HighScoreUtil.writeScore(newHighScore3);
+            HighScoreUtil.writeScore(newHighScore4);
+            List<HighScoreJSON> scores = HighScoreUtil.getScores();
+            Logger.info(""+ scores.size());
+            for (HighScoreJSON score: scores) {
+                Logger.info(score.getName() + " has a score of  " + score.getScore());
+            }
+        } catch (ArbitrageException ex) {
+            Logger.info(ex.getMessage());
+        }
         render();
     }
     
@@ -42,7 +62,8 @@ public class Application extends Controller {
     }
     
     public static void getRequests(String exchangeCode) {
-        Logger.info("Retrieving requests for exchange: " + exchangeCode.toUpperCase());
+        Logger.info("Retrieving requests for exchange: " + exchangeCode);
+        Logger.info(ExchangeCode.LSE.getName());
         List<RequestJSON> requestJSONS = exchangeManager.getRequestJSONs(ExchangeCode.valueOf(exchangeCode.toUpperCase()));
         Logger.info(new Gson().toJson(requestJSONS));
         renderJSON(requestJSONS);
@@ -54,27 +75,10 @@ public class Application extends Controller {
             Logger.info("In the websocket");
             while(inbound.isOpen()) {
                 Logger.info("websocket is open");
-                Object e = await(EventHandler.instance.event.nextEvent());
+                String message = (String)await(EventHandler.instance.event.nextEvent());
                 Logger.info("websocket has a new event");  
                 
-                //for(String quit: TextFrame.and(Equals("quit")).match(e)) {
-                //    outbound.send("Bye!");
-                //    disconnect();
-                //}
-
-                Logger.info("In the websocket");
-                if (e instanceof String) {
-                    outbound.send("Echo: %s", (String)e);
-                }
-                
-                //for(String message: TextFrame.match(e)) {
-                //    Logger.info("sending message: " + message);
-                //    outbound.send("Echo: %s", message);
-                //}
-
-                //for(Http.WebSocketClose closed: SocketClosed.match(e)) {
-                //    Logger.info("Socket closed!");
-                //}
+                outbound.sendJson(message);
             }
         }
     }

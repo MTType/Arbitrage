@@ -25,11 +25,11 @@
     <table>
     </table>
     </div>
-
-    <div id="lse">
-    <h3>LSE</h3>
-    <table>
-    </table>
+    
+    <div id="lsetit">
+        <h3>LSE</h3>
+        <div id="lse">    
+        </div>
     </div>
 
     <div id="nasdaq">
@@ -41,6 +41,13 @@
 </div>
 
 <script>
+    window.onload = function() {
+        //getRequests("lse");
+        //getRequests("nyse");
+        //getRequests("nasdaq");
+        requestUpdater();
+    }
+    
     function getRequests(exchangeCode) {
         $.ajax({
             url: 'http://localhost:9000/getInitialRequests?exchangeCode=' + exchangeCode,
@@ -52,41 +59,39 @@
                     exchangeNode.removeChild(exchangeNode.firstChild);
                 }
                 for (var i in dataWeGotViaJson) {
-                    var button = document.createElement("BUTTON");
-                    var t=document.createTextNode(dataWeGotViaJson[i].assetTypeString + "  " + dataWeGotViaJson[i].requestTypeString + "  " + dataWeGotViaJson[i].quantity + "  " + dataWeGotViaJson[i].pricePerUnit);
-                    button.appendChild(t);
-                    button.onclick = function() { 
-                        alert("BLAH");
-                    };
-
-                    exchangeNode.appendChild(button);
+                    appendButton(exchangeNode, dataWeGotViaJson[i]);
                 }  
             }
         });
     }
-    //setInterval(function(){ refreshLSE(); }, 1000);
     
-    window.onload = function() {
-        getRequests("lse");
-        getRequests("nyse");
-        getRequests("nasdaq");
-        refreshNYSE();
+    function appendButton(exchangeNode, json) {
+        var button = document.createElement("BUTTON");
+        var t=document.createTextNode(json.assetTypeString + "  " + json.requestTypeString + "  " + json.quantity + "  " + json.pricePerUnit);
+        button.appendChild(t);
+        button.onclick = function() { 
+            alert("BLAH");
+        };
+        exchangeNode.appendChild(button);
     }
     
-    function refreshNYSE() {
+    function requestUpdater() {
         ws = new WebSocket("ws://localhost:9000/requestSocket");
 
-        ws.onopen = function(evt) { 
+        ws.onopen = function(message) { 
         }
 
-        ws.onclose = function(evt) {
+        ws.onclose = function(message) {
         }
 
-        ws.onmessage = function(evt) {
-            alert(evt.data);
-        }
+        ws.onmessage = function(message) {
+            getRequests("lse");
+            getRequests("nyse");
+            getRequests("nasdaq");
+        }  
 
-        ws.onerror = function(evt) {
+        ws.onerror = function(message) {
+            alert("ERROR");
         }
     }
 </script>

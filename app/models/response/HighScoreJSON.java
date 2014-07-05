@@ -1,11 +1,11 @@
 package models.response;
 
-public class HighScoresJSON {
+public class HighScoreJSON {
     
     private String name;
     private int score;
     
-    public HighScoresJSON(String name, int score){
+    public HighScoreJSON(String name, int score){
         this.name=name;
         this.score=score;
     }    

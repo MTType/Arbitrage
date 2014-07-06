@@ -52,15 +52,15 @@ public class ExchangeManager {
             targetPrice = (float)(((rng.nextGaussian())*exchange.standardDeviation) + exchange.meanSellPrice);
             switch(assetTypeNumber){
                 case 0: 
-                    request = new Request(exchange, AssetType.PB, RequestType.SELL, (quantity*40000), (int)(targetPrice*1.28f), new Date()).save();
+                    request = new Request(exchange, AssetType.PB, RequestType.SELL, (quantity*200), (int)(targetPrice*6.0f), new Date()).save();
                     exchange.requests.add(request);
                     break;
                 case 1: 
-                    request = new Request(exchange, AssetType.OJ, RequestType.SELL, (quantity*15000), (int)(targetPrice*1.57f), new Date()).save();
+                    request = new Request(exchange, AssetType.OJ, RequestType.SELL, (quantity*400), (int)(targetPrice*12.0f), new Date()).save();
                     exchange.requests.add(request);
                     break;
                 case 2: 
-                    request = new Request(exchange, AssetType.SB, RequestType.SELL, (quantity*5000), (int)(targetPrice*14.05f), new Date()).save();
+                    request = new Request(exchange, AssetType.SB, RequestType.SELL, (quantity*800), (int)(targetPrice*24.0f), new Date()).save();
                     exchange.requests.add(request);
             }
         }
@@ -69,15 +69,15 @@ public class ExchangeManager {
 
             switch(assetTypeNumber){
                 case 0: 
-                    request = new Request(exchange, AssetType.PB, RequestType.BUY, (quantity*40000), (int)(targetPrice*1.28f), new Date()).save();
+                    request = new Request(exchange, AssetType.PB, RequestType.BUY, (quantity*200), (int)(targetPrice*6.0f), new Date()).save();
                     exchange.requests.add(request);
                     break;
                 case 1: 
-                    request = new Request(exchange, AssetType.OJ, RequestType.BUY, (quantity*15000), (int)(targetPrice*1.57f), new Date()).save();
+                    request = new Request(exchange, AssetType.OJ, RequestType.BUY, (quantity*400), (int)(targetPrice*12.0f), new Date()).save();
                     exchange.requests.add(request);
                     break;
                 case 2: 
-                    request = new Request(exchange, AssetType.SB, RequestType.BUY, (quantity*5000), (int)(targetPrice*14.05f), new Date()).save();
+                    request = new Request(exchange, AssetType.SB, RequestType.BUY, (quantity*800), (int)(targetPrice*24.0f), new Date()).save();
                     exchange.requests.add(request);
             }
         }
@@ -134,15 +134,15 @@ public class ExchangeManager {
             }
             switch(assetTypeNumber){
                 case 0: 
-                    request = new Request(exchange, AssetType.PB, RequestType.SELL, (quantity*40000), (int)(targetPrice*1.28f), new Date()).save();
+                    request = new Request(exchange, AssetType.PB, RequestType.SELL, (quantity*200), (int)(targetPrice*6.0f), new Date()).save();
                     exchange.requests.add(request);
                     break;
                 case 1: 
-                    request = new Request(exchange, AssetType.OJ, RequestType.SELL, (quantity*15000), (int)(targetPrice*1.57f), new Date()).save();
+                    request = new Request(exchange, AssetType.OJ, RequestType.SELL, (quantity*400), (int)(targetPrice*12.0f), new Date()).save();
                     exchange.requests.add(request);
                     break;
                 case 2: 
-                    request = new Request(exchange, AssetType.SB, RequestType.SELL, (quantity*5000), (int)(targetPrice*14.05f), new Date()).save();
+                    request = new Request(exchange, AssetType.SB, RequestType.SELL, (quantity*800), (int)(targetPrice*24.0f), new Date()).save();
                     exchange.requests.add(request);
             }
         } else if(sORb==1) {
@@ -152,15 +152,15 @@ public class ExchangeManager {
             }
             switch(assetTypeNumber){
                 case 0: 
-                    request = new Request(exchange, AssetType.PB, RequestType.BUY, (quantity*40000), (int)(targetPrice*1.28f), new Date()).save();
+                    request = new Request(exchange, AssetType.PB, RequestType.BUY, (quantity*200), (int)(targetPrice*6.0f), new Date()).save();
                     exchange.requests.add(request);
                     break;
                 case 1: 
-                    request = new Request(exchange, AssetType.OJ, RequestType.BUY, (quantity*15000), (int)(targetPrice*1.57f), new Date()).save();
+                    request = new Request(exchange, AssetType.OJ, RequestType.BUY, (quantity*400), (int)(targetPrice*12.0f), new Date()).save();
                     exchange.requests.add(request);
                     break;
                 case 2: 
-                    request = new Request(exchange, AssetType.SB, RequestType.BUY, (quantity*5000), (int)(targetPrice*14.05f), new Date()).save();
+                    request = new Request(exchange, AssetType.SB, RequestType.BUY, (quantity*800), (int)(targetPrice*24.0f), new Date()).save();
                     exchange.requests.add(request);
             }
         }

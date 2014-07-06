@@ -70,6 +70,7 @@ public class PlayerManager {
             } else { 
                 incAssetAmount(request.assetType, request.quantity);
                 player.cash -= request.pricePerUnit*request.quantity;
+                //TODO increase the buy volume on the appropriate exchange
                 player.save();
             }
         } else {
@@ -78,6 +79,7 @@ public class PlayerManager {
             } else {
                 incAssetAmount(request.assetType, -request.quantity);
                 player.cash += request.pricePerUnit*request.quantity;
+                //TODO increase the sell volume on teh appropriate exchange
                 player.save();
             }
         }

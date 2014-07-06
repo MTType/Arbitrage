@@ -16,15 +16,15 @@ public class Request extends Model {
     public RequestType requestType;
     public int quantity;
     public int pricePerUnit;
-    public Date timestamp;
+    public Date expiretime;
     
-    public Request(Exchange exchange, AssetType assetType, RequestType requestType, int quantity, int pricePerUnit, Date timestamp) {
+    public Request(Exchange exchange, AssetType assetType, RequestType requestType, int quantity, int pricePerUnit, Date expiretime) {
         this.exchange = exchange;
         this.assetType = assetType;
         this.requestType = requestType;
         this.quantity = quantity;
         this.pricePerUnit = pricePerUnit;
-        this.timestamp = timestamp;
+        this.expiretime = expiretime;
     }
     
 }

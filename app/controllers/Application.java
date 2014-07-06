@@ -30,9 +30,7 @@ public class Application extends Controller {
         render();
     }
     
-    public static void player() {
-        //Logger.info("creating player");
-        //new PlayerManager().createPlayer("grabboid", 1000);     
+    public static void player() {  
         render();
     }
     
@@ -51,7 +49,9 @@ public class Application extends Controller {
             HighScoreUtil.writeScore(new HighScoreJSON(player.name, player.cash));
         } catch (ArbitrageException ex) {
             Logger.info("Arbitrage exception when saving high score " + ex.getMessage());
-        }
+        }        
+        Logger.info("Resetting DB");
+        Fixtures.deleteDatabase();
         renderTemplate("Application/index.html");
     }
     
@@ -69,7 +69,7 @@ public class Application extends Controller {
     public static void acceptRequest(String exchangeCode, long requestId){
         Request request = Request.findById(requestId);
         if (request == null) {
-            Logger.info("requets not found");
+            Logger.info("request not found");
             renderText("ERROR - request with id " + requestId + " not found!");
         }
         try {
@@ -105,9 +105,7 @@ public class Application extends Controller {
     public static class RequestSocket extends WebSocketController {
     
         public static void requestUpdate() {
-            Logger.info("In the websocket");
             while(inbound.isOpen()) {
-                Logger.info("websocket is open");
                 String message = (String)await(EventHandler.instance.event.nextEvent());
                 Logger.info("websocket has a new event");  
                 
@@ -118,8 +116,7 @@ public class Application extends Controller {
    
     
     public static void newPlayer(String name, int startingCash){ 
-        Logger.info("Button pressed");
-        new PlayerManager().createPlayer(name, startingCash);        
+        playerManager.createPlayer(name, startingCash);        
     }
     
 }

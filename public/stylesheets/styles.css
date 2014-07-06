@@ -127,4 +127,7 @@ margin-top: -300px;
 margin-left: -270px; 
 padding: 40px; background: #E9FCFF; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; width: 460px;}
 
+#game #quit button { width: 100px; padding: 30px; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; margin: 20px auto 0px auto; display: block;  }
+#game #quit a  { text-decoration: none!important; }
+
 #game .instructions , #game #highscores  , #game #pause , #game #quit { border: 6px solid #73D1E4;}

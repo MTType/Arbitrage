@@ -31,7 +31,8 @@ public class Application extends Controller {
     }
     
     public static void player() {
-        new PlayerManager().createPlayer("Owen", 5000);
+        //Logger.info("creating player");
+        //new PlayerManager().createPlayer("grabboid", 1000);     
         render();
     }
     
@@ -113,6 +114,12 @@ public class Application extends Controller {
                 outbound.sendJson(message);
             }
         }
+    }
+   
+    
+    public static void newPlayer(String name, int startingCash){ 
+        Logger.info("Button pressed");
+        new PlayerManager().createPlayer(name, startingCash);        
     }
     
 }

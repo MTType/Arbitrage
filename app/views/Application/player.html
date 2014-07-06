@@ -21,7 +21,7 @@
 <div id="details">
     
     <h2>Enter your player name:</h2>
-    <input type="text" name="playername" maxlength="15" />
+    <input id="nameIn" type="text" name="playername" maxlength="15" />
 
     <h2>Choose your icon:</h2>
     <div id="icons">
@@ -42,7 +42,7 @@
         </div>
 
         <div id="forwardsbackground">
-        <a href="game"><div id="forwardsborder">
+        <a id="nextPage" href="" onclick="nextPage(); return false;"><div id="forwardsborder">
         <div id="forwards">
         <h2>&gt;</h2>
         </div>
@@ -53,6 +53,30 @@
 </div>
 
 </div>
+    
+<script>    
+    function nextPage() {            
+        var name = document.getElementById("nameIn");
+        alert("onClick worked");
+        $.ajax({
+            url: 'http://localhost:9000/newPlayer?name=' + name + '&startingCash=5000',
+            type: 'GET',
+            dataType: 'text',
+            success: function(response){
+                if (response === "OK") {
+                    alertTest();
+                } else {
+                    alert(response);
+                }
+            }
+        });
+    }
+    
+    function alertTest() {
+        alert("there was a response");
+    }   
+    
+</script>
 
 </body>
 </html>

@@ -228,8 +228,9 @@ jQuery.fn.myLightbox = function() {
     <div class="link"><a href="#c1"><h3>Instructions</h3></a></div>
     <div class="link"><a href="#c2"><h3>High Scores</h3></a></div>
     <div class="link"><a href="#c3"><h3>Pause</h3></a></div>
+    <div class="link" id="exit"><a href="#c4"><h3>Quit</h3></a></div>
 </div>
-    <a href="exit"><div class="link" id="exit"><h3>Exit</h3></div></a>
+    <!--<a href="exit"><div class="link" id="exit"><h3>Exit</h3></div></a>-->
 
 <div id="c1">
 <div class="instructions">
@@ -265,7 +266,11 @@ jQuery.fn.myLightbox = function() {
     </div>
 </div>
 <div id="c3">
-    <div id="pause"></div>
+    <div id="pause"><h2>The game is now paused!</h2></div>
+</div>
+    
+<div id="c4">
+    <div id="quit"><h2>Are you sure you want to quit?</h2></div>
 </div>
 
 <script>

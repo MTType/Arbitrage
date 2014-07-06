@@ -32,17 +32,17 @@ td { width: 240px; }
 
 /*PLAYER*/
 
-#instructions { display: inline-block; padding: 30px 40px 40px 40px; background: #E9FCFF; width: 460px; height: 670px; margin-top: 80px; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; }
-#instructions p { font-size: 18px; text-align: center; margin-top: 10px; }
-#instructions h1 { font-size: 60px; color: #2E2E2E; text-align: center; }
-#instructions h2 { margin-top: 5px; }
-#instructions h3 { font-size: 26px; text-align: center; margin-top: 0px;}
+.instructions { display: inline-block; padding: 30px 40px 40px 40px; background: #E9FCFF; width: 460px; height: 670px; margin-top: 80px; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; }
+.instructions p { font-size: 18px; text-align: center; margin-top: 10px; }
+.instructions h1 { font-size: 60px!important; color: #2E2E2E!important; text-align: center; margin-top: 0px!important; }
+.instructions h2 { margin-top: 5px; }
+.instructions h3 { font-size: 26px; text-align: center; margin-top: 0px;}
 #details { display: inline-block; margin-top: 120px; width: 600px; float: right;}
 input { width: 400px; padding: 25px; background: #E9FCFF; margin: 50px auto 50px auto; border: none; display: block; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; font-family: 'Quicksand', sans-serif; color: #2E2E2E; font-size: 24px; text-align: center; }
 input:focus { outline: none; }
 
-#instructions button { -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; margin: 0px auto; display: block; background-color: #CEE1EE; }
-#instructions button:hover { background-color: #FFD281; }
+.instructions button { -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; margin: 0px auto; display: block; background-color: #CEE1EE!important; }
+.instructions button:hover { background-color: #FFD281!important; }
 
 
 #commodities { width: 450px; margin: 0px auto 25px auto; display: block; }
@@ -107,7 +107,9 @@ left: 50%;
 margin-top: -300px;
 margin-left: -190px; }
 
-#game #instructions { margin: 100px auto;  position: fixed!important;  *top: 50%; z-index: 1000;
+#game .instructions { margin: 100px auto;  position: fixed!important;  *top: 50%; z-index: 1000;
 left: 50%;
 margin-top: -300px;
 margin-left: -270px; }
+
+#game .instructions { border: 6px solid #73D1E4;}

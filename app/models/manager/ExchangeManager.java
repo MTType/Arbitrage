@@ -2,7 +2,6 @@
 package models.manager;
 
 import controllers.EventHandler;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,16 +19,19 @@ import play.db.jpa.Transactional;
 public class ExchangeManager {
     
     private final Random rng = new Random();
-    private static final DecimalFormat tdp = new DecimalFormat("###.##");
-    private static final DecimalFormat zdp = new DecimalFormat("###");
-    private static final int REQUEST_EXPIRE_TIME = 5;
+    private static final int REQUEST_EXPIRE_TIME = 50;
+    private static final int DEFAULT_QUANTITY_PB = 100;
+    private static final int DEFAULT_QUANTITY_OJ = 200;
+    private static final int DEFAULT_QUANTITY_SB = 400;
+    
     
     @Transactional
     public void createExchange(ExchangeCode exchangeCode, int numberOfRequests, float standardDeviation) {
         Exchange exchange = new Exchange(exchangeCode, 1.0f, 1.0f, standardDeviation).save(); 
-        
+        Calendar calendar = Calendar.getInstance();
         for(int i = 0; i<numberOfRequests; i++){
-            addRequest(exchange);    
+            calendar.add(Calendar.SECOND, 5);
+            addRequest(exchange, calendar.getTime());    
         }
         exchange.save();
         
@@ -42,6 +44,11 @@ public class ExchangeManager {
     
     @Transactional
     private void addRequest(Exchange exchange) {
+        addRequest(exchange, getRequestExpireTime());
+    }
+    
+    @Transactional
+    private void addRequest(Exchange exchange, Date expiryTime) {
         float targetPrice;
         int sORb = rng.nextInt(2);
 
@@ -52,16 +59,19 @@ public class ExchangeManager {
             targetPrice = (float)(((rng.nextGaussian())*exchange.standardDeviation) + exchange.meanSellPrice);
             switch(assetTypeNumber){
                 case 0: 
-                    request = new Request(exchange, AssetType.PB, RequestType.SELL, (quantity*200), (int)(targetPrice*6.0f), new Date()).save();
+                    request = new Request(exchange, AssetType.PB, RequestType.SELL, (quantity*DEFAULT_QUANTITY_PB), (int)(targetPrice*6.0f), expiryTime).save();
                     exchange.requests.add(request);
+                    printRequest(request.id);
                     break;
                 case 1: 
-                    request = new Request(exchange, AssetType.OJ, RequestType.SELL, (quantity*400), (int)(targetPrice*12.0f), new Date()).save();
+                    request = new Request(exchange, AssetType.OJ, RequestType.SELL, (quantity*DEFAULT_QUANTITY_OJ), (int)(targetPrice*12.0f), expiryTime).save();
                     exchange.requests.add(request);
+                    printRequest(request.id);
                     break;
                 case 2: 
-                    request = new Request(exchange, AssetType.SB, RequestType.SELL, (quantity*800), (int)(targetPrice*24.0f), new Date()).save();
+                    request = new Request(exchange, AssetType.SB, RequestType.SELL, (quantity*DEFAULT_QUANTITY_SB), (int)(targetPrice*24.0f), expiryTime).save();
                     exchange.requests.add(request);
+                    printRequest(request.id);
             }
         }
         if (sORb == 1) {
@@ -69,16 +79,19 @@ public class ExchangeManager {
 
             switch(assetTypeNumber){
                 case 0: 
-                    request = new Request(exchange, AssetType.PB, RequestType.BUY, (quantity*200), (int)(targetPrice*6.0f), new Date()).save();
+                    request = new Request(exchange, AssetType.PB, RequestType.BUY, (quantity*DEFAULT_QUANTITY_PB), (int)(targetPrice*6.0f), expiryTime).save();
                     exchange.requests.add(request);
+                    printRequest(request.id);
                     break;
                 case 1: 
-                    request = new Request(exchange, AssetType.OJ, RequestType.BUY, (quantity*400), (int)(targetPrice*12.0f), new Date()).save();
+                    request = new Request(exchange, AssetType.OJ, RequestType.BUY, (quantity*DEFAULT_QUANTITY_OJ), (int)(targetPrice*12.0f), expiryTime).save();
                     exchange.requests.add(request);
+                    printRequest(request.id);
                     break;
                 case 2: 
-                    request = new Request(exchange, AssetType.SB, RequestType.BUY, (quantity*800), (int)(targetPrice*24.0f), new Date()).save();
+                    request = new Request(exchange, AssetType.SB, RequestType.BUY, (quantity*DEFAULT_QUANTITY_SB), (int)(targetPrice*24.0f), expiryTime).save();
                     exchange.requests.add(request);
+                    printRequest(request.id);
             }
         }
         exchange.save();
@@ -87,11 +100,9 @@ public class ExchangeManager {
     @Transactional
     public void removeOldRequests(Exchange exchange) {
         List<Request> exchangeRequests = Request.find("byExchange", exchange).fetch();
-        Calendar expireTime = Calendar.getInstance();
-        expireTime.add(Calendar.SECOND, -REQUEST_EXPIRE_TIME);
         for (Request request: exchangeRequests) {
-            if (request.timestamp.before(expireTime.getTime())) {
-                //Logger.info("removing expired request with timestamp: " + request.timestamp);
+            if (request.expiretime.before(new Date())) {
+                Logger.info("removing expired request with timestamp: " + request.expiretime);
                 removeRequest(exchange, request.id);
             }
         }
@@ -102,6 +113,12 @@ public class ExchangeManager {
     @Transactional
     public void removeRequest(ExchangeCode exchangeCode, long id){
         removeRequest(getExchange(exchangeCode), id);
+    }
+    
+    private Date getRequestExpireTime() {
+        Calendar newExpireTime = Calendar.getInstance();
+        newExpireTime.add(Calendar.SECOND, REQUEST_EXPIRE_TIME);
+        return newExpireTime.getTime(); 
     }
     
     @Transactional
@@ -134,16 +151,19 @@ public class ExchangeManager {
             }
             switch(assetTypeNumber){
                 case 0: 
-                    request = new Request(exchange, AssetType.PB, RequestType.SELL, (quantity*200), (int)(targetPrice*6.0f), new Date()).save();
+                    request = new Request(exchange, AssetType.PB, RequestType.SELL, (quantity*DEFAULT_QUANTITY_PB), (int)(targetPrice*6.0f), getRequestExpireTime()).save();
                     exchange.requests.add(request);
+                    printRequest(request.id);
                     break;
                 case 1: 
-                    request = new Request(exchange, AssetType.OJ, RequestType.SELL, (quantity*400), (int)(targetPrice*12.0f), new Date()).save();
+                    request = new Request(exchange, AssetType.OJ, RequestType.SELL, (quantity*DEFAULT_QUANTITY_OJ), (int)(targetPrice*12.0f), getRequestExpireTime()).save();
                     exchange.requests.add(request);
+                    printRequest(request.id);
                     break;
                 case 2: 
-                    request = new Request(exchange, AssetType.SB, RequestType.SELL, (quantity*800), (int)(targetPrice*24.0f), new Date()).save();
+                    request = new Request(exchange, AssetType.SB, RequestType.SELL, (quantity*DEFAULT_QUANTITY_SB), (int)(targetPrice*24.0f), getRequestExpireTime()).save();
                     exchange.requests.add(request);
+                    printRequest(request.id);
             }
         } else if(sORb==1) {
             targetPrice = (float)(((rng.nextGaussian())*exchange.standardDeviation) + exchange.meanBuyPrice - (exchange.buyVolume*exchange.standardDeviation*0.03));
@@ -152,16 +172,19 @@ public class ExchangeManager {
             }
             switch(assetTypeNumber){
                 case 0: 
-                    request = new Request(exchange, AssetType.PB, RequestType.BUY, (quantity*200), (int)(targetPrice*6.0f), new Date()).save();
+                    request = new Request(exchange, AssetType.PB, RequestType.BUY, (quantity*DEFAULT_QUANTITY_PB), (int)(targetPrice*6.0f), getRequestExpireTime()).save();
                     exchange.requests.add(request);
+                    printRequest(request.id);
                     break;
                 case 1: 
-                    request = new Request(exchange, AssetType.OJ, RequestType.BUY, (quantity*400), (int)(targetPrice*12.0f), new Date()).save();
+                    request = new Request(exchange, AssetType.OJ, RequestType.BUY, (quantity*DEFAULT_QUANTITY_OJ), (int)(targetPrice*12.0f), getRequestExpireTime()).save();
                     exchange.requests.add(request);
+                    printRequest(request.id);
                     break;
                 case 2: 
-                    request = new Request(exchange, AssetType.SB, RequestType.BUY, (quantity*800), (int)(targetPrice*24.0f), new Date()).save();
+                    request = new Request(exchange, AssetType.SB, RequestType.BUY, (quantity*DEFAULT_QUANTITY_SB), (int)(targetPrice*24.0f), getRequestExpireTime()).save();
                     exchange.requests.add(request);
+                    printRequest(request.id);
             }
         }
         
@@ -172,9 +195,8 @@ public class ExchangeManager {
     public void printRequests(){
         for (ExchangeCode exchangeCode: ExchangeCode.values()) {
             List<Request> exchangeRequests = Request.find("byExchange", Exchange.find("byExchangeCode", exchangeCode).fetch()).fetch();
-            System.out.println("Exchange: " + exchangeCode.name() + ": found " + exchangeRequests.size() + " requests");
             for (Request request: exchangeRequests) {
-                Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at £" + tdp.format(request.pricePerUnit) + " totalling £" + zdp.format(request.quantity * request.pricePerUnit));
+                Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
             }
         }
     }
@@ -182,33 +204,31 @@ public class ExchangeManager {
     @Transactional
     public void printRequests(Exchange exchange){
         List<Request> exchangeRequests = Request.find("byExchange", exchange).fetch();
-        System.out.println("Exchange: " + exchange.exchangeCode + ": found " + exchangeRequests.size() + " requests");
         for (Request request: exchangeRequests) {
-            Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at £" + tdp.format(request.pricePerUnit) + " totalling £" + zdp.format(request.quantity * request.pricePerUnit));
+            Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
         }
     }
     
     @Transactional
     public void printRequest(Exchange exchange, int loc){
         List<Request> exchangeRequests = Request.find("byExchange", exchange).fetch();
-        System.out.println("Exchange: " + exchange.exchangeCode + ": found " + exchangeRequests.size() + " requests");
         if (loc < exchangeRequests.size() && loc > 0) {
             Request request = exchangeRequests.get(loc);
-            Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at £" + tdp.format(request.pricePerUnit) + " totalling £" + zdp.format(request.quantity * request.pricePerUnit));
+            Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
         }
     }
     
     @Transactional
     public void printRequest(long requestId){
         Request request = Request.findById(requestId);
-        Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at £" + tdp.format(request.pricePerUnit) + " totalling £" + zdp.format(request.quantity * request.pricePerUnit));
+        Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
     }
     
     @Transactional
     public void addAndShift(Exchange exchange){
         Request oldestRequest = exchange.requests.get(0);
         for (Request request: exchange.requests) {
-            oldestRequest = oldestRequest.timestamp.before(request.timestamp) ? oldestRequest : request;
+            oldestRequest = oldestRequest.expiretime.before(request.expiretime) ? oldestRequest : request;
         }
         exchange.requests.remove(oldestRequest);
         exchange.save();
@@ -227,7 +247,7 @@ public class ExchangeManager {
     }
     
     public List<RequestJSON> getRequestJSONs(ExchangeCode exchangeCode) {
-        List<Request> requests = Request.find("select r from Request r where r.exchange = ? order by r.timestamp asc", getExchange(exchangeCode)).fetch();
+        List<Request> requests = Request.find("select r from Request r where r.exchange = ? order by r.expiretime desc", getExchange(exchangeCode)).fetch();
         List<RequestJSON> requestJSONS = new ArrayList<RequestJSON>();
         for (Request request: requests) {
             requestJSONS.add(new RequestJSON(request.id, request.exchange.exchangeCode.name(), request.assetType.name(), request.requestType.name(), request.quantity, request.pricePerUnit));

@@ -88,7 +88,7 @@ button:focus { outline: 0; }
 #links { width: 780px; margin: 0px auto 0px auto; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px;  }
 .link { background: #DFF7FF; width: 140px; float: left; display: inline-block; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; padding: 20px; margin: 20px 20px 20px 0px;}
 .link h3 { text-align: center; }
-.link a , .link a:hover , .link:visited { text-decoration: none; color: #2E2E2E; }
+#portfolioitems a , #portfolioitems a:hover , #portfolioitems:visited { text-decoration: none; color: #2E2E2E; }
 #exit { margin-right: 0px!important; }
 
 .porkbellies { color: pink; }

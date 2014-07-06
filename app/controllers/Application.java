@@ -22,7 +22,7 @@ public class Application extends Controller {
     private static final PlayerManager playerManager = new PlayerManager();
     private static final ExchangeManager exchangeManager = new ExchangeManager();
     private static final int DEFAULT_REQUEST_SIZE = 10;
-    private static final float DEFAULT_SD = 0.1f;
+    private static final float DEFAULT_SD = 0.2f;
     
     public static void index() {
         Logger.info("Resetting DB");
@@ -48,7 +48,7 @@ public class Application extends Controller {
     }
     
     public static void player() {
-        new PlayerManager().createPlayer("Owen", 1000000);
+        new PlayerManager().createPlayer("Owen", 5000);
         render();
     }
     

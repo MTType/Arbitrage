@@ -66,6 +66,14 @@
             }
         });
     }
+    
+    function testHighScore(){
+        $.ajax({
+            url: 'http://localhost:9000/setHighScore?name=Owen&cash=1000000',
+            type: 'GET',
+            dataType: 'text',            
+        });  
+    }
 </script>
     
 

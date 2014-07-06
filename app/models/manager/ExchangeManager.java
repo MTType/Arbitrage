@@ -91,7 +91,7 @@ public class ExchangeManager {
         expireTime.add(Calendar.SECOND, -REQUEST_EXPIRE_TIME);
         for (Request request: exchangeRequests) {
             if (request.timestamp.before(expireTime.getTime())) {
-                Logger.info("removing expired request with timestamp: " + request.timestamp);
+                //Logger.info("removing expired request with timestamp: " + request.timestamp);
                 removeRequest(exchange, request.id);
             }
         }
@@ -191,7 +191,7 @@ public class ExchangeManager {
     @Transactional
     public void printRequest(Exchange exchange, int loc){
         List<Request> exchangeRequests = Request.find("byExchange", exchange).fetch();
-        //System.out.println("Exchange: " + exchange.exchangeCode + ": found " + exchangeRequests.size() + " requests");
+        System.out.println("Exchange: " + exchange.exchangeCode + ": found " + exchangeRequests.size() + " requests");
         if (loc < exchangeRequests.size() && loc > 0) {
             Request request = exchangeRequests.get(loc);
             Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at £" + tdp.format(request.pricePerUnit) + " totalling £" + zdp.format(request.quantity * request.pricePerUnit));

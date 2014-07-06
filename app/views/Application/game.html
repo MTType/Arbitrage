@@ -49,9 +49,7 @@
 
 <script>
     window.onload = function() {
-        //getRequests("lse");
-        //getRequests("nyse");
-        //getRequests("nasdaq");
+        updateHighScores();
         updatePlayer();
         requestUpdater();
     }
@@ -151,9 +149,25 @@
             }
         });
     }
+    
+    function updateHighScores(){
+        $.ajax({
+            url: 'http://localhost:9000/getHighScores',
+            type: 'GET',
+            dataType: 'json',
+            success: function(json){
+                var scoreCount = 1;
+                for (var i in json) {
+                    document.getElementById("highscorename" + scoreCount).innerHTML = json[i].name;
+                    document.getElementById("highscore" + scoreCount).innerHTML = json[i].score;
+                    scoreCount++;
+                }  
+            }
+        });
+    }
 </script>
 
-        <script type="text/javascript">
+<script type="text/javascript">
  
 jQuery.fn.myLightbox = function() {
 
@@ -214,7 +228,7 @@ jQuery.fn.myLightbox = function() {
     <div class="link"><a href="#c2"><h3>High Scores</h3></a></div>
     <div class="link"><a href="#c3"><h3>Pause</h3></a></div>
 </div>
-    <a href="index"><div class="link" id="exit"><h3>Exit</h3></div></a>
+    <a href="exit"><div class="link" id="exit"><h3>Exit</h3></div></a>
 
 <div id="c1">
     <div id="instructions">
@@ -227,36 +241,16 @@ jQuery.fn.myLightbox = function() {
         <img src="@{'/public/images/trophy.png'}" alt="trophy">
         <h2>High Scores</h2>
         <table>
-            <tr>
-                <td>mathdebator</td><td class="score">4,200</td>
-            </tr>
-            <tr>
-                <td>nicedayforasulk</td><td class="score">4,100</td>
-            </tr>
-            <tr>
-                <td>mooseboost</td><td class="score">3,900</td>
-            </tr>
-            <tr>
-                <td>SCR0TUS</td><td class="score">3,500</td>
-            </tr>
-            <tr>
-                <td>woodland animal</td><td class="score">3,400</td>
-            </tr>
-            <tr>
-                <td>Dr Ocelot</td><td class="score">3,000</td>
-            </tr>
-            <tr>
-                <td>Zomie Jesus</td><td class="score">2,900</td>
-            </tr>
-            <tr>
-                <td>NotSam</td><td class="score">2,800</td>
-            </tr>
-            <tr>
-                <td>AlsoNotSam</td><td class="score">2,200</td>
-            </tr>
-            <tr>
-                <td>Seximus Maximus</td><td class="score">20</td>
-            </tr>
+            <tr><td id="highscorename1"></td><td id="highscore1" class="score"></td></tr>
+            <tr><td id="highscorename2"></td><td id="highscore2" class="score"></td></tr>
+            <tr><td id="highscorename3"></td><td id="highscore3" class="score"></td></tr>
+            <tr><td id="highscorename4"></td><td id="highscore4" class="score"></td></tr>
+            <tr><td id="highscorename5"></td><td id="highscore5" class="score"></td></tr>
+            <tr><td id="highscorename6"></td><td id="highscore6" class="score"></td></tr>
+            <tr><td id="highscorename7"></td><td id="highscore7" class="score"></td></tr>
+            <tr><td id="highscorename8"></td><td id="highscore8" class="score"></td></tr>
+            <tr><td id="highscorename9"></td><td id="highscore9" class="score"></td></tr>
+            <tr><td id="highscorename10"></td><td id="highscore10" class="score"></td></tr>
         </table>
     </div>
 </div>

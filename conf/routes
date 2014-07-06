@@ -7,10 +7,13 @@ GET     /                                       Application.index
 GET     /index                                  Application.index
 GET     /player                                 Application.player
 GET     /game                                   Application.game
+GET     /exit                                   Application.exit
 GET     /getInitialRequests                     Application.getRequests
 GET     /getHighScores                          Application.getHighScores
 GET     /getPlayer                              Application.getPlayer
 GET     /acceptRequest                          Application.acceptRequest
+GET     /getHighScores                          Application.getHighScores
+GET     /setHighScore                           Application.setHighScore
 
 WS      /requestSocket                          Application.RequestSocket.requestUpdate
 

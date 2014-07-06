@@ -12,13 +12,13 @@ import play.db.jpa.Model;
 public class Player extends Model {
     
     public String name;
-    public float cash;
+    public int cash;
     public Date startTime;
     
     @ElementCollection
     private Map<AssetType, Integer> assets = new EnumMap<AssetType, Integer>(AssetType.class);
     
-    public Player(String name, float cash, Date startTime) {
+    public Player(String name, int cash, Date startTime) {
         this.name = name;
         this.cash = cash;
         this.startTime = startTime;

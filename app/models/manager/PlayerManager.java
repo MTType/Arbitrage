@@ -25,15 +25,20 @@ public class PlayerManager {
         player.save();
     }
     
+    @Transactional 
+    public Player getPlayer() {
+        return (Player) Player.findAll().get(0);
+    }
+    
     @Transactional
-    public void setCash(float cashIn) {
+    public void setCash(int cashIn) {
         player = (Player) Player.findAll().get(0);
         player.cash = cashIn;
         player.save();
     }
     
     @Transactional
-    public void incCash(float increment) {
+    public void incCash(int increment) {
         player = (Player) Player.findAll().get(0);
         player.cash += increment;
         player.save();

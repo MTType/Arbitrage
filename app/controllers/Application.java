@@ -3,6 +3,7 @@ package controllers;
 import com.google.gson.Gson;
 import java.util.List;
 import java.util.logging.Level;
+import models.entity.Player;
 import models.entity.Request;
 import models.enums.ExchangeCode;
 import models.exception.ArbitrageException;
@@ -12,7 +13,6 @@ import models.manager.PlayerManager;
 import models.response.HighScoreJSON;
 import models.response.RequestJSON;
 import play.Logger;
-import play.db.jpa.GenericModel;
 import play.mvc.*;
 import play.test.Fixtures;
 
@@ -27,23 +27,6 @@ public class Application extends Controller {
     public static void index() {
         Logger.info("Resetting DB");
         Fixtures.deleteDatabase();
-        HighScoreJSON newHighScore = new HighScoreJSON("bobmus", 1000);
-        HighScoreJSON newHighScore2 = new HighScoreJSON("steve", 2000);
-        HighScoreJSON newHighScore3 = new HighScoreJSON("shamus", 3000);
-        HighScoreJSON newHighScore4 = new HighScoreJSON("catman", 4000);
-        try {
-            HighScoreUtil.writeScore(newHighScore);
-            HighScoreUtil.writeScore(newHighScore2);
-            HighScoreUtil.writeScore(newHighScore3);
-            HighScoreUtil.writeScore(newHighScore4);
-            List<HighScoreJSON> scores = HighScoreUtil.getScores();
-            Logger.info(""+ scores.size());
-            for (HighScoreJSON score: scores) {
-                Logger.info(score.getName() + " has a score of  " + score.getScore());
-            }
-        } catch (ArbitrageException ex) {
-            Logger.info(ex.getMessage());
-        }
         render();
     }
     
@@ -61,14 +44,18 @@ public class Application extends Controller {
         render();
     }
     
-    public static void play() {
-        render();
+    public static void exit() {
+        Player player = playerManager.getPlayer();
+        try {
+            HighScoreUtil.writeScore(new HighScoreJSON(player.name, player.cash));
+        } catch (ArbitrageException ex) {
+            Logger.info("Arbitrage exception when saving high score " + ex.getMessage());
+        }
+        renderTemplate("Application/index.html");
     }
     
     public static void getRequests(String exchangeCode) {
-        //Logger.info("Retrieving requests for exchange: " + exchangeCode);
         List<RequestJSON> requestJSONS = exchangeManager.getRequestJSONs(ExchangeCode.valueOf(exchangeCode.toUpperCase()));
-        //Logger.info(new Gson().toJson(requestJSONS));
         renderJSON(requestJSONS);
     }
     
@@ -92,6 +79,25 @@ public class Application extends Controller {
         } catch (ArbitrageException ex) {
             Logger.info("Arbitrage exception!! " + ex.getMessage());
             renderText(ex.getMessage());
+        }
+    }
+        
+    public static void getHighScores () {
+        List<HighScoreJSON> scores;
+        try {
+            scores = HighScoreUtil.getHighestScores();
+            renderJSON(scores);
+        } catch (ArbitrageException ex) {
+            Logger.error("Arbitrage exception, can't read scores: " + ex.getMessage());
+        }
+    }
+    
+    public static void setHighScore(String name, int cash) {
+        HighScoreJSON newHighScore = new HighScoreJSON(name, cash);
+        try {
+            HighScoreUtil.writeScore(newHighScore);
+        } catch (ArbitrageException ex) {
+            Logger.error("Arbitrage exception, can't write score to file: " + ex.getMessage());
         }
     }
 

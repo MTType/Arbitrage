@@ -26,11 +26,12 @@ public class ExchangeManager {
     
     
     @Transactional
-    public void createExchange(ExchangeCode exchangeCode, int numberOfRequests, float standardDeviation) {
+    public void createExchange(ExchangeCode exchangeCode, int numberOfRequests, float standardDeviation, int offSet) {
         Exchange exchange = new Exchange(exchangeCode, 1.0f, 1.0f, standardDeviation).save(); 
         Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND, offSet);
         for(int i = 0; i<numberOfRequests; i++){
-            calendar.add(Calendar.SECOND, 5);
+            calendar.add(Calendar.SECOND, 6);
             addRequest(exchange, calendar.getTime());    
         }
         exchange.save();

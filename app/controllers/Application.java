@@ -37,8 +37,10 @@ public class Application extends Controller {
     }
     
     public static void game() {
+        int offSet = 0;
         for (ExchangeCode exchangeCode: ExchangeCode.values()) {
-            exchangeManager.createExchange(exchangeCode, DEFAULT_REQUEST_SIZE, DEFAULT_SD);
+            exchangeManager.createExchange(exchangeCode, DEFAULT_REQUEST_SIZE, DEFAULT_SD, offSet);
+            offSet = offSet + 2;
         } 
         Logger.info("Game initialised");
         exchangeManager.printRequests();

@@ -93,7 +93,7 @@ input:focus { outline: none; }
 #portfolio { background: #DFF7FF; height: 195px; width: 1200px; padding: 20px; margin: 20px auto 0px auto; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px;  }
 #portfolio img { width: 80px; height: inherit; display: inline;  } 
 #portfolio #assets h3 , #portfolio #info h3 { margin: -55px 0px 10px 100px; }
-#user, #money , #time , #pork , #frozen , #soy  { width: 370px; float: left; display: inline-block; margin: 10px 0px 30px 30px;}
+#trader, #money , #time , #pork , #frozen , #soy  { width: 370px; float: left; display: inline-block; margin: 10px 0px 30px 30px;}
 
 
 #exchanges { width: 1240px; margin: 0px auto; background: #DFF7FF;}
@@ -102,20 +102,20 @@ input:focus { outline: none; }
 /*#nyse, #lse*/ .exchange:nth-child(1) , .exchange:nth-child(2) { margin: 20px 20px 0px 0px; }
 .exchange:nth-last-child(1)  { margin: 20px 0px 0px 0px; }
 
-button { width: 360px; background-color: #CEE1EE; padding: 10px; border: none; margin: 0px; transition: background-color .2s ease; font-family: 'Quicksand', sans-serif; font-size: 14px; font-weight: bold; word-spacing: 30px; }
+button { width: 360px; background-color: #CEE1EE; padding: 10px; border: none; margin: 0px; transition: background-color .2s ease; font-family: 'Quicksand', sans-serif; font-size: 14px; font-weight: bold;  }
 button:nth-child(2n+0) { background-color: #F8FBFF; }
 button:nth-child(1) { -webkit-border-radius: 10px 10px 0px 0px; -moz-border-radius: 10px 10px 0px 0px; border-radius: 10px 10px 0px 0px;}
 button:nth-last-child(1) { -webkit-border-radius: 0px 0px 10px 10px; -moz-border-radius: 0px 0px 10px 10px; border-radius: 0px 0px 10px 10px;}
 button:hover { background-color: #FFD281!important; }
 button:focus { outline: 0; }
 
-/*.pb { background-color: #FFF38E!important;}
+.pb { background-color: #FFF38E!important;}
 .oj { background-color: #79C7D0!important;}
-.sb { background-color: #B8E697!important; }*/
+.sb { background-color: #B8E697!important; }
 
-.pb { background-color: #F3C2BD!important;}
+/*.pb { background-color: #F3C2BD!important;}
 .oj { background-color: #F79E5A!important;}
-.sb { background-color: #92CA69!important; }
+.sb { background-color: #92CA69!important; }*/
 
 #links { width: 780px; margin: 0px auto 0px auto; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px;  }
 .link { background: #DFF7FF; width: 140px; float: left; display: inline-block; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; padding: 20px; margin: 20px 20px 20px 0px;}

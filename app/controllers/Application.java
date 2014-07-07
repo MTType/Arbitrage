@@ -50,7 +50,7 @@ public class Application extends Controller {
     public static void exit() {
         Player player = playerManager.getPlayer();
         try {
-            HighScoreUtil.writeScore(new HighScoreJSON(player.name, player.cash));
+            HighScoreUtil.writeScore(new HighScoreJSON(player.name, player.cash, player.iconId));
         } catch (ArbitrageException ex) {
             Logger.info("Arbitrage exception when saving high score " + ex.getMessage());
         }        
@@ -101,8 +101,8 @@ public class Application extends Controller {
         }
     }
     
-    public static void setHighScore(String name, int cash) {
-        HighScoreJSON newHighScore = new HighScoreJSON(name, cash);
+    public static void setHighScore(String name, int cash, int iconId) {
+        HighScoreJSON newHighScore = new HighScoreJSON(name, cash, iconId);
         try {
             HighScoreUtil.writeScore(newHighScore);
         } catch (ArbitrageException ex) {

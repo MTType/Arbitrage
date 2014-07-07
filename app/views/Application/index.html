@@ -30,16 +30,16 @@
         <h2>High Scores</h2>
         
         <table>
-            <tr><td id="highscorename1"></td><td id="highscore1" class="score"></td></tr>
-            <tr><td id="highscorename2"></td><td id="highscore2" class="score"></td></tr>
-            <tr><td id="highscorename3"></td><td id="highscore3" class="score"></td></tr>
-            <tr><td id="highscorename4"></td><td id="highscore4" class="score"></td></tr>
-            <tr><td id="highscorename5"></td><td id="highscore5" class="score"></td></tr>
-            <tr><td id="highscorename6"></td><td id="highscore6" class="score"></td></tr>
-            <tr><td id="highscorename7"></td><td id="highscore7" class="score"></td></tr>
-            <tr><td id="highscorename8"></td><td id="highscore8" class="score"></td></tr>
-            <tr><td id="highscorename9"></td><td id="highscore9" class="score"></td></tr>
-            <tr><td id="highscorename10"></td><td id="highscore10" class="score"></td></tr>
+            <tr><td id="iconId1"></td><td id="highscorename1"></td><td id="highscore1" class="score"></td></tr>
+            <tr><td id="iconId2"></td><td id="highscore2" class="score"></td></tr>
+            <tr><td id="iconId3"></td><td id="highscore3" class="score"></td></tr>
+            <tr><td id="iconId4"></td><td id="highscore4" class="score"></td></tr>
+            <tr><td id="iconId5"></td><td id="highscore5" class="score"></td></tr>
+            <tr><td id="iconId6"></td><td id="highscore6" class="score"></td></tr>
+            <tr><td id="iconId7"></td><td id="highscore7" class="score"></td></tr>
+            <tr><td id="iconId8"></td><td id="highscore8" class="score"></td></tr>
+            <tr><td id="iconId9"></td><td id="highscore9" class="score"></td></tr>
+            <tr><td id="iconId10"></td><td id="highscore10" class="score"></td></tr>
         </table>
     </div>
 
@@ -59,20 +59,13 @@
             success: function(json){
                 var scoreCount = 1;
                 for (var i in json) {
+                    document.getElementById("iconId" + scoreCount).innerHTML = json[i].iconId;
                     document.getElementById("highscorename" + scoreCount).innerHTML = json[i].name;
                     document.getElementById("highscore" + scoreCount).innerHTML = json[i].score;
                     scoreCount++;
                 }  
             }
         });
-    }
-    
-    function testHighScore(){
-        $.ajax({
-            url: 'http://localhost:9000/setHighScore?name=Owen&cash=1000000',
-            type: 'GET',
-            dataType: 'text',            
-        });  
     }
 </script>
     

@@ -102,7 +102,7 @@ public class ExchangeManager {
         List<Request> exchangeRequests = Request.find("byExchange", exchange).fetch();
         for (Request request: exchangeRequests) {
             if (request.expiretime.before(new Date())) {
-                Logger.info("removing expired request with timestamp: " + request.expiretime);
+                //Logger.info("removing expired request with timestamp: " + request.expiretime);
                 removeRequest(exchange, request.id);
             }
         }
@@ -196,7 +196,7 @@ public class ExchangeManager {
         for (ExchangeCode exchangeCode: ExchangeCode.values()) {
             List<Request> exchangeRequests = Request.find("byExchange", Exchange.find("byExchangeCode", exchangeCode).fetch()).fetch();
             for (Request request: exchangeRequests) {
-                Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
+                //Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
             }
         }
     }
@@ -205,7 +205,7 @@ public class ExchangeManager {
     public void printRequests(Exchange exchange){
         List<Request> exchangeRequests = Request.find("byExchange", exchange).fetch();
         for (Request request: exchangeRequests) {
-            Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
+            //Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
         }
     }
     
@@ -214,14 +214,14 @@ public class ExchangeManager {
         List<Request> exchangeRequests = Request.find("byExchange", exchange).fetch();
         if (loc < exchangeRequests.size() && loc > 0) {
             Request request = exchangeRequests.get(loc);
-            Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
+            //Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
         }
     }
     
     @Transactional
     public void printRequest(long requestId){
         Request request = Request.findById(requestId);
-        Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
+        //Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
     }
     
     @Transactional

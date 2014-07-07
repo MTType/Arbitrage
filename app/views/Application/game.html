@@ -17,7 +17,7 @@
 
 <div id="portfolio">
     <div id="info">
-       <div id="user"><img src="@{'/public/images/user.png'}" alt="user icon"><h3 id="userHeader"></h3></div><div id="money" ><img src="@{'/public/images/money.png'}" alt="money"><h3 id="moneyHeader"></h3></div><div id="time"><img src="@{'/public/images/time.png'}" alt="clock"><h3 id="timeHeader"></h3></div></div>
+        <div id="user"><h3 id="userHeader"></h3></div><div id="money" ><img src="@{'/public/images/money.png'}" alt="money"><h3 id="moneyHeader"></h3></div><div id="time"><img src="@{'/public/images/time.png'}" alt="clock"><h3 id="timeHeader"></h3></div></div>
        <div id="assets"><div id="pork"><img src="@{'/public/images/pork.png'}" alt="pork bellies"><h3 id="porkHeader"></h3></div><div id="frozen"><img src="@{'/public/images/frozen.png'}" alt="frozen orange juice"><h3 id="frozenHeader"></h3></div><div id="soy"><img src="@{'/public/images/soy.png'}" alt="soy beans"><h3 id="soyHeader"></h3></div>
     </div>
 </div>
@@ -61,11 +61,14 @@
             type: 'GET',
             dataType: 'json',
             success: function(json){
-                if(Object.keys(json).length !== 6){
-                    return;
-                }
-
-                var name = document.getElementById('userHeader');
+                               
+                var icon =document.getElementById('user');
+                var iconId = document.createElement("img");
+                iconId.setAttribute("src","@{'/public/images/user.png'}");
+                iconId.setAttribute("alt", "user icon");
+                icon.appendChild(iconId);
+                
+                var name = document.getElementById('userHeader');                
                 name.innerHTML = "Trader: " + json["name"];
                 
                 var money = document.getElementById('moneyHeader');

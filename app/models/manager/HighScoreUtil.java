@@ -18,7 +18,6 @@ import play.Logger;
 public class HighScoreUtil {
 
     private final static String HIGHSCORE_FILE = new File("").getAbsolutePath() + File.separator + "bigbang_highscores.txt";
-    private static final int NUMBER_OF_SCORES = 20;
     
     public static void writeScore(HighScoreJSON highScore) throws ArbitrageException {
         File file = new File(HIGHSCORE_FILE);
@@ -47,8 +46,7 @@ public class HighScoreUtil {
             BufferedReader reader = new BufferedReader(new FileReader(HIGHSCORE_FILE));
             
             String nextLine;
-            int scoreCount=0;
-            while ((nextLine = reader.readLine()) != null && scoreCount<NUMBER_OF_SCORES) { 
+            while ((nextLine = reader.readLine()) != null) { 
                 try{
                     if (new Gson().fromJson(nextLine, HighScoreJSON.class) != null) { 
                         HighScoreJSON newHighScore = new Gson().fromJson(nextLine, HighScoreJSON.class);
@@ -59,7 +57,6 @@ public class HighScoreUtil {
                             if (highScores.get(i).getScore() < newHighScore.getScore()) {
                                 highScores.add(i, newHighScore); 
                                 scoreInserted = true;
-                                scoreCount++;
                             }
                             i++;
                         }

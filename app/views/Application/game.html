@@ -134,7 +134,26 @@
     
     function appendButton(exchangeNode, json) {
         var button = document.createElement("BUTTON");
-        var t=document.createTextNode(json.assetTypeString + "  " + json.requestTypeString + "  " + json.quantity + "  " + json.pricePerUnit);
+        var assetType;
+        
+        if(json.assetTypeString === "PB"){
+            assetType = "PB";
+        }
+        if(json.assetTypeString === "OJ"){
+            assetType = "OJ";
+        }
+        if(json.assetTypeString === "SB"){
+            assetType = "SB";
+        }
+        
+        if(json.requestTypeString === "BUY"){
+            requestType = "Buy";
+        }
+        if(json.requestTypeString === "SELL"){
+            requestType = "Sell";
+        }
+        
+        var t=document.createTextNode(requestType + "  " +  json.quantity  + "  " + assetType + " at £" + json.pricePerUnit + " each");
         if (json.assetTypeString === "PB") {
             button.className="pb";
         } else if (json.assetTypeString === "OJ") {

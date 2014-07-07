@@ -30,7 +30,9 @@ public class Application extends Controller {
         render();
     }
     
-    public static void player() {  
+    public static void player() {
+        Logger.info("Resetting DB");
+        Fixtures.deleteDatabase();
         render();
     }
     
@@ -120,6 +122,8 @@ public class Application extends Controller {
    
     
     public static void newPlayer(String name, int startingCash, int iconId){ 
+        Logger.info("Resetting DB");
+        Fixtures.deleteDatabase();
         playerManager.createPlayer(name, startingCash, iconId);
         
     }

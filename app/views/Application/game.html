@@ -17,7 +17,7 @@
 
 <div id="portfolio">
     <div id="info">
-        <div id="user"><h3 id="userHeader"></h3></div><div id="money" ><img src="@{'/public/images/money.png'}" alt="money"><h3 id="moneyHeader"></h3></div><div id="time"><img src="@{'/public/images/time.png'}" alt="clock"><h3 id="timeHeader"></h3></div></div>
+        <div id="trader"><img id="user"></><h3 id="userHeader"></h3></div><div id="money" ><img src="@{'/public/images/money.png'}" alt="money"><h3 id="moneyHeader"></h3></div><div id="time"><img src="@{'/public/images/time.png'}" alt="clock"><h3 id="timeHeader"></h3></div></div>
        <div id="assets"><div id="pork"><img src="@{'/public/images/pork.png'}" alt="pork bellies"><h3 id="porkHeader"></h3></div><div id="frozen"><img src="@{'/public/images/frozen.png'}" alt="frozen orange juice"><h3 id="frozenHeader"></h3></div><div id="soy"><img src="@{'/public/images/soy.png'}" alt="soy beans"><h3 id="soyHeader"></h3></div>
     </div>
 </div>
@@ -62,11 +62,10 @@
             dataType: 'json',
             success: function(json){
                                
-                var icon =document.getElementById('user');
-                var iconId = document.createElement("img");
-                iconId.setAttribute("src","@{'/public/images/user.png'}");
-                iconId.setAttribute("alt", "user icon");
-                icon.appendChild(iconId);
+                var iconImage =document.getElementById('user');                
+                setIcon(iconImage, json["iconId"]);
+                iconImage.setAttribute("alt", "user icon");
+                
                 
                 var name = document.getElementById('userHeader');                
                 name.innerHTML = "Trader: " + json["name"];
@@ -87,6 +86,25 @@
                 soy.innerHTML = "Soy Beans: " + json["soyBeans"];
             }
         });
+    }
+    
+    function setIcon(iconImage, iconId){
+        if(iconId === 0){
+            iconImage.setAttribute("src", "@{'/public/images/rainbowicon.png'}");
+        }else
+        if(iconId === 1){
+            iconImage.setAttribute("src", "@{'/public/images/atomicon.png'}");
+        }else
+        if(iconId === 2){
+            iconImage.setAttribute("src", "@{'/public/images/painticon.png'}");
+        }else
+        if(iconId === 3){
+            iconImage.setAttribute("src", "@{'/public/images/sunflowericon.png'}");
+        }else
+        if(iconId === 4){
+            iconImage.setAttribute("src", "@{'/public/images/rocketicon.png'}");
+        }
+        
     }
     
     function getRequests(exchangeCode) {

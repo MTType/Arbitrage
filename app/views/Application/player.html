@@ -34,12 +34,28 @@
     <input id="nameIn" type="text" name="playername" maxlength="15" />
 
     <h2>Choose your icon:</h2>
+    
+    
     <div id="icons">
-        <img class="icon" src="@{'/public/images/icon.png'}" alt="">
-        <img class="icon" src="@{'/public/images/icon.png'}" alt="">
-        <img class="icon" src="@{'/public/images/icon.png'}" alt="">
-        <img class="icon" src="@{'/public/images/icon.png'}" alt="">
-        <img class="icon" src="@{'/public/images/icon.png'}" alt="">
+        
+    <div class="radios">
+    <input type="radio" name="rGroup" value="1" id="r1" />
+    <label class="icon" for="r1" id="rainbow"></label>
+    <input type="radio" name="rGroup" value="2" id="r2" />
+    <label class="icon" for="r2" id="atom"></label>
+    <input type="radio" name="rGroup" value="3" id="r3" />
+    <label class="icon" for="r3" id="paint"></label>
+    <input type="radio" name="rGroup" value="4" id="r4" />
+    <label class="icon" for="r4" id="flower"></label>
+    <input type="radio" name="rGroup" value="5" id="r5" />
+    <label class="icon" for="r5" id="rocket"></label>
+    </div>
+
+        <!--<img class="icon" src="@{'/public/images/rainbow.png'}" alt="">
+        <img class="icon" src="@{'/public/images/atom.png'}" alt="">
+        <img class="icon" src="@{'/public/images/paint.png'}" alt="">
+        <img class="icon" src="@{'/public/images/sunflower.png'}" alt="">
+        <img class="icon" src="@{'/public/images/rocket.png'}" alt="">-->
     </div>
 
     <div id="backforward">

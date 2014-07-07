@@ -14,9 +14,9 @@ h3 { font-size: 18px; }
 
 /*INDEX*/
 
-#title { display: inline-block; width: 810px; }
+#title { display: inline-block; width: 810px; margin-top: 160px; }
 
-#index h1 { display: inline-block; margin-top: 200px; }
+#index h1 { display: inline-block; }
 
 #highscores { background: #E9FCFF; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; width: 300px; float: right; display: inline; margin-top: 100px; padding: 40px;}
 #highscores img { width: 150px; height: inherit; margin: 0px auto 20px auto; display: block;}
@@ -50,30 +50,30 @@ input:focus { outline: none; }
 #commodities img { width: 80px; height: inherit; margin: 0px 10px -20px 10px; }
 #commodities h1 { margin-left: 8px; }
 
-.radios { width: 890px; margin-top: 50px;  }
+.radios { width: 910px; margin-top: 50px;  padding: 10px}
 
 .radios .icon{
   
     display:inline-block;
-    width:112px;
-    height:112px;
-    -webkit-border-radius: 50%; 
-    moz-border-radius: 50%; 
-    border-radius: 50%;
+    width:100px;
+    height:100px;
+    padding: 6px;
     background-repeat: no-repeat;
     margin: 0px 4px;
 }
 
-.radios #rainbow { background-image: url('http://i.imgur.com/nzI8MVZ.png');  }
-.radios #atom { background-image: url('http://i.imgur.com/vm7g844.png'); }
-.radios #paint { background-image: url('http://i.imgur.com/gJE1GA4.png'); }
-.radios #flower { background-image: url('http://i.imgur.com/pbPy3w9.png'); }
-.radios #rocket { background-image: url('http://i.imgur.com/8Ht2PHX.png'); }
+.radios #rainbow { background-image: url('../images/rainbowicon.png');  }
+.radios #atom { background-image: url('../images/atomicon.png'); }
+.radios #paint { background-image: url('../images/painticon.png'); }
+.radios #flower { background-image: url('../images/sunflowericon.png'); }
+.radios #rocket { background-image: url('../images/rocketicon.png'); }
 .radios input[type=radio]{ display:none } 
 
 .radios input[type=radio]:checked + .icon{  width:100px;
     height:100px;
-    border: solid 6px #1E98BA; }
+    border: solid 6px #1E98BA;     -webkit-border-radius: 50%; 
+    moz-border-radius: 50%; 
+    border-radius: 50%; margin: -6px 6px 6px -6px; padding: 0px; }
 
 #backforward { width: 400px; margin: 60px auto 0px auto; }
 #backbackground, #forwardsbackground{ width: 120px; height: 120px; -moz-border-radius: 50%; -webkit-border-radius: 50%;  border-radius: 50%; background: #3BC4EA; padding: 20px; display: inline-block;}
@@ -153,3 +153,9 @@ padding: 40px; background: #E9FCFF; -webkit-border-radius: 20px; -moz-border-rad
 #game #quit a  { text-decoration: none!important; }
 
 #game .instructions , #game #highscores  , #game #pause , #game #quit { border: 6px solid #73D1E4;}
+
+/*END SCREEN */
+
+#endscreen h1 { font-size: 120px; }
+
+#left {}

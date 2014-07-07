@@ -8,6 +8,7 @@ GET     /index                                  Application.index
 GET     /player                                 Application.player
 GET     /game                                   Application.game
 GET     /exit                                   Application.exit
+GET     /endscreen                              Application.endscreen    
 GET     /getInitialRequests                     Application.getRequests
 GET     /getHighScores                          Application.getHighScores
 GET     /getPlayer                              Application.getPlayer

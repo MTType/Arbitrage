@@ -55,6 +55,10 @@ public class Application extends Controller {
         renderTemplate("Application/index.html");
     }
     
+    public static void endscreen(){
+        render();
+    }
+    
     public static void getRequests(String exchangeCode) {
         List<RequestJSON> requestJSONS = exchangeManager.getRequestJSONs(ExchangeCode.valueOf(exchangeCode.toUpperCase()));
         renderJSON(requestJSONS);

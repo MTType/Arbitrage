@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ARBITRAGE!</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="@{'/public/stylesheets/styles.css'}">
+	<link href='http://fonts.googleapis.com/css?family=Quicksand:400,700' rel='stylesheet' type='text/css'>
+        
+    </head>
+    
+<body id="endscreen">
+    <div class="content">
+        
+    <div id="title">
+    <h1>Well Done!</h1> 
+    
+    <div id="stats">
+        <h2>Your Stats</h2>
+        You finished the game with:
+        £?????
+        
+        You traded:
+        ???? pork bellies
+        ???? frozen orange juice
+        ???? soy beans
+    </div>
+    
+    <a href="index"><button class="link" id="exit"><h3>Exit</h3></button></a>
+    
+    </div>
+        
+    <div id="highscores">
+        <img src="@{'/public/images/trophy.png'}" alt="trophy">
+        <h2>High Scores</h2>
+        <table>
+            <tr><td id="highscorename1"></td><td id="highscore1" class="score"></td></tr>
+            <tr><td id="highscorename2"></td><td id="highscore2" class="score"></td></tr>
+            <tr><td id="highscorename3"></td><td id="highscore3" class="score"></td></tr>
+            <tr><td id="highscorename4"></td><td id="highscore4" class="score"></td></tr>
+            <tr><td id="highscorename5"></td><td id="highscore5" class="score"></td></tr>
+            <tr><td id="highscorename6"></td><td id="highscore6" class="score"></td></tr>
+            <tr><td id="highscorename7"></td><td id="highscore7" class="score"></td></tr>
+            <tr><td id="highscorename8"></td><td id="highscore8" class="score"></td></tr>
+            <tr><td id="highscorename9"></td><td id="highscore9" class="score"></td></tr>
+            <tr><td id="highscorename10"></td><td id="highscore10" class="score"></td></tr>
+        </table>
+    </div>
+         
+     </div>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script>
+    window.onload = function() {
+        updateHighScores();
+    }
+    
+    function updateHighScores(){
+        $.ajax({
+            url: 'http://localhost:9000/getHighScores',
+            type: 'GET',
+            dataType: 'json',
+            success: function(json){
+                var scoreCount = 1;
+                for (var i in json) {
+                    document.getElementById("highscorename" + scoreCount).innerHTML = json[i].name;
+                    document.getElementById("highscore" + scoreCount).innerHTML = json[i].score;
+                    scoreCount++;
+                }  
+            }
+        });
+    }
+    
+    function testHighScore(){
+        $.ajax({
+            url: 'http://localhost:9000/setHighScore?name=Owen&cash=1000000',
+            type: 'GET',
+            dataType: 'text',            
+        });  
+    }
+</script>
+</body>

@@ -69,8 +69,6 @@ public class Application extends Controller {
     }
     
     public static void getPlayer(){
-        Logger.info("Getting player info "); 
-        Logger.info(new Gson().toJson(playerManager.getPlayerJSON())); 
         renderJSON(playerManager.getPlayerJSON());
     }
     
@@ -115,19 +113,19 @@ public class Application extends Controller {
         public static void requestUpdate() {
             while(inbound.isOpen()) {
                 String message = (String)await(EventHandler.instance.event.nextEvent());
-                //Logger.info("websocket has a new event");  
-                
                 outbound.sendJson(message);
             }
         }
     }
-   
     
-    public static void newPlayer(String name, int startingCash, int iconId){ 
+    public static void newPlayer(String name, int startingCash, int iconId) { 
         Logger.info("Resetting DB");
         Fixtures.deleteDatabase();
         playerManager.createPlayer(name, startingCash, iconId);
-        
+    }
+    
+    public static void getPlayerInformation() {
+        renderJSON(playerManager.getPlayerJSON());
     }
     
 }

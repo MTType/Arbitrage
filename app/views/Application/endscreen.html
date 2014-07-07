@@ -18,12 +18,10 @@
     </div>
     <div id="stats">
         <h2>Your Stats</h2>
-        <p>You finished the game with:
-            £?????</p>
-        
-        <p>???? pork bellies eaten</p>
-        <p>???? frozen orange juice melted</p>
-        <p>???? soy beans traded</p>
+        <p id="playerCash"></p>
+        <p id="playerPB"></p>
+        <p id="playerOJ"></p>
+        <p id="playerSB"></p>
     </div>
     
     <a href="index"><button ><h3>Exit</h3></button></a>
@@ -54,6 +52,7 @@
 <script>
     window.onload = function() {
         updateHighScores();
+        getPlayerInformation();
     }
     
     function updateHighScores(){
@@ -68,6 +67,27 @@
                     document.getElementById("highscore" + scoreCount).innerHTML = json[i].score;
                     scoreCount++;
                 }  
+            }
+        });
+    }
+    
+    function getPlayerInformation(){
+        $.ajax({
+            url: 'http://localhost:9000/getPlayerInformation',
+            type: 'GET',
+            dataType: 'json',
+            success: function(json){            
+                var cash = document.getElementById('playerCash');
+                cash.innerHTML = "You finished the game with: £ " + json["cash"];
+                
+                var playerPB = document.getElementById('playerPB');
+                playerPB.innerHTML = json["porkBelliesTotal"] + " pork bellies eaten";
+                
+                var playerOJ = document.getElementById('playerOJ');
+                playerOJ.innerHTML = json["frozenOrangeJuiceTotal"] + " frozen orange juice melted";
+                
+                var playerSB = document.getElementById('playerSB');
+                playerSB.innerHTML = json["soyBeansTotal"] + " soy beans traded";
             }
         });
     }

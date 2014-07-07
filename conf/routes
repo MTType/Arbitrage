@@ -16,6 +16,7 @@ GET     /acceptRequest                          Application.acceptRequest
 GET     /getHighScores                          Application.getHighScores
 GET     /setHighScore                           Application.setHighScore
 GET     /newPlayer                              Application.newPlayer
+GET     /getPlayerInformation                   Application.getPlayerInformation
 
 WS      /requestSocket                          Application.RequestSocket.requestUpdate
 

@@ -18,19 +18,16 @@ public class GameJob extends Job{
     @Override
     public void doJob() {
         if (Exchange.findAll().size() > 0) {
-            Logger.info("The game has started!");
             List<Exchange> exchanges = Exchange.findAll();
 
             for (Exchange exchange: exchanges) {
-                //Logger.info("Looping through exchange: " + exchange.exchangeCode);
                 exchangeManager.removeOldRequests(exchange);
-                //Logger.info("Removed old requests, current requests are: ");
                 exchangeManager.printRequests(exchange);
             }
             
             playerManager.printPlayer();
         } else {
-            Logger.info("Game hasn't started yet");
+            //Logger.info("Game hasn't started yet");
         }
     }
 }

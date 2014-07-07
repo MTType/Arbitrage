@@ -49,19 +49,33 @@
 </div>
 
 <script>
+    var countDownSeconds = 300;
+    
     window.onload = function() {
         updateHighScores();
         updatePlayer();
         requestUpdater();
-        document.getElementById("timeHeader").value = '300';
+        document.getElementById("timeHeader").innerHTML = "5 minutes";
     }
-
+    
     function updateCounter() {
-        var seconds = document.getElementById("timeHeader").value;
-        document.getElementById("timeHeader").value = seconds - 1;
+        countDownSeconds--;
+        
+        if (countDownSeconds <= 0) {
+            window.location.href = "endscreen";
+        }
+        
+        var minutes = parseInt(countDownSeconds/60);
+        var seconds = countDownSeconds - minutes * 60;
+        if (minutes === 0) {
+            document.getElementById("timeHeader").innerHTML = seconds + " seconds";
+        } else if (seconds === 0) {
+            document.getElementById("timeHeader").innerHTML = minutes + " minutes";
+        } else {
+            document.getElementById("timeHeader").innerHTML = minutes + " minutes " + seconds + " seconds";
+        }
     }
-    setTimeout("updateCounter()",1000); 
-
+    setInterval(function(){updateCounter()},1000); 
     
     function updatePlayer(){
         $.ajax({
@@ -73,17 +87,13 @@
                 var iconImage =document.getElementById('user');                
                 setIcon(iconImage, json["iconId"]);
                 iconImage.setAttribute("alt", "user icon");
-                
-                
+
                 var name = document.getElementById('userHeader');                
                 name.innerHTML = "Trader: " + json["name"];
                 
                 var money = document.getElementById('moneyHeader');
                 money.innerHTML = "Money: " + json["cash"];
 
-                var time = document.getElementById('timeHeader');
-                time.innerHTML = "Time Remaining: FIX THIS" ;//+ json[5];
-                
                 var pork = document.getElementById('porkHeader');
                 pork.innerHTML = "Pork Bellies: " + json["porkBellies"];
                 

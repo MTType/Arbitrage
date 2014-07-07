@@ -60,6 +60,12 @@ public class Application extends Controller {
     }
     
     public static void endscreen(){
+        HighScoreJSON newHighScore = new HighScoreJSON(playerManager.getPlayer().name, playerManager.getPlayer().cash);
+        try {
+            HighScoreUtil.writeScore(newHighScore);
+        } catch (ArbitrageException ex) {
+            Logger.error("Arbitrage exception, can't write score to file: " + ex.getMessage());
+        }
         render();
     }
     
@@ -101,6 +107,7 @@ public class Application extends Controller {
     
     public static void setHighScore(String name, int cash) {
         HighScoreJSON newHighScore = new HighScoreJSON(name, cash);
+        Logger.error("writing high score: " + name + ", " + cash);
         try {
             HighScoreUtil.writeScore(newHighScore);
         } catch (ArbitrageException ex) {
@@ -127,5 +134,6 @@ public class Application extends Controller {
     public static void getPlayerInformation() {
         renderJSON(playerManager.getPlayerJSON());
     }
+    
     
 }

@@ -4,20 +4,22 @@ import java.util.Date;
 
 public class PlayerJSON {
     
-    String name;
+    private String name;    
     private int porkBellies;
     private int frozenOrangeJuice;
     private int soyBeans;
     private float cash;
     private Date startTime;
+    private int iconId;
 
-    public PlayerJSON(String name, int porkBellies, int frozenOrangeJuice, int soyBeans, float cash, Date startTime) {
+    public PlayerJSON(String name, int porkBellies, int frozenOrangeJuice, int soyBeans, float cash, Date startTime, int iconId) {
         this.name = name;
         this.porkBellies = porkBellies;
         this.frozenOrangeJuice = frozenOrangeJuice;
         this.soyBeans = soyBeans;
         this.cash = cash;
         this.startTime = startTime;
+        this.iconId = iconId;
     }
 
     public String getName() {
@@ -44,6 +46,10 @@ public class PlayerJSON {
         return startTime;
     }
 
+    public int getIconId() {
+        return iconId;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -66,6 +72,10 @@ public class PlayerJSON {
 
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
+    }
+
+    public void setIconId(int iconId) {
+        this.iconId = iconId;
     }
     
     

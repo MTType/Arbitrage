@@ -17,8 +17,9 @@ public class PlayerManager {
     Player player;
     
     @Transactional
-    public void createPlayer(String name, int startingCash) {
-        player = new Player(name, startingCash, new Date()); 
+    public void createPlayer(String name, int startingCash, int iconId) {
+        
+        player = new Player(name, startingCash, iconId, new Date()); 
         player.put(AssetType.PB, 0);
         player.put(AssetType.OJ, 0);
         player.put(AssetType.SB, 0);
@@ -104,7 +105,8 @@ public class PlayerManager {
     
     public PlayerJSON getPlayerJSON(){    
         player = (Player) Player.findAll().get(0);
-        return new PlayerJSON(player.name, player.getAssets().get(AssetType.PB), player.getAssets().get(AssetType.OJ), player.getAssets().get(AssetType.SB), player.cash, player.startTime);
+        Logger.info("Player name: " + player.name + " Icon Id: " + player.iconId);
+        return new PlayerJSON(player.name, player.getAssets().get(AssetType.PB), player.getAssets().get(AssetType.OJ), player.getAssets().get(AssetType.SB), player.cash, player.startTime, player.iconId);
     }
 
 }

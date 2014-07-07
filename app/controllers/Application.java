@@ -111,7 +111,7 @@ public class Application extends Controller {
         public static void requestUpdate() {
             while(inbound.isOpen()) {
                 String message = (String)await(EventHandler.instance.event.nextEvent());
-                Logger.info("websocket has a new event");  
+                //Logger.info("websocket has a new event");  
                 
                 outbound.sendJson(message);
             }
@@ -119,8 +119,9 @@ public class Application extends Controller {
     }
    
     
-    public static void newPlayer(String name, int startingCash){ 
-        playerManager.createPlayer(name, startingCash);        
+    public static void newPlayer(String name, int startingCash, int iconId){ 
+        playerManager.createPlayer(name, startingCash, iconId);
+        
     }
     
 }

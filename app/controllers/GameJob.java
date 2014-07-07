@@ -22,9 +22,9 @@ public class GameJob extends Job{
             List<Exchange> exchanges = Exchange.findAll();
 
             for (Exchange exchange: exchanges) {
-                Logger.info("Looping through exchange: " + exchange.exchangeCode);
+                //Logger.info("Looping through exchange: " + exchange.exchangeCode);
                 exchangeManager.removeOldRequests(exchange);
-                Logger.info("Removed old requests, current requests are: ");
+                //Logger.info("Removed old requests, current requests are: ");
                 exchangeManager.printRequests(exchange);
             }
             

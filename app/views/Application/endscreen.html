@@ -33,16 +33,16 @@
         <img src="@{'/public/images/trophy.png'}" alt="trophy">
         <h2>High Scores</h2>
         <table>
-            <tr><td id="iconId1"></td><td id="highscorename1"></td><td id="highscore1" class="score"></td></tr>
-            <tr><td id="iconId2"></td><td id="highscore2" class="score"></td></tr>
-            <tr><td id="iconId3"></td><td id="highscore3" class="score"></td></tr>
-            <tr><td id="iconId4"></td><td id="highscore4" class="score"></td></tr>
-            <tr><td id="iconId5"></td><td id="highscore5" class="score"></td></tr>
-            <tr><td id="iconId6"></td><td id="highscore6" class="score"></td></tr>
-            <tr><td id="iconId7"></td><td id="highscore7" class="score"></td></tr>
-            <tr><td id="iconId8"></td><td id="highscore8" class="score"></td></tr>
-            <tr><td id="iconId9"></td><td id="highscore9" class="score"></td></tr>
-            <tr><td id="iconId10"></td><td id="highscore10" class="score"></td></tr>
+            <tr><td id="iconId1"><img id="userHSIcon1"></></td><td id="highscorename1"></td><td id="highscore1" class="score"></td></tr>
+            <tr><td id="iconId2"><img id="userHSIcon2"></></td><td id="highscorename2"></td><td id="highscore1"  class="score"></td></tr>
+            <tr><td id="iconId3"><img id="userHSIcon3"></></td><td id="highscorename3"></td><td id="highscore1"  class="score"></td></tr>
+            <tr><td id="iconId4"><img id="userHSIcon4"></></td><td id="highscorename4"></td><td id="highscore1"  class="score"></td></tr>
+            <tr><td id="iconId5"><img id="userHSIcon5"></></td><td id="highscorename5"></td><td id="highscore1"  class="score"></td></tr>
+            <tr><td id="iconId6"><img id="userHSIcon6"></></td><td id="highscorename6"></td><td id="highscore1"  class="score"></td></tr>
+            <tr><td id="iconId7"><img id="userHSIcon7"></></td><td id="highscorename7"></td><td id="highscore1"  class="score"></td></tr>
+            <tr><td id="iconId8"><img id="userHSIcon8"></></td><td id="highscorename8"></td><td id="highscore1"  class="score"></td></tr>
+            <tr><td id="iconId9"><img id="userHSIcon9"></></td><td id="highscorename9"></td><td id="highscore1"  class="score"></td></tr>
+            <tr><td id="iconId10"><img id="userHSIcon10"></></td><td id="highscorename10"></td><td id="highscore1"  class="score"></td></tr>
         </table>
     </div>
          
@@ -62,14 +62,37 @@
             dataType: 'json',
             success: function(json){
                 var scoreCount = 1;
+                var HSIcon;  
                 for (var i in json) {
-                    document.getElementById("iconId" + scoreCount).innerHTML = json[i].iconId;
+                    HSIcon = document.getElementById('userHSIcon' + scoreCount);
+                    setIcon(HSIcon, json[i].iconId);
+                    HSIcon.setAttribute("alt", "user icon");
+                    HSIcon.setAttribute("class", "iconFaceType");
                     document.getElementById("highscorename" + scoreCount).innerHTML = json[i].name;
                     document.getElementById("highscore" + scoreCount).innerHTML = json[i].score;
                     scoreCount++;
                 }  
             }
         });
+    }
+    
+    function setIcon(iconImage, iconId){
+        if(iconId === 0){
+            iconImage.setAttribute("src", "@{'/public/images/rainbowicon.png'}");
+        }else
+        if(iconId === 1){
+            iconImage.setAttribute("src", "@{'/public/images/atomicon.png'}");
+        }else
+        if(iconId === 2){
+            iconImage.setAttribute("src", "@{'/public/images/painticon.png'}");
+        }else
+        if(iconId === 3){
+            iconImage.setAttribute("src", "@{'/public/images/sunflowericon.png'}");
+        }else
+        if(iconId === 4){
+            iconImage.setAttribute("src", "@{'/public/images/rocketicon.png'}");
+        }
+        
     }
     
     function getPlayerInformation(){

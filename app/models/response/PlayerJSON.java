@@ -11,8 +11,11 @@ public class PlayerJSON {
     private float cash;
     private Date startTime;
     private int iconId;
+    private int porkBelliesTotal;
+    private int frozenOrangeJuiceTotal;
+    private int soyBeansTotal;
 
-    public PlayerJSON(String name, int porkBellies, int frozenOrangeJuice, int soyBeans, float cash, Date startTime, int iconId) {
+    public PlayerJSON(String name, int porkBellies, int frozenOrangeJuice, int soyBeans, float cash, Date startTime, int iconId, int porkBelliesTotal, int frozenOrangeJuiceTotal, int soyBeansTotal) {
         this.name = name;
         this.porkBellies = porkBellies;
         this.frozenOrangeJuice = frozenOrangeJuice;
@@ -20,6 +23,9 @@ public class PlayerJSON {
         this.cash = cash;
         this.startTime = startTime;
         this.iconId = iconId;
+        this.porkBelliesTotal = porkBelliesTotal;
+        this.frozenOrangeJuiceTotal = frozenOrangeJuiceTotal;
+        this.soyBeansTotal = soyBeansTotal;
     }
 
     public String getName() {
@@ -77,7 +83,29 @@ public class PlayerJSON {
     public void setIconId(int iconId) {
         this.iconId = iconId;
     }
-    
-    
+
+    public int getPorkBelliesTotal() {
+        return porkBelliesTotal;
+    }
+
+    public void setPorkBelliesTotal(int porkBelliesTotal) {
+        this.porkBelliesTotal = porkBelliesTotal;
+    }
+
+    public int getFrozenOrangeJuiceTotal() {
+        return frozenOrangeJuiceTotal;
+    }
+
+    public void setFrozenOrangeJuiceTotal(int frozenOrangeJuiceTotal) {
+        this.frozenOrangeJuiceTotal = frozenOrangeJuiceTotal;
+    }
+
+    public int getSoyBeansTotal() {
+        return soyBeansTotal;
+    }
+
+    public void setSoyBeansTotal(int soyBeansTotal) {
+        this.soyBeansTotal = soyBeansTotal;
+    }
     
 }

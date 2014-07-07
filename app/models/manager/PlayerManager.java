@@ -60,7 +60,6 @@ public class PlayerManager {
 
     @Transactional
     private void incAssetAmount(AssetType asset, int inc) {
-        Logger.info("changing amount of " + asset.name() + " by this amount: " + inc);
         player = (Player) Player.findAll().get(0);
         player.getAssets().put(asset, player.getAssets().get(asset) + inc);
         player.save();
@@ -76,7 +75,6 @@ public class PlayerManager {
             } else { 
                 incAssetAmount(request.assetType, request.quantity);
                 player.cash -= request.pricePerUnit*request.quantity;
-                //TODO increase the buy volume on the appropriate exchange
                 player.save();
             }
         } else {
@@ -85,7 +83,7 @@ public class PlayerManager {
             } else {
                 incAssetAmount(request.assetType, -request.quantity);
                 player.cash += request.pricePerUnit*request.quantity;
-                //TODO increase the sell volume on teh appropriate exchange
+                player.addToTotals(request.assetType, request.quantity);
                 player.save();
             }
         }
@@ -94,19 +92,18 @@ public class PlayerManager {
     
     public void printPlayer() {
         player = (Player) Player.findAll().get(0);
-        Logger.info("Player info:");
-        Logger.info("   name: " + player.name);
-        Logger.info("   cash: " + player.cash);
-        Logger.info("   asset list size: " + player.getAssets().size()); 
+        //Logger.info("Player info:");
+        //Logger.info("   name: " + player.name);
+        //Logger.info("   cash: " + player.cash);
+        //Logger.info("   asset list size: " + player.getAssets().size()); 
         for (Map.Entry<AssetType, Integer> entry : player.getAssets().entrySet()) {
-            Logger.info("   " + entry.getKey().name() + ": " + entry.getValue()); 
+            //Logger.info("   " + entry.getKey().name() + ": " + entry.getValue()); 
         }
     }
     
     public PlayerJSON getPlayerJSON(){    
         player = (Player) Player.findAll().get(0);
-        Logger.info("Player name: " + player.name + " Icon Id: " + player.iconId);
-        return new PlayerJSON(player.name, player.getAssets().get(AssetType.PB), player.getAssets().get(AssetType.OJ), player.getAssets().get(AssetType.SB), player.cash, player.startTime, player.iconId);
+        return new PlayerJSON(player.name, player.getAssets().get(AssetType.PB), player.getAssets().get(AssetType.OJ), player.getAssets().get(AssetType.SB), player.cash, player.startTime, player.iconId, player.getAssetTotals().get(AssetType.PB), player.getAssetTotals().get(AssetType.OJ), player.getAssetTotals().get(AssetType.SB));
     }
 
 }

@@ -20,11 +20,17 @@ public class Player extends Model {
     @ElementCollection
     private Map<AssetType, Integer> assets = new EnumMap<AssetType, Integer>(AssetType.class);
     
+    @ElementCollection
+    private Map<AssetType, Integer> assetTotals = new EnumMap<AssetType, Integer>(AssetType.class);
+    
     public Player(String name, int cash, int iconId, Date startTime) {
         this.name = name;
         this.cash = cash;
         this.iconId = iconId;
         this.startTime = startTime;
+        assetTotals.put(AssetType.OJ, 0);
+        assetTotals.put(AssetType.PB, 0);
+        assetTotals.put(AssetType.SB, 0);
     }
 
     public Map<AssetType, Integer> getAssets() {
@@ -33,5 +39,13 @@ public class Player extends Model {
 
     public void put(AssetType assetType, Integer quantity) {
         assets.put(assetType, quantity);
+    }
+    
+    public Map<AssetType, Integer> getAssetTotals() {
+        return assetTotals;
+    }
+    
+    public void addToTotals(AssetType assetType, Integer quantity) {
+        assetTotals.put(assetType, assetTotals.get(assetType) + quantity);
     }
 }

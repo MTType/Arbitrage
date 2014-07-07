@@ -60,6 +60,12 @@ public class Application extends Controller {
     }
     
     public static void endscreen(){
+        HighScoreJSON newHighScore = new HighScoreJSON(playerManager.getPlayer().name, playerManager.getPlayer().cash, playerManager.getPlayer().iconId);
+        try {
+            HighScoreUtil.writeScore(newHighScore);
+        } catch (ArbitrageException ex) {
+            Logger.error("Arbitrage exception, can't write score to file: " + ex.getMessage());
+        }
         render();
     }
     
@@ -69,8 +75,6 @@ public class Application extends Controller {
     }
     
     public static void getPlayer(){
-        Logger.info("Getting player info "); 
-        Logger.info(new Gson().toJson(playerManager.getPlayerJSON())); 
         renderJSON(playerManager.getPlayerJSON());
     }
     
@@ -101,6 +105,7 @@ public class Application extends Controller {
         }
     }
     
+
     public static void setHighScore(String name, int cash, int iconId) {
         HighScoreJSON newHighScore = new HighScoreJSON(name, cash, iconId);
         try {
@@ -115,19 +120,20 @@ public class Application extends Controller {
         public static void requestUpdate() {
             while(inbound.isOpen()) {
                 String message = (String)await(EventHandler.instance.event.nextEvent());
-                //Logger.info("websocket has a new event");  
-                
                 outbound.sendJson(message);
             }
         }
     }
-   
     
-    public static void newPlayer(String name, int startingCash, int iconId){ 
+    public static void newPlayer(String name, int startingCash, int iconId) { 
         Logger.info("Resetting DB");
         Fixtures.deleteDatabase();
         playerManager.createPlayer(name, startingCash, iconId);
-        
     }
+    
+    public static void getPlayerInformation() {
+        renderJSON(playerManager.getPlayerJSON());
+    }
+    
     
 }

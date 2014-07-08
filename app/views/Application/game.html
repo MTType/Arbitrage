@@ -13,7 +13,15 @@
 <body id="game">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 
-<h1>Arbitrage!</h1>
+<div class="top">
+<h1>Arbitrage!</h1> 
+<div id="portfolioitems">
+    <a href="#c1"><div class="link"><h3>Instructions</h3></div></a>
+    <a href="#c2"><div class="link"><h3>High Scores</h3></div></a>
+    <a href="#c3"><div class="link" onclick="myFunction()"><h3>Pause</h3></div></a>
+    <a href="#c4"><div class="link" id="exit"><h3>Quit</h3></div></a>
+</div>
+</div>
 
 <div id="portfolio">
     <div id="info">
@@ -232,11 +240,14 @@
             success: function(json){
                 var scoreCount = 1;
                 var HSIcon;  
+                var outerIconTag;
                 for (var i in json) {
                     HSIcon = document.getElementById('userHSIcon' + scoreCount);
                     setIcon(HSIcon, json[i].iconId);
                     HSIcon.setAttribute("alt", "user icon");
                     HSIcon.setAttribute("class", "iconFaceType");
+                    outerIconTag = document.getElementById('iconId' + scoreCount);
+                    outerIconTag.setAttribute("class", "iconcell");
                     document.getElementById("highscorename" + scoreCount).innerHTML = json[i].name;
                     document.getElementById("highscore" + scoreCount).innerHTML = json[i].score;
                     scoreCount++;
@@ -302,12 +313,7 @@ jQuery.fn.myLightbox = function() {
 };
 </script>
 
-<div id="portfolioitems">
-    <a href="#c1"><div class="link"><h3>Instructions</h3></div></a>
-    <a href="#c2"><div class="link"><h3>High Scores</h3></div></a>
-    <a href="#c3"><div class="link" onclick="myFunction()"><h3>Pause</h3></div></a>
-    <a href="#c4"><div class="link" id="exit"><h3>Quit</h3></div></a>
-</div>
+
     <!--<a href="exit"><div class="link" id="exit"><h3>Exit</h3></div></a>-->
 
 <div id="c1">
@@ -317,7 +323,7 @@ jQuery.fn.myLightbox = function() {
     <p>Buy commodities at a low price and sell them at a higher price to make a profit.</p>
     <div id="commodities"><img src="@{'/public/images/pork.png'}" alt="pork bellies"><img src="@{'/public/images/frozen.png'}" alt="frozen orange juice"><img src="@{'/public/images/soy.png'}" alt="soy beans"><h1 class="inline">=</h1><img src="@{'/public/images/money.png'}" alt="money"></div>
     <p>To agree to a buy or sell order just click it, if you have enough money or enough of that commodity then your assets and cash will automatically adjust.</p>
-    <button>PB SELL 600 11</button>
+    <button class="pb">Sell 200 PB at £5 each</button>
     <p>You can see how much of each commodity you have, how much money, and how much time you have left at the top of the page.</p>
     <p><strong>Hint!</strong> Trade across different exchanges to maximise your profits.</p>
     <h3>And remember...</h3>
@@ -330,16 +336,11 @@ jQuery.fn.myLightbox = function() {
         <img src="@{'/public/images/trophy.png'}" alt="trophy">
         <h2>High Scores</h2>
         <table>
-            <tr><td id="iconId1"><img id="userHSIcon1"></></td><td id="highscorename1"></td><td id="highscore1" class="score"></td></tr>
-            <tr><td id="iconId2"><img id="userHSIcon2"></></td><td id="highscorename2"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId3"><img id="userHSIcon3"></></td><td id="highscorename3"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId4"><img id="userHSIcon4"></></td><td id="highscorename4"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId5"><img id="userHSIcon5"></></td><td id="highscorename5"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId6"><img id="userHSIcon6"></></td><td id="highscorename6"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId7"><img id="userHSIcon7"></></td><td id="highscorename7"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId8"><img id="userHSIcon8"></></td><td id="highscorename8"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId9"><img id="userHSIcon9"></></td><td id="highscorename9"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId10"><img id="userHSIcon10"></></td><td id="highscorename10"></td><td id="highscore1"  class="score"></td></tr>
+            <tr><td id="iconId1"><img id="userHSIcon1" class="iconscore"></></td><td><p id="highscorename1"></p></td><td><p id="highscore1" class="score"></p></td></tr>
+            <tr><td id="iconId2"><img id="userHSIcon2" class="iconscore"></></td><td><p id="highscorename2"></p></td><td><p id="highscore2"  class="score"></p></td></tr>
+            <tr><td id="iconId3"><img id="userHSIcon3" class="iconscore"></></td><td><p id="highscorename3"></p></td><td><p id="highscore3"  class="score"></p></td></tr>
+            <tr><td id="iconId4"><img id="userHSIcon4" class="iconscore"></></td><td><p id="highscorename4"></p></td><td><p id="highscore4"  class="score"></p></td></tr>
+            <tr><td id="iconId5"><img id="userHSIcon5" class="iconscore"></></td><td><p id="highscorename5"></p></td><td><p id="highscore5"  class="score"></p></td></tr>
         </table>
     </div>
 </div>

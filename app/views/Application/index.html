@@ -30,16 +30,11 @@
         <h2>High Scores</h2>
         
         <table>
-            <tr><td id="iconId1"><img id="userHSIcon1"></></td><td id="highscorename1"></td><td id="highscore1" class="score"></td></tr>
-            <tr><td id="iconId2"><img id="userHSIcon2"></></td><td id="highscorename2"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId3"><img id="userHSIcon3"></></td><td id="highscorename3"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId4"><img id="userHSIcon4"></></td><td id="highscorename4"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId5"><img id="userHSIcon5"></></td><td id="highscorename5"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId6"><img id="userHSIcon6"></></td><td id="highscorename6"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId7"><img id="userHSIcon7"></></td><td id="highscorename7"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId8"><img id="userHSIcon8"></></td><td id="highscorename8"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId9"><img id="userHSIcon9"></></td><td id="highscorename9"></td><td id="highscore1"  class="score"></td></tr>
-            <tr><td id="iconId10"><img id="userHSIcon10"></></td><td id="highscorename10"></td><td id="highscore1"  class="score"></td></tr>
+            <tr><td id="iconId1"><img id="userHSIcon1" class="iconscore"></></td><td><p id="highscorename1"></p></td><td><p id="highscore1" class="score"></p></td></tr>
+            <tr><td id="iconId2"><img id="userHSIcon2" class="iconscore"></></td><td><p id="highscorename2"></p></td><td><p id="highscore2"  class="score"></p></td></tr>
+            <tr><td id="iconId3"><img id="userHSIcon3" class="iconscore"></></td><td><p id="highscorename3"></p></td><td><p id="highscore3"  class="score"></p></td></tr>
+            <tr><td id="iconId4"><img id="userHSIcon4" class="iconscore"></></td><td><p id="highscorename4"></p></td><td><p id="highscore4"  class="score"></p></td></tr>
+            <tr><td id="iconId5"><img id="userHSIcon5" class="iconscore"></></td><td><p id="highscorename5"></p></td><td><p id="highscore5"  class="score"></p></td></tr>
         </table>
     </div>
 
@@ -59,11 +54,14 @@
             success: function(json){
                 var scoreCount = 1;
                 var HSIcon;  
+                var outerIconTag;
                 for (var i in json) {
                     HSIcon = document.getElementById('userHSIcon' + scoreCount);
                     setIcon(HSIcon, json[i].iconId);
                     HSIcon.setAttribute("alt", "user icon");
                     HSIcon.setAttribute("class", "iconFaceType");
+                    outerIconTag = document.getElementById('iconId' + scoreCount);
+                    outerIconTag.setAttribute("class", "iconcell");
                     document.getElementById("highscorename" + scoreCount).innerHTML = json[i].name;
                     document.getElementById("highscore" + scoreCount).innerHTML = json[i].score;
                     scoreCount++;

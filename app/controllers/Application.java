@@ -96,6 +96,7 @@ public class Application extends Controller {
     }
         
     public static void getHighScores () {
+        /** high scores temporarily switched off
         List<HighScoreJSON> scores;
         try {
             scores = HighScoreUtil.getHighestScores();
@@ -103,16 +104,20 @@ public class Application extends Controller {
         } catch (ArbitrageException ex) {
             Logger.error("Arbitrage exception, can't read scores: " + ex.getMessage());
         }
+        */
+        
     }
     
 
     public static void setHighScore(String name, int cash, int iconId) {
+        /** high scores temporarily switched off
         HighScoreJSON newHighScore = new HighScoreJSON(name, cash, iconId);
         try {
             HighScoreUtil.writeScore(newHighScore);
         } catch (ArbitrageException ex) {
             Logger.error("Arbitrage exception, can't write score to file: " + ex.getMessage());
         }
+        */
     }
 
     public static class RequestSocket extends WebSocketController {

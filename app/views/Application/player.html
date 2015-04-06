@@ -17,7 +17,7 @@
 
 <div class="instructions">
     <h1>Instructions</h1>
-    <p>You start with £5,000 and must try to make a profit by playing the market... with <strong>Arbitrage!</strong></p> 
+    <p>You start with £8,000 and must try to make a profit by playing the market... with <strong>Arbitrage!</strong></p> 
     <p>Buy commodities at a low price and sell them at a higher price to make a profit.</p>
     <div id="commodities"><img src="@{'/public/images/pork.png'}" alt="pork bellies"><img src="@{'/public/images/frozen.png'}" alt="frozen orange juice"><img src="@{'/public/images/soy.png'}" alt="soy beans"><h1 class="inline">=</h1><img src="@{'/public/images/money.png'}" alt="money"></div>
     <p>To agree to a buy or sell order just click it, if you have enough money or enough of that commodity then your assets and cash will automatically adjust.</p>
@@ -103,7 +103,7 @@
         
         var name = document.getElementById("nameIn").value;
         $.ajax({
-            url: 'http://localhost:9000/newPlayer?name=' + name + '&startingCash=5000&iconId=' + iconId,
+            url: 'http://localhost:9000/newPlayer?name=' + name + '&startingCash=8000&iconId=' + iconId,
             type: 'GET',
             dataType: 'text',
             success: function(response){                          

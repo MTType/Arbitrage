@@ -61,17 +61,17 @@ public class ExchangeManager {
             switch(assetTypeNumber){
                 case 0: 
                     request = new Request(exchange, AssetType.PB, RequestType.SELL, (quantity*DEFAULT_QUANTITY_PB), (int)(targetPrice*6.0f), expiryTime).save();
-                    exchange.requests.add(request);
+                    request.save();
                     printRequest(request.id);
                     break;
                 case 1: 
                     request = new Request(exchange, AssetType.OJ, RequestType.SELL, (quantity*DEFAULT_QUANTITY_OJ), (int)(targetPrice*12.0f), expiryTime).save();
-                    exchange.requests.add(request);
+                    request.save();
                     printRequest(request.id);
                     break;
                 case 2: 
                     request = new Request(exchange, AssetType.SB, RequestType.SELL, (quantity*DEFAULT_QUANTITY_SB), (int)(targetPrice*24.0f), expiryTime).save();
-                    exchange.requests.add(request);
+                    request.save();
                     printRequest(request.id);
             }
         }
@@ -81,17 +81,17 @@ public class ExchangeManager {
             switch(assetTypeNumber){
                 case 0: 
                     request = new Request(exchange, AssetType.PB, RequestType.BUY, (quantity*DEFAULT_QUANTITY_PB), (int)(targetPrice*6.0f), expiryTime).save();
-                    exchange.requests.add(request);
+                    request.save();
                     printRequest(request.id);
                     break;
                 case 1: 
                     request = new Request(exchange, AssetType.OJ, RequestType.BUY, (quantity*DEFAULT_QUANTITY_OJ), (int)(targetPrice*12.0f), expiryTime).save();
-                    exchange.requests.add(request);
+                    request.save();
                     printRequest(request.id);
                     break;
                 case 2: 
                     request = new Request(exchange, AssetType.SB, RequestType.BUY, (quantity*DEFAULT_QUANTITY_SB), (int)(targetPrice*24.0f), expiryTime).save();
-                    exchange.requests.add(request);
+                    request.save();
                     printRequest(request.id);
             }
         }
@@ -125,7 +125,7 @@ public class ExchangeManager {
     @Transactional
     public void removeRequest(Exchange exchange, long id){
         Request requestToRemove = null;
-        for (Request request: exchange.requests) { 
+        for (Request request: RequestManager.getExchangeRequests(exchange)) { 
             if (request.id == id) {
                 requestToRemove = request;
             }
@@ -134,8 +134,6 @@ public class ExchangeManager {
             return;
         }
         
-        exchange.requests.remove(requestToRemove);
-        exchange.save();
         requestToRemove.delete();
         exchange.save();
         
@@ -153,17 +151,17 @@ public class ExchangeManager {
             switch(assetTypeNumber){
                 case 0: 
                     request = new Request(exchange, AssetType.PB, RequestType.SELL, (quantity*DEFAULT_QUANTITY_PB), (int)(targetPrice*6.0f), getRequestExpireTime()).save();
-                    exchange.requests.add(request);
+                    request.save();
                     printRequest(request.id);
                     break;
                 case 1: 
                     request = new Request(exchange, AssetType.OJ, RequestType.SELL, (quantity*DEFAULT_QUANTITY_OJ), (int)(targetPrice*12.0f), getRequestExpireTime()).save();
-                    exchange.requests.add(request);
+                    request.save();
                     printRequest(request.id);
                     break;
                 case 2: 
                     request = new Request(exchange, AssetType.SB, RequestType.SELL, (quantity*DEFAULT_QUANTITY_SB), (int)(targetPrice*24.0f), getRequestExpireTime()).save();
-                    exchange.requests.add(request);
+                    request.save();
                     printRequest(request.id);
             }
         } else if(sORb==1) {
@@ -174,17 +172,17 @@ public class ExchangeManager {
             switch(assetTypeNumber){
                 case 0: 
                     request = new Request(exchange, AssetType.PB, RequestType.BUY, (quantity*DEFAULT_QUANTITY_PB), (int)(targetPrice*6.0f), getRequestExpireTime()).save();
-                    exchange.requests.add(request);
+                    request.save();
                     printRequest(request.id);
                     break;
                 case 1: 
                     request = new Request(exchange, AssetType.OJ, RequestType.BUY, (quantity*DEFAULT_QUANTITY_OJ), (int)(targetPrice*12.0f), getRequestExpireTime()).save();
-                    exchange.requests.add(request);
+                    request.save();
                     printRequest(request.id);
                     break;
                 case 2: 
                     request = new Request(exchange, AssetType.SB, RequestType.BUY, (quantity*DEFAULT_QUANTITY_SB), (int)(targetPrice*24.0f), getRequestExpireTime()).save();
-                    exchange.requests.add(request);
+                    request.save();
                     printRequest(request.id);
             }
         }
@@ -227,11 +225,13 @@ public class ExchangeManager {
     
     @Transactional
     public void addAndShift(Exchange exchange){
-        Request oldestRequest = exchange.requests.get(0);
-        for (Request request: exchange.requests) {
+        List<Request> requests = RequestManager.getExchangeRequests(exchange);
+        Request oldestRequest = requests.get(0);
+        for (Request request: requests) {
             oldestRequest = oldestRequest.expiretime.before(request.expiretime) ? oldestRequest : request;
         }
-        exchange.requests.remove(oldestRequest);
+        
+        oldestRequest.delete();
         exchange.save();
         
         addRequest(exchange);
@@ -244,7 +244,7 @@ public class ExchangeManager {
         }
         exchange.save();
         
-        printRequest(exchange, exchange.requests.size()-1);
+        printRequest(exchange, requests.size()-1);
     }
     
     public List<RequestJSON> getRequestJSONs(ExchangeCode exchangeCode) {

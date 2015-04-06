@@ -103,11 +103,11 @@
         
         var name = document.getElementById("nameIn").value;
         $.ajax({
-            url: 'https://bigbang-arbitrage.herokuapp.com/newPlayer?name=' + name + '&startingCash=8000&iconId=' + iconId,
+            url: 'https://localhost:9000/newPlayer?name=' + name + '&startingCash=8000&iconId=' + iconId,
             type: 'GET',
             dataType: 'text',
             success: function(response){                          
-                    window.location.href = "https://bigbang-arbitrage.herokuapp.com/game";
+                    window.location.href = "https://localhost:9000/game";
             }
         });
     }   

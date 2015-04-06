@@ -48,7 +48,7 @@
     
     function updateHighScores(){
         $.ajax({
-            url: 'http://localhost:9000/getHighScores',
+            url: 'https://bigbang-arbitrage.herokuapp.com/getHighScores',
             type: 'GET',
             dataType: 'json',
             success: function(json){

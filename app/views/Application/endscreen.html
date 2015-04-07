@@ -52,7 +52,7 @@
     
     function updateHighScores(){
         $.ajax({
-            url: 'https://localhost:9000/getHighScores',
+            url: 'https://bigbang-arbitrage.herokuapp.com/getHighScores',
             type: 'GET',
             dataType: 'json',
             success: function(json){
@@ -95,7 +95,7 @@
     
     function getPlayerInformation(){
         $.ajax({
-            url: 'https://localhost:9000/getPlayerInformation',
+            url: 'https://bigbang-arbitrage.herokuapp.com/getPlayerInformation',
             type: 'GET',
             dataType: 'json',
             success: function(json){            

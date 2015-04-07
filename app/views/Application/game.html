@@ -92,7 +92,7 @@
     
     function updatePlayer(){
         $.ajax({
-            url: 'https://localhost:9000/getPlayer',
+            url: 'https://bigbang-arbitrage.herokuapp.com/getPlayer',
             type: 'GET',
             dataType: 'json',
             success: function(json){
@@ -140,7 +140,7 @@
     
     function getRequests(exchangeCode) {
         $.ajax({
-            url: 'https://localhost:9000/getInitialRequests?exchangeCode=' + exchangeCode,
+            url: 'https://bigbang-arbitrage.herokuapp.com/getInitialRequests?exchangeCode=' + exchangeCode,
             type: 'GET',
             dataType: 'json',
             success: function(json){
@@ -192,7 +192,7 @@
     }
     
     function requestUpdater() {
-        ws = new WebSocket("ws://localhost:9000/requestSocket");
+        ws = new WebSocket("ws://bigbang-arbitrage.herokuapp.com/requestSocket");
 
         ws.onopen = function(message) { 
         }
@@ -213,7 +213,7 @@
     
     function acceptRequest(exchangeCode, id) {
         $.ajax({
-            url: 'https://localhost:9000/acceptRequest?exchangeCode=' + exchangeCode + '&requestId=' + id,
+            url: 'https://bigbang-arbitrage.herokuapp.com?exchangeCode=' + exchangeCode + '&requestId=' + id,
             type: 'GET',
             dataType: 'text',
             success: function(response){
@@ -234,7 +234,7 @@
     
     function updateHighScores(){
         $.ajax({
-            url: 'https://localhost:9000/getHighScores',
+            url: 'https://bigbang-arbitrage.herokuapp.com/getHighScores',
             type: 'GET',
             dataType: 'json',
             success: function(json){

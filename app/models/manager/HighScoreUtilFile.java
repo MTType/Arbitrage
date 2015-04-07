@@ -15,7 +15,7 @@ import models.exception.ArbitrageException;
 import models.response.HighScoreJSON;
 import play.Logger;
 
-public class HighScoreUtilFile implements HighScoreUtil {
+public class HighScoreUtilFile {
 
     private final static String HIGHSCORE_FILE = new File("").getAbsolutePath() + File.separator + "bigbang_highscores.txt";
     

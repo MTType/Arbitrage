@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import play.db.jpa.Model;
 
 @Entity
-public class HighScore extends Model {
+public class HighScore extends Model implements Comparable<HighScore> {
     
     public String name;
     public int score;
@@ -16,4 +16,11 @@ public class HighScore extends Model {
         this.score=score;
         this.iconId = iconId;
     }    
+
+    public int compareTo(HighScore o) {
+        if (o == null) {
+            return this.score;
+        } 
+        return this.score - o.score;
+    }
 }

@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 import models.entity.Exchange;
+import models.entity.HighScore;
 import models.entity.Player;
 import models.entity.Request;
 import models.enums.ExchangeCode;
@@ -50,7 +51,7 @@ public class Application extends Controller {
     public static void exit() {
         Player player = playerManager.getPlayer();
         try {
-            highScoreUtil.writeScore(new HighScoreJSON(player.name, player.cash, player.iconId));
+            highScoreUtil.writeScore(new HighScore(player.name, player.cash, player.iconId));
         } catch (ArbitrageException ex) {
             Logger.info("Arbitrage exception when saving high score " + ex.getMessage());
         }        
@@ -59,7 +60,7 @@ public class Application extends Controller {
     }
     
     public static void endscreen(){
-        HighScoreJSON newHighScore = new HighScoreJSON(playerManager.getPlayer().name, playerManager.getPlayer().cash, playerManager.getPlayer().iconId);
+        HighScore newHighScore = new HighScore(playerManager.getPlayer().name, playerManager.getPlayer().cash, playerManager.getPlayer().iconId);
         try {
             highScoreUtil.writeScore(newHighScore);
         } catch (ArbitrageException ex) {
@@ -95,7 +96,7 @@ public class Application extends Controller {
     }
         
     public static void getHighScores () {
-        List<HighScoreJSON> scores;
+        List<HighScore> scores;
         try {
             scores = highScoreUtil.getHighestScores();
             renderJSON(scores);
@@ -106,7 +107,7 @@ public class Application extends Controller {
     
 
     public static void setHighScore(String name, int cash, int iconId) {
-        HighScoreJSON newHighScore = new HighScoreJSON(name, cash, iconId);
+        HighScore newHighScore = new HighScore(name, cash, iconId);
         try {
             highScoreUtil.writeScore(newHighScore);
         } catch (ArbitrageException ex) {

@@ -1,5 +1,7 @@
 package models.manager;
 
+import com.google.gson.Gson;
+import java.util.Collections;
 import java.util.List;
 import models.entity.HighScore;
 import models.exception.ArbitrageException;
@@ -14,7 +16,7 @@ public class HighScoreUtilJPA implements HighScoreUtil {
      * @param highScore
      * @throws ArbitrageException 
      */
-    public void writeScore(HighScoreJSON highScore) throws ArbitrageException {
+    public void writeScore(HighScore highScore) throws ArbitrageException {
         List<HighScore> highScores = HighScore.findAll();
                 
         if (highScores == null || highScores.size() == 0) {
@@ -31,17 +33,19 @@ public class HighScoreUtilJPA implements HighScoreUtil {
                 }
             }
             
-            if (minScore < highScore.getScore()) {
+            if (minScore < highScore.score) {
                 minHighScore.delete();
-                new HighScore(highScore.getName(), highScore.getScore(), highScore.getIconId()).save();
+                new HighScore(highScore.name, highScore.score, highScore.iconId).save();
             }
         } else {
-            new HighScore(highScore.getName(), highScore.getScore(), highScore.getIconId()).save();
+            new HighScore(highScore.name, highScore.score, highScore.iconId).save();
         }
     }
 
-    public List<HighScoreJSON> getHighestScores() throws ArbitrageException {
-        return HighScore.find("order by score").fetch();
+    public List<HighScore> getHighestScores() throws ArbitrageException {
+        List<HighScore> highScores = HighScore.findAll();
+        Collections.sort(highScores);
+        return highScores;
     }
-    
+
 }

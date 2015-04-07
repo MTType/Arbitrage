@@ -1,14 +1,14 @@
 package models.manager;
 
 import java.util.List;
+import models.entity.HighScore;
 import models.exception.ArbitrageException;
-import models.response.HighScoreJSON;
 
 
 public interface HighScoreUtil {
 
-    public void writeScore(HighScoreJSON highScore) throws ArbitrageException;
+    public void writeScore(HighScore highScore) throws ArbitrageException;
 
-    public List<HighScoreJSON> getHighestScores() throws ArbitrageException;
-    
+    public List<HighScore> getHighestScores() throws ArbitrageException;
+        
 }

@@ -1,38 +1,36 @@
 package controllers;
 
-import com.google.gson.Gson;
 import java.util.List;
-import java.util.logging.Level;
+import models.entity.Exchange;
 import models.entity.Player;
 import models.entity.Request;
 import models.enums.ExchangeCode;
 import models.exception.ArbitrageException;
 import models.manager.ExchangeManager;
 import models.manager.HighScoreUtil;
+import models.manager.HighScoreUtilJPA;
 import models.manager.PlayerManager;
 import models.response.HighScoreJSON;
 import models.response.RequestJSON;
 import play.Logger;
 import play.mvc.*;
-import play.test.Fixtures;
 
 
 public class Application extends Controller {
     
     private static final PlayerManager playerManager = new PlayerManager();
     private static final ExchangeManager exchangeManager = new ExchangeManager();
+    private static final HighScoreUtil highScoreUtil = new HighScoreUtilJPA();
     private static final int DEFAULT_REQUEST_SIZE = 10;
     private static final float DEFAULT_SD = 0.2f;
     
     public static void index() {
-        Logger.info("Resetting DB");
-        Fixtures.deleteDatabase();
+        resetDB();
         render();
     }
     
     public static void player() {
-        Logger.info("Resetting DB");
-        Fixtures.deleteDatabase();
+        resetDB();
         render();
     }
     
@@ -50,19 +48,18 @@ public class Application extends Controller {
     public static void exit() {
         Player player = playerManager.getPlayer();
         try {
-            HighScoreUtil.writeScore(new HighScoreJSON(player.name, player.cash, player.iconId));
+            highScoreUtil.writeScore(new HighScoreJSON(player.name, player.cash, player.iconId));
         } catch (ArbitrageException ex) {
             Logger.info("Arbitrage exception when saving high score " + ex.getMessage());
         }        
-        Logger.info("Resetting DB");
-        Fixtures.deleteDatabase();
+        resetDB();
         renderTemplate("Application/index.html");
     }
     
     public static void endscreen(){
         HighScoreJSON newHighScore = new HighScoreJSON(playerManager.getPlayer().name, playerManager.getPlayer().cash, playerManager.getPlayer().iconId);
         try {
-            HighScoreUtil.writeScore(newHighScore);
+            highScoreUtil.writeScore(newHighScore);
         } catch (ArbitrageException ex) {
             Logger.error("Arbitrage exception, can't write score to file: " + ex.getMessage());
         }
@@ -96,28 +93,23 @@ public class Application extends Controller {
     }
         
     public static void getHighScores () {
-        /** high scores temporarily switched off
         List<HighScoreJSON> scores;
         try {
-            scores = HighScoreUtil.getHighestScores();
+            scores = highScoreUtil.getHighestScores();
             renderJSON(scores);
         } catch (ArbitrageException ex) {
             Logger.error("Arbitrage exception, can't read scores: " + ex.getMessage());
         }
-        */
-        
     }
     
 
     public static void setHighScore(String name, int cash, int iconId) {
-        /** high scores temporarily switched off
         HighScoreJSON newHighScore = new HighScoreJSON(name, cash, iconId);
         try {
-            HighScoreUtil.writeScore(newHighScore);
+            highScoreUtil.writeScore(newHighScore);
         } catch (ArbitrageException ex) {
             Logger.error("Arbitrage exception, can't write score to file: " + ex.getMessage());
         }
-        */
     }
 
     public static class RequestSocket extends WebSocketController {
@@ -131,13 +123,20 @@ public class Application extends Controller {
     }
     
     public static void newPlayer(String name, int startingCash, int iconId) { 
-        Logger.info("Resetting DB");
-        Fixtures.deleteDatabase();
+        resetDB();
         playerManager.createPlayer(name, startingCash, iconId);
     }
     
     public static void getPlayerInformation() {
         renderJSON(playerManager.getPlayerJSON());
+    }
+    
+    private static void resetDB() {
+        Logger.info("Resetting DB");
+        Request.deleteAll();
+        Exchange.deleteAll();
+        Player.deleteAll();
+        Logger.info("Successfully removed all requests, exchanges and players");
     }
     
     

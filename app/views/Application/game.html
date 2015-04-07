@@ -192,7 +192,7 @@
     }
     
     function requestUpdater() {
-        ws = new WebSocket("ws://bigbang-arbitrage.herokuapp.com/requestSocket");
+        ws = new WebSocket("wss://bigbang-arbitrage.herokuapp.com/requestSocket");
 
         ws.onopen = function(message) { 
         }

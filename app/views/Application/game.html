@@ -213,7 +213,7 @@
     
     function acceptRequest(exchangeCode, id) {
         $.ajax({
-            url: 'https://bigbang-arbitrage.herokuapp.com?exchangeCode=' + exchangeCode + '&requestId=' + id,
+            url: 'https://bigbang-arbitrage.herokuapp.com/acceptRequest?exchangeCode=' + exchangeCode + '&requestId=' + id,
             type: 'GET',
             dataType: 'text',
             success: function(response){

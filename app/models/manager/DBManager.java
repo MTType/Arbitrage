@@ -125,7 +125,7 @@ public class DBManager {
         deleteDatabase();
     }
 
-    static String[] dontDeleteTheseTables = new String[] {"play_evolutions", "high_score"};
+    static String[] dontDeleteTheseTables = new String[] {"play_evolutions", "highscore"};
 
     /**
      * Flush the entire JDBC database

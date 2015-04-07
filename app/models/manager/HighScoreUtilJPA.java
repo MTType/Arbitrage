@@ -15,15 +15,24 @@ public class HighScoreUtilJPA implements HighScoreUtil {
      * @throws ArbitrageException 
      */
     public void writeScore(HighScoreJSON highScore) throws ArbitrageException {
-        List<HighScore> highScores = HighScore.find("order by score").fetch();
-        
+        List<HighScore> highScores = HighScore.findAll();
+                
         if (highScores == null || highScores.size() == 0) {
             return;
         }
         
         if (MAX_SCORES >= 5) {
-            if (highScores.get(highScores.size()-1).score < highScore.getScore()) {
-                highScores.get(highScores.size()-1).delete();
+            int minScore = highScores.get(0).score;
+            HighScore minHighScore = highScores.get(0);
+            for (HighScore savedHighScore: highScores) {
+                if (minScore < savedHighScore.score) {
+                    minScore = savedHighScore.score;
+                    minHighScore = highScores.get(0);
+                }
+            }
+            
+            if (minScore < highScore.getScore()) {
+                minHighScore.delete();
                 new HighScore(highScore.getName(), highScore.getScore(), highScore.getIconId()).save();
             }
         } else {

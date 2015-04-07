@@ -9,7 +9,7 @@ import play.Logger;
 import play.jobs.Every;
 import play.jobs.Job;
 
-@Every("1s")
+@Every("2s")
 public class GameJob extends Job{
     
     private final ExchangeManager exchangeManager = new ExchangeManager();
@@ -22,12 +22,11 @@ public class GameJob extends Job{
 
             for (Exchange exchange: exchanges) {
                 exchangeManager.removeOldRequests(exchange);
-                exchangeManager.printRequests(exchange);
             }
             
-            playerManager.printPlayer();
+            EventHandler.instance.event.publish("refresh");
         } else {
-            //Logger.info("Game hasn't started yet");
+            Logger.info("Game hasn't started yet");
         }
     }
 }

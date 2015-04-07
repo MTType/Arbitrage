@@ -1,11 +1,10 @@
 package models.manager;
 
-import com.google.gson.Gson;
 import java.util.Collections;
 import java.util.List;
 import models.entity.HighScore;
 import models.exception.ArbitrageException;
-import models.response.HighScoreJSON;
+import play.db.jpa.Transactional;
 
 public class HighScoreUtilJPA implements HighScoreUtil {
     
@@ -16,7 +15,12 @@ public class HighScoreUtilJPA implements HighScoreUtil {
      * @param highScore
      * @throws ArbitrageException 
      */
+    @Transactional
     public void writeScore(HighScore highScore) throws ArbitrageException {
+        if (HighScore.count() == 0) {
+            new HighScore("Martyn", 10000, 1).save();
+        }
+        
         List<HighScore> highScores = HighScore.findAll();
                 
         if (highScores == null || highScores.size() == 0) {
@@ -42,6 +46,7 @@ public class HighScoreUtilJPA implements HighScoreUtil {
         }
     }
 
+    @Transactional
     public List<HighScore> getHighestScores() throws ArbitrageException {
         List<HighScore> highScores = HighScore.findAll();
         Collections.sort(highScores);

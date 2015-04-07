@@ -103,7 +103,7 @@
         
         var name = document.getElementById("nameIn").value;
         $.ajax({
-            url: 'https://bigbang-arbitrage.herokuapp.com?name=' + name + '&startingCash=8000&iconId=' + iconId,
+            url: 'https://bigbang-arbitrage.herokuapp.com/newPlayer?name=' + name + '&startingCash=8000&iconId=' + iconId,
             type: 'GET',
             dataType: 'text',
             success: function(response){                          

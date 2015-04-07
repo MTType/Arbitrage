@@ -6,6 +6,7 @@ import models.entity.Player;
 import models.entity.Request;
 import models.enums.ExchangeCode;
 import models.exception.ArbitrageException;
+import models.manager.DBManager;
 import models.manager.ExchangeManager;
 import models.manager.HighScoreUtil;
 import models.manager.HighScoreUtilJPA;
@@ -14,6 +15,7 @@ import models.response.HighScoreJSON;
 import models.response.RequestJSON;
 import play.Logger;
 import play.mvc.*;
+import play.test.Fixtures;
 
 
 public class Application extends Controller {
@@ -133,9 +135,7 @@ public class Application extends Controller {
     
     private static void resetDB() {
         Logger.info("Resetting DB");
-        Request.deleteAll();
-        Exchange.deleteAll();
-        Player.deleteAll();
+        DBManager.deleteDatabase();
         Logger.info("Successfully removed all requests, exchanges and players");
     }
     

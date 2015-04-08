@@ -2,6 +2,7 @@
 package models.manager;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import models.entity.Player;
 import models.entity.Request;
@@ -101,9 +102,18 @@ public class PlayerManager {
         }
     }
     
-    public PlayerJSON getPlayerJSON(){    
+    public PlayerJSON getPlayerJSON() {    
         player = (Player) Player.findAll().get(0);
         return new PlayerJSON(player.name, player.getAssets().get(AssetType.PB), player.getAssets().get(AssetType.OJ), player.getAssets().get(AssetType.SB), player.cash, player.startTime, player.iconId, player.getAssetTotals().get(AssetType.PB), player.getAssetTotals().get(AssetType.OJ), player.getAssetTotals().get(AssetType.SB));
+    }
+    
+    @Transactional
+    public void deleteAllPlayers() {
+        List<Player> players = Player.findAll();
+        for (Player player: players) {
+            player.delete();
+        }
+        Logger.info("removed all players");
     }
 
 }

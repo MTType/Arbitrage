@@ -135,19 +135,11 @@ public class Application extends Controller {
         renderJSON(playerManager.getPlayerJSON());
     }
     
-    @Transactional
+
     private static void resetDB() {
         Logger.info("Resetting game-instance data");
-        Request.deleteAll();
-        Logger.info("removed all requests");
-        Exchange.deleteAll();
-        Logger.info("removed all exchanges");
-        List<Player> players = Player.findAll();
-        for (Player player: players) {
-            player.delete();
-        }
-        Logger.info("removed all players");
+        exchangeManager.deleteAllRequestsAndExchanges();
+        Logger.info("removed all requests and exchange");
+        playerManager.deleteAllPlayers();
     }
-    
-    
 }

@@ -207,4 +207,19 @@ public class ExchangeManager {
         }
         return requestJSONS;
     }
+    
+    public void deleteAllRequestsAndExchanges() {
+        deleteAllRequests();
+        deleteAllExchanges();
+    }
+    
+    @Transactional
+    private void deleteAllRequests() {
+        Request.deleteAll();
+    }
+    
+    @Transactional
+    private void deleteAllExchanges() {
+        Exchange.deleteAll();
+    }
 }

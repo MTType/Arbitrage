@@ -7,12 +7,10 @@ import models.entity.Player;
 import models.entity.Request;
 import models.enums.ExchangeCode;
 import models.exception.ArbitrageException;
-import models.manager.DBManager;
 import models.manager.ExchangeManager;
 import models.manager.HighScoreUtil;
 import models.manager.HighScoreUtilJPA;
 import models.manager.PlayerManager;
-import models.response.HighScoreJSON;
 import models.response.RequestJSON;
 import play.Logger;
 import play.mvc.*;
@@ -136,6 +134,7 @@ public class Application extends Controller {
     }
     
     private static void resetDB() {
+        Logger.info("Resetting game-instance data");
         Fixtures.delete(Request.class);
         Logger.info("Successfully removed all requests");
         Fixtures.delete(Exchange.class);

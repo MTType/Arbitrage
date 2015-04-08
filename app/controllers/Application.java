@@ -137,11 +137,11 @@ public class Application extends Controller {
     @Transactional
     private static void resetDB() {
         Logger.info("Resetting game-instance data");
-        Fixtures.delete(Request.class);
+        Request.deleteAll();
         Logger.info("removed all requests");
-        Fixtures.delete(Exchange.class);
+        Exchange.deleteAll();
         Logger.info("removed all exchanges");
-        Fixtures.delete(Player.class);
+        Player.deleteAll();
         Logger.info("removed all players");
     }
     

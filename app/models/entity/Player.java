@@ -19,10 +19,8 @@ public class Player extends Model {
     public Date startTime;
     public int iconId;
     
-    @ElementCollection
     private Map<AssetType, Integer> assets;
     
-    @ElementCollection
     private Map<AssetType, Integer> assetTotals = new EnumMap<AssetType, Integer>(AssetType.class);
     
     public Player(String name, int cash, int iconId, Date startTime) {

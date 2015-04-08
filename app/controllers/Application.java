@@ -15,7 +15,6 @@ import models.response.RequestJSON;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.mvc.*;
-import play.test.Fixtures;
 
 
 public class Application extends Controller {
@@ -60,6 +59,7 @@ public class Application extends Controller {
     
     public static void endscreen(){
         HighScore newHighScore = new HighScore(playerManager.getPlayer().name, playerManager.getPlayer().cash, playerManager.getPlayer().iconId);
+        Logger.info("attempting to pass new high score for player " + playerManager.getPlayer().name);
         try {
             highScoreUtil.writeScore(newHighScore);
         } catch (ArbitrageException ex) {

@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import models.entity.HighScore;
 import models.exception.ArbitrageException;
+import play.Logger;
 import play.db.jpa.Transactional;
 
 public class HighScoreUtilJPA implements HighScoreUtil {
@@ -25,13 +26,15 @@ public class HighScoreUtilJPA implements HighScoreUtil {
         }
         
         Collections.sort(highScores);
-        if (MAX_SCORES >= highScores.size()) {
+        if (MAX_SCORES <= highScores.size()) {
 
             if (highScores.get(highScores.size() - 1).score < highScore.score) {
                 highScores.get(highScores.size() - 1).delete();
+                Logger.info("there are more than 5 high scores, the new high score is higher, saved new high score for " + highScore.name);
                 new HighScore(highScore.name, highScore.score, highScore.iconId).save();
             }
         } else {
+            Logger.info("saved new high score for " + highScore.name);
             new HighScore(highScore.name, highScore.score, highScore.iconId).save();
         }
     }

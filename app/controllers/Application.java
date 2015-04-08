@@ -141,7 +141,10 @@ public class Application extends Controller {
         Logger.info("removed all requests");
         Exchange.deleteAll();
         Logger.info("removed all exchanges");
-        Player.deleteAll();
+        List<Player> players = Player.findAll();
+        for (Player player: players) {
+            player.delete();
+        }
         Logger.info("removed all players");
     }
     

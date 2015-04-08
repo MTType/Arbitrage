@@ -136,14 +136,13 @@ public class Application extends Controller {
     
     @Transactional
     private static void resetDB() {
-        //Logger.info("Resetting game-instance data");
-        //Fixtures.delete(Request.class);
-        
-        //Logger.info("removed all requests");
-        //Fixtures.delete(Exchange.class);
-        //Logger.info("removed all exchanges");
-        //Fixtures.delete(Player.class);
-        //Logger.info("removed all players");
+        Logger.info("Resetting game-instance data");
+        Fixtures.delete(Request.class);
+        Logger.info("removed all requests");
+        Fixtures.delete(Exchange.class);
+        Logger.info("removed all exchanges");
+        Fixtures.delete(Player.class);
+        Logger.info("removed all players");
     }
     
     

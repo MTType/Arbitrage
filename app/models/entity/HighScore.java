@@ -21,6 +21,6 @@ public class HighScore extends Model implements Comparable<HighScore> {
         if (o == null) {
             return this.score;
         } 
-        return this.score - o.score;
+        return o.score - this.score;
     }
 }

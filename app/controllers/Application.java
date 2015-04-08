@@ -136,7 +136,6 @@ public class Application extends Controller {
     }
     
     private static void resetDB() {
-        Logger.info("Resetting DB");
         Fixtures.delete(Request.class);
         Logger.info("Successfully removed all requests");
         Fixtures.delete(Exchange.class);

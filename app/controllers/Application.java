@@ -86,6 +86,7 @@ public class Application extends Controller {
         try {
             playerManager.acceptOffer(request);
             exchangeManager.removeRequest(ExchangeCode.valueOf(exchangeCode.toUpperCase()), requestId);
+            EventHandler.instance.event.publish("refresh");
             Logger.info("successfully accepted request");
             renderText("OK");
         } catch (ArbitrageException ex) {

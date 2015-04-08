@@ -34,7 +34,6 @@ public class ExchangeManager {
             calendar.add(Calendar.SECOND, 6);
             addRequest(exchange, calendar.getTime());    
         }
-        EventHandler.instance.event.publish("refresh");
     }
     
     private Exchange getExchange(ExchangeCode exchangeCode) {
@@ -98,7 +97,6 @@ public class ExchangeManager {
                 removeRequest(exchange, request.id);
             }
         }
-        EventHandler.instance.event.publish("refresh");
     }
     
     @Transactional
@@ -175,7 +173,6 @@ public class ExchangeManager {
                     printRequest(request.id);
             }
         }
-        EventHandler.instance.event.publish("refresh");
     }
     
     @Transactional
@@ -183,7 +180,7 @@ public class ExchangeManager {
         for (ExchangeCode exchangeCode: ExchangeCode.values()) {
             List<Request> exchangeRequests = Request.find("byExchange", Exchange.find("byExchangeCode", exchangeCode).fetch()).fetch();
             for (Request request: exchangeRequests) {
-                Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
+                Logger.debug(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
             }
         }
     }
@@ -192,14 +189,14 @@ public class ExchangeManager {
     public void printRequests(Exchange exchange){
         List<Request> exchangeRequests = Request.find("byExchange", exchange).fetch();
         for (Request request: exchangeRequests) {
-            Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
+            Logger.debug(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
         }
     }
     
     @Transactional
     public void printRequest(long requestId){
         Request request = Request.findById(requestId);
-        Logger.info(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
+        Logger.debug(request.requestType.name() + " request. " + request.quantity + " " + request.assetType + " at " + request.pricePerUnit + " per unit, totalling " + (request.quantity * request.pricePerUnit) + "    Expires at this time: " + request.expiretime);
     }
     
     public List<RequestJSON> getRequestJSONs(ExchangeCode exchangeCode) {

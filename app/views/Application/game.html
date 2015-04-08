@@ -198,7 +198,6 @@
         }
 
         ws.onclose = function(message) {
-            
         }
 
         ws.onmessage = function(message) {
@@ -208,7 +207,6 @@
         }  
 
         ws.onerror = function(message) {
-            alert("ERROR");
         }
     }
     
@@ -220,9 +218,6 @@
             success: function(response){
                 if (response === "OK") {
                     updatePlayer();
-                    //getRequests("lse");
-                    //getRequests("nyse");
-                    //getRequests("nasdaq");
                 } else {
                     alert(response);
                 }

@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <link rel="stylesheet" href="@{'/public/stylesheets/styles.css'}">
-	<link href='http://fonts.googleapis.com/css?family=Quicksand:400,700' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Quicksand:400,700' rel='stylesheet' type='text/css'>
         
     </head>
 
@@ -176,7 +176,7 @@
             requestType = "Sell";
         }
         
-        var t=document.createTextNode(requestType + "  " +  json.quantity  + "  " + assetType + " at £" + json.pricePerUnit + " each");
+        var t=document.createTextNode(requestType + "  " +  json.quantity  + "  " + assetType + " £" + json.pricePerUnit);
         if (json.assetTypeString === "PB") {
             button.className="pb";
         } else if (json.assetTypeString === "OJ") {
@@ -198,6 +198,7 @@
         }
 
         ws.onclose = function(message) {
+            
         }
 
         ws.onmessage = function(message) {
@@ -207,7 +208,7 @@
         }  
 
         ws.onerror = function(message) {
-            //alert("ERROR");
+            alert("ERROR");
         }
     }
     
@@ -219,9 +220,9 @@
             success: function(response){
                 if (response === "OK") {
                     updatePlayer();
-                    getRequests("lse");
-                    getRequests("nyse");
-                    getRequests("nasdaq");
+                    //getRequests("lse");
+                    //getRequests("nyse");
+                    //getRequests("nasdaq");
                 } else {
                     alert(response);
                 }

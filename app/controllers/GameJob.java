@@ -4,7 +4,6 @@ package controllers;
 import java.util.List;
 import models.entity.Exchange;
 import models.manager.ExchangeManager;
-import models.manager.PlayerManager;
 import play.Logger;
 import play.jobs.Every;
 import play.jobs.Job;
@@ -13,7 +12,6 @@ import play.jobs.Job;
 public class GameJob extends Job{
     
     private final ExchangeManager exchangeManager = new ExchangeManager();
-    private final PlayerManager playerManager = new PlayerManager();
 
     @Override
     public void doJob() {
@@ -24,7 +22,6 @@ public class GameJob extends Job{
                 exchangeManager.removeOldRequests(exchange);
             }
             
-            EventHandler.instance.event.publish("refresh");
         } else {
             Logger.info("Game hasn't started yet");
         }

@@ -121,6 +121,7 @@ public class Application extends Controller {
                 String message = (String)await(EventHandler.instance.event.nextEvent());
                 outbound.sendJson(message);
             }
+            Logger.error("inbound not open");
         }
     }
     

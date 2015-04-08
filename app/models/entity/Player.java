@@ -3,14 +3,9 @@ package models.entity;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.Map;
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import models.enums.AssetType;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import play.Logger;
 import play.db.jpa.Model;
 
 @Entity
@@ -22,10 +17,10 @@ public class Player extends Model {
     public int iconId;
     
     @ElementCollection
-    private Map<AssetType, Integer> assets;
+    private final Map<AssetType, Integer> assets;
     
     @ElementCollection
-    private Map<AssetType, Integer> assetTotals = new EnumMap<AssetType, Integer>(AssetType.class);
+    private final Map<AssetType, Integer> assetTotals = new EnumMap<AssetType, Integer>(AssetType.class);
     
     public Player(String name, int cash, int iconId, Date startTime) {
         this.assets = new EnumMap<AssetType, Integer>(AssetType.class);

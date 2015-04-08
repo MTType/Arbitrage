@@ -29,7 +29,11 @@ public class PlayerManager {
     
     @Transactional 
     public Player getPlayer() {
-        return (Player) Player.findAll().get(0);
+        List<Player> players = Player.findAll();
+        if (players == null || players.isEmpty()) {
+            return null;
+        }
+        return players.get(0);
     }
     
     @Transactional

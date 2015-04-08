@@ -1,5 +1,9 @@
 package models.response;
 
+/**
+ * TO BE REMOVED, this has been replaced by highscore entity
+ * @author Martyn
+ */
 public class HighScoreJSON {
     
     private String name;

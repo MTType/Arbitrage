@@ -3,8 +3,10 @@ package models.entity;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.Map;
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import models.enums.AssetType;
 import play.Logger;
 import play.db.jpa.Model;
@@ -18,12 +20,13 @@ public class Player extends Model {
     public int iconId;
     
     @ElementCollection
-    private Map<AssetType, Integer> assets = new EnumMap<AssetType, Integer>(AssetType.class);
+    private Map<AssetType, Integer> assets;
     
     @ElementCollection
     private Map<AssetType, Integer> assetTotals = new EnumMap<AssetType, Integer>(AssetType.class);
     
     public Player(String name, int cash, int iconId, Date startTime) {
+        this.assets = new EnumMap<AssetType, Integer>(AssetType.class);
         this.name = name;
         this.cash = cash;
         this.iconId = iconId;
@@ -33,6 +36,7 @@ public class Player extends Model {
         assetTotals.put(AssetType.SB, 0);
     }
 
+    @OneToOne(cascade=CascadeType.REMOVE)
     public Map<AssetType, Integer> getAssets() {
         return assets;
     }
@@ -41,6 +45,7 @@ public class Player extends Model {
         assets.put(assetType, quantity);
     }
     
+    @OneToOne(cascade=CascadeType.REMOVE)
     public Map<AssetType, Integer> getAssetTotals() {
         return assetTotals;
     }

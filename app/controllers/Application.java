@@ -13,6 +13,7 @@ import models.manager.HighScoreUtilJPA;
 import models.manager.PlayerManager;
 import models.response.RequestJSON;
 import play.Logger;
+import play.db.jpa.Transactional;
 import play.mvc.*;
 import play.test.Fixtures;
 
@@ -133,14 +134,15 @@ public class Application extends Controller {
         renderJSON(playerManager.getPlayerJSON());
     }
     
+    @Transactional
     private static void resetDB() {
         Logger.info("Resetting game-instance data");
         Fixtures.delete(Request.class);
-        Logger.info("Successfully removed all requests");
+        Logger.info("removed all requests");
         Fixtures.delete(Exchange.class);
-        Logger.info("Successfully removed all exchanges");
+        Logger.info("removed all exchanges");
         Fixtures.delete(Player.class);
-        Logger.info("Successfully removed all players");
+        Logger.info("removed all players");
     }
     
     

@@ -42,7 +42,6 @@ public class Application extends Controller {
             exchangeManager.createExchange(exchangeCode, DEFAULT_REQUEST_SIZE, DEFAULT_SD, offSet);
             offSet = offSet + 2;
         } 
-        new HighScore("Martyn", 10000, 1).save();
         Logger.info("Game initialised");
         exchangeManager.printRequests();
         render();

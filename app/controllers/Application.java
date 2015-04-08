@@ -137,9 +137,12 @@ public class Application extends Controller {
     
     private static void resetDB() {
         Logger.info("Resetting DB");
-        //DBManager.deleteDatabase();
-        Fixtures.deleteDatabase();
-        Logger.info("Successfully removed all requests, exchanges and players");
+        Fixtures.delete(Request.class);
+        Logger.info("Successfully removed all requests");
+        Fixtures.delete(Exchange.class);
+        Logger.info("Successfully removed all exchanges");
+        Fixtures.delete(Player.class);
+        Logger.info("Successfully removed all players");
     }
     
     

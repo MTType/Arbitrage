@@ -8,6 +8,8 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import models.enums.AssetType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import play.Logger;
 import play.db.jpa.Model;
 
@@ -19,8 +21,12 @@ public class Player extends Model {
     public Date startTime;
     public int iconId;
     
+    @ElementCollection
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Map<AssetType, Integer> assets;
     
+    @ElementCollection
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Map<AssetType, Integer> assetTotals = new EnumMap<AssetType, Integer>(AssetType.class);
     
     public Player(String name, int cash, int iconId, Date startTime) {

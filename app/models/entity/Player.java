@@ -22,11 +22,9 @@ public class Player extends Model {
     public int iconId;
     
     @ElementCollection
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Map<AssetType, Integer> assets;
     
     @ElementCollection
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Map<AssetType, Integer> assetTotals = new EnumMap<AssetType, Integer>(AssetType.class);
     
     public Player(String name, int cash, int iconId, Date startTime) {
@@ -40,7 +38,6 @@ public class Player extends Model {
         assetTotals.put(AssetType.SB, 0);
     }
 
-    @OneToOne(cascade=CascadeType.REMOVE)
     public Map<AssetType, Integer> getAssets() {
         return assets;
     }
@@ -49,7 +46,6 @@ public class Player extends Model {
         assets.put(assetType, quantity);
     }
     
-    @OneToOne(cascade=CascadeType.REMOVE)
     public Map<AssetType, Integer> getAssetTotals() {
         return assetTotals;
     }

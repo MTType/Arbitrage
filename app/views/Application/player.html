@@ -106,8 +106,12 @@
             url: 'https://bigbang-arbitrage.herokuapp.com/newPlayer?name=' + name + '&startingCash=8000&iconId=' + iconId,
             type: 'GET',
             dataType: 'text',
-            success: function(response){                          
+            success: function(response){
+                if (response === "OK") {
                     window.location.href = "https://bigbang-arbitrage.herokuapp.com/game";
+                } else {
+                    alert("A game is currently in progress, please wait for 5 minutes until it is complete.");
+                }
             }
         });
     }   

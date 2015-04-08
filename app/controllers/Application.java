@@ -130,9 +130,10 @@ public class Application extends Controller {
         if (playerManager.getPlayer() == null) {
             resetDB();
             playerManager.createPlayer(name, startingCash, iconId);
+            renderText("OK");
         } else {
             Logger.info("player already exists, there must still be a game going on, returning error");
-            error();
+            renderText("IN_PROGRESS");
         }
     }
     

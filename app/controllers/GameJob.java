@@ -15,15 +15,15 @@ public class GameJob extends Job{
 
     @Override
     public void doJob() {
-        if (Exchange.findAll().size() > 0) {
-            List<Exchange> exchanges = Exchange.findAll();
+        List<Exchange> exchanges = Exchange.findAll();
 
+        if (exchanges == null || exchanges.isEmpty()) {
+            Logger.debug("Game not initialised yet... ");
+        } else {
             for (Exchange exchange: exchanges) {
                 exchangeManager.removeOldRequests(exchange);
             }
             EventHandler.instance.event.publish("refresh");
-        } else {
-            Logger.info("Game hasn't started yet");
         }
     }
 }

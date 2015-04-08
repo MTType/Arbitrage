@@ -1,7 +1,6 @@
 package controllers;
 
 import java.util.List;
-import models.entity.Exchange;
 import models.entity.HighScore;
 import models.entity.Player;
 import models.entity.Request;
@@ -13,8 +12,9 @@ import models.manager.HighScoreUtilJPA;
 import models.manager.PlayerManager;
 import models.response.RequestJSON;
 import play.Logger;
-import play.db.jpa.Transactional;
 import play.mvc.*;
+import play.mvc.results.*;
+
 
 
 public class Application extends Controller {
@@ -127,8 +127,13 @@ public class Application extends Controller {
     }
     
     public static void newPlayer(String name, int startingCash, int iconId) { 
-        resetDB();
-        playerManager.createPlayer(name, startingCash, iconId);
+        if (playerManager.getPlayer() == null) {
+            resetDB();
+            playerManager.createPlayer(name, startingCash, iconId);
+        } else {
+            Logger.info("player already exists, there must still be a game going on, returning error");
+            error();
+        }
     }
     
     public static void getPlayerInformation() {

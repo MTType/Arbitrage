@@ -20,7 +20,7 @@ public class HighScoreUtilJPA implements HighScoreUtil {
  
         List<HighScore> highScores = HighScore.findAll();
         
-        if (highScores == null || highScores.size() == 0) {
+        if (highScores == null || highScores.isEmpty()) {
             return;
         }
         
